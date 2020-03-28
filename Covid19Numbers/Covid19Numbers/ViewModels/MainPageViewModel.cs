@@ -31,7 +31,7 @@ namespace Covid19Numbers.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            Title = "Main Page";
+            Title = "COVID-19 Numbers";
 
             _running = false;
 

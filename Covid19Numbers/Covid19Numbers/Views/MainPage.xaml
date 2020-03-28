@@ -17,24 +17,30 @@
     </Grid.RowDefinitions>
 
     <Label Text="Global" Style="{StaticResource LabelHeading1}" />
-    <StackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,2">
+    <Grid Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
       <Label Text="Total Cases" Style="{StaticResource LabelHeading2}" />
-      <Label Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
-    </StackLayout>
-    <StackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,2">
+      <Label Grid.Row="1" Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
+    </Grid>
+    <Grid Grid.Row="2">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
       <Label Text="Total Deaths" Style="{StaticResource LabelHeading2}"/>
-      <Label Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}" />
-    </StackLayout>
-    <StackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,4">
+      <Label Grid.Row="1" Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}" />
+    </Grid>
+    <Grid Grid.Row="3">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
       <Label Text="Last Update" Style="{StaticResource LabelHeading2}" />
-      <Label Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
-    </StackLayout>
-      <!--<Label Grid.Row="1" Text="Total Cases" FontSize="16"/>
-      <Label Grid.Row="2" Text="{Binding TotalCases}" FontSize="14"/>
-      <Label Grid.Row="3" Text="Total Deaths" FontSize="16" />
-      <Label Grid.Row="4" Text="{Binding TotalDeaths}" FontSize="14" />
-      <Label Grid.Row="5" Text="Last Update" FontSize="16" />
-      <Label Grid.Row="6" Text="{Binding WorldLastUpdate}" FontSize="14" />-->
+      <Label Grid.Row="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
+    </Grid>
     
   </Grid>
 
