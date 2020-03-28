@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Covid19Numbers.Views.MainPage"
+             Title="{Binding Title}">
+
+  <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <Label Text="Total US Cases" />
+    <Label Text="{Binding TotalCases}" />
+    <Label Text="New Cases Today" />
+    <Label Text="{Binding TodayCases}" />
+  </StackLayout>
+
+</ContentPage>
