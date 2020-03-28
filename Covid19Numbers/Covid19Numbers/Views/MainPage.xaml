@@ -3,12 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Covid19Numbers.Views.MainPage"
              Title="{Binding Title}">
+  <Grid RowSpacing="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/> 
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
 
-  <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-    <Label Text="Total US Cases" />
-    <Label Text="{Binding TotalCases}" />
-    <Label Text="New Cases Today" />
-    <Label Text="{Binding TodayCases}" />
-  </StackLayout>
+    <Label Text="Global" Style="{StaticResource LabelHeading1}" />
+    <StackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,2">
+      <Label Text="Total Cases" Style="{StaticResource LabelHeading2}" />
+      <Label Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
+    </StackLayout>
+    <StackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,2">
+      <Label Text="Total Deaths" Style="{StaticResource LabelHeading2}"/>
+      <Label Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}" />
+    </StackLayout>
+    <StackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" Spacing="1" Margin="0,4">
+      <Label Text="Last Update" Style="{StaticResource LabelHeading2}" />
+      <Label Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
+    </StackLayout>
+      <!--<Label Grid.Row="1" Text="Total Cases" FontSize="16"/>
+      <Label Grid.Row="2" Text="{Binding TotalCases}" FontSize="14"/>
+      <Label Grid.Row="3" Text="Total Deaths" FontSize="16" />
+      <Label Grid.Row="4" Text="{Binding TotalDeaths}" FontSize="14" />
+      <Label Grid.Row="5" Text="Last Update" FontSize="16" />
+      <Label Grid.Row="6" Text="{Binding WorldLastUpdate}" FontSize="14" />-->
+    
+  </Grid>
 
 </ContentPage>

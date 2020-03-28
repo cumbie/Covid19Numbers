@@ -5,7 +5,23 @@
              x:Class="Covid19Numbers.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+    <!-- labels are centered -->
+    <Style TargetType="Label" x:Key="LabelHeadingBase">
+      <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+      <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+      <Setter Property="HorizontalTextAlignment" Value="Center"/>
+      <Setter Property="VerticalTextAlignment" Value="Center"/>
+    </Style>
+
+		<Style TargetType="Label" x:Key="LabelHeading1" BasedOn="{StaticResource LabelHeadingBase}">
+      <Setter Property="FontSize" Value="20"/>
+    </Style>
+    <Style TargetType="Label" x:Key="LabelHeading2" BasedOn="{StaticResource LabelHeadingBase}">
+      <Setter Property="FontSize" Value="16"/>
+    </Style>
+    <Style TargetType="Label" x:Key="LabelHeading3" BasedOn="{StaticResource LabelHeadingBase}">
+      <Setter Property="FontSize" Value="14"/>
+    </Style>
 
 	</Application.Resources>
 </prism:PrismApplication>
