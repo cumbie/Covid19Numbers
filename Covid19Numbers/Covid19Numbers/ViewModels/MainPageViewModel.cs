@@ -63,6 +63,41 @@ namespace Covid19Numbers.ViewModels
             set { SetProperty(ref _worldLastUpdate, value); }
         }
 
+        private string _myCountry;
+        public string MyCountry
+        {
+            get { return _myCountry; }
+            set { SetProperty(ref _myCountry, value); }
+        }
+
+        private int _totalCountryCases = 0;
+        public int TotalCountryCases
+        {
+            get { return _totalCountryCases; }
+            set { SetProperty(ref _totalCountryCases, value); }
+        }
+
+        private int _totalCountryDeaths = 0;
+        public int TotalCountryDeaths
+        {
+            get { return _totalCountryDeaths; }
+            set { SetProperty(ref _totalCountryDeaths, value); }
+        }
+
+        private int _totalCountryTodayCases = 0;
+        public int TotalCountryTodayCases
+        {
+            get { return _totalCountryTodayCases; }
+            set { SetProperty(ref _totalCountryTodayCases, value); }
+        }
+
+        private int _totalCountryTodayDeaths = 0;
+        public int TotalCountryTodayDeaths
+        {
+            get { return _totalCountryTodayDeaths; }
+            set { SetProperty(ref _totalCountryTodayDeaths, value); }
+        }
+
         #endregion
 
         int _stateCnt = 0;
@@ -75,13 +110,14 @@ namespace Covid19Numbers.ViewModels
             {
                 while (_running)
                 {
-                    //var countryResponse = _client.GetAsync($"{_countryUrl}{_country}").GetAwaiter().GetResult();
-                    //var countryJson = countryResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                    //var country = ParseCountry(countryJson);
-
+                    if (this.MyCountry == null)
+                    {
+                        SetMyCountry();
+                    }
+                    
                     var worldResponse = _client.GetAsync(_worldUrl).GetAwaiter().GetResult();
-                    var worldson = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
-                    //var worldson = worldResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    //var worldson = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
+                    var worldson = worldResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                     var world = JsonConvert.DeserializeObject<World>(worldson);
 
                     Device.BeginInvokeOnMainThread(() =>
@@ -90,7 +126,20 @@ namespace Covid19Numbers.ViewModels
                         this.TotalDeaths = world.Deaths;
                         this.WorldLastUpdate = world.UpdateTime;
                     });
-                    
+
+                    var countryResponse = _client.GetAsync($"{_countryUrl}{this.MyCountry}").GetAwaiter().GetResult();
+                    var countryJson = countryResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    //var countryJson = "{'country':'USA','countryInfo':{'_id':840,'lat':38,'long':-97,'flag':'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/us.png','iso3':'USA','iso2':'US'},'cases':112815,'todayCases':8689,'deaths':1880,'todayDeaths':184,'recovered':3219,'active':107716,'critical':2666,'casesPerOneMillion':341,'deathsPerOneMillion':6}";
+                    var country = JsonConvert.DeserializeObject<Country>(countryJson);
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.TotalCountryCases = country.Cases;
+                        this.TotalCountryDeaths = country.Deaths;
+                        this.TotalCountryTodayCases = country.TodayCases;
+                        this.TotalCountryTodayDeaths = country.TodayDeaths;
+                    });
+
                     //if (_stateCnt++ == 5)
                     //{
                     //    var stateResponse = _client.GetAsync(_statesUrl).GetAwaiter().GetResult();
@@ -104,6 +153,12 @@ namespace Covid19Numbers.ViewModels
             {
                 Console.WriteLine($"CounterError: {x.ToString()}");
             }
+        }
+
+        private void SetMyCountry()
+        {
+            this.MyCountry = "USA";
+            // TODO: use GPS to get country by geolocation
         }
 
     }

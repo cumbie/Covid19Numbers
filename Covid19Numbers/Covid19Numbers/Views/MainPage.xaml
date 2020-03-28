@@ -41,7 +41,41 @@
       <Label Text="Last Update" Style="{StaticResource LabelHeading2}" />
       <Label Grid.Row="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
     </Grid>
-    
+
+    <!--<Label Grid.Row="4" Text="{Binding MyCountry, StringFormat=My Country {0}}" Style="{StaticResource LabelHeading1}" />-->
+    <Label Grid.Row="4" Text="{Binding MyCountry}" Style="{StaticResource LabelHeading1}" />
+    <Grid Grid.Row="5">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Label Text="Total Cases" Style="{StaticResource LabelHeading2}" />
+      <Label Grid.Row="1" Text="{Binding TotalCountryCases}" Style="{StaticResource LabelHeading3}"/>
+    </Grid>
+    <Grid Grid.Row="6">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Label Text="Total Deaths" Style="{StaticResource LabelHeading2}"/>
+      <Label Grid.Row="1" Text="{Binding TotalCountryDeaths}" Style="{StaticResource LabelHeading3}" />
+    </Grid>
+    <Grid Grid.Row="7">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Label Text="Today Cases" Style="{StaticResource LabelHeading2}" />
+      <Label Grid.Row="1" Text="{Binding TotalCountryTodayCases}" Style="{StaticResource LabelHeading3}" />
+    </Grid>
+    <Grid Grid.Row="8">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Label Text="Today Deaths" Style="{StaticResource LabelHeading2}" />
+      <Label Grid.Row="1" Text="{Binding TotalCountryTodayDeaths}" Style="{StaticResource LabelHeading3}" />
+    </Grid>
   </Grid>
 
 </ContentPage>
