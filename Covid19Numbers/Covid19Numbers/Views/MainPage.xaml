@@ -5,6 +5,10 @@
              Title="{Binding Title}">
 
   <Grid RowSpacing="5" Margin="5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
@@ -12,42 +16,31 @@
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
-      <RowDefinition/>
     </Grid.RowDefinitions>
 
-    <Label Text="GLOBAL" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
-    <Grid Grid.Row="1">
+    <Label Grid.ColumnSpan="2" Text="GLOBAL" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
+    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="Totals" Style="{StaticResource LabelHeading2}"/>
+      <Label Grid.Row="2" Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
+      <Label Grid.Row="3" Text="Cases" Style="{StaticResource LabelHeading3}" />
+      <Label Grid.Row="2" Grid.Column="1" Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}"/>
+      <Label Grid.Row="3" Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
+    <Grid Grid.Row="4" Grid.ColumnSpan="2">
       <Grid.RowDefinitions>
-        <RowDefinition/>
-        <RowDefinition/>
-      </Grid.RowDefinitions>
-      <Label Text="Total Cases" Style="{StaticResource LabelHeading2}" />
-      <Label Grid.Row="1" Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
-    </Grid>
-    <Grid Grid.Row="2">
-      <Grid.RowDefinitions>
-        <RowDefinition/>
-        <RowDefinition/>
-      </Grid.RowDefinitions>
-      <Label Text="Total Deaths" Style="{StaticResource LabelHeading2}"/>
-      <Label Grid.Row="1" Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}" />
-    </Grid>
-    <Grid Grid.Row="3">
-      <Grid.RowDefinitions>
-        <RowDefinition/>
-        <RowDefinition/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
       </Grid.RowDefinitions>
       <Label Text="Last Update" Style="{StaticResource LabelHeading2}" />
       <Label Grid.Row="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
     </Grid>
 
-    <Label Grid.Row="4" Text="COUNTRY" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" />
-    <Grid Grid.Row="5">
+    <Label Grid.Row="5" Grid.ColumnSpan="2" Text="COUNTRY" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" />
+    <Grid Grid.Row="6" Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
