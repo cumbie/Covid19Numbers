@@ -70,6 +70,17 @@ namespace Covid19Numbers.ViewModels
             set { SetProperty(ref _myCountry, value); }
         }
 
+        private string _flagImageUrl;
+        public string FlagImageUrl
+        {
+            get { return _flagImageUrl; }
+            set
+            {
+                if (value != _flagImageUrl)
+                    SetProperty(ref _flagImageUrl, value);
+            }
+        }
+
         private int _totalCountryCases = 0;
         public int TotalCountryCases
         {
@@ -134,6 +145,8 @@ namespace Covid19Numbers.ViewModels
 
                     Device.BeginInvokeOnMainThread(() =>
                     {
+                        this.MyCountry = country.CountryName;
+                        this.FlagImageUrl = country.Info.FlagImageUrl;
                         this.TotalCountryCases = country.Cases;
                         this.TotalCountryDeaths = country.Deaths;
                         this.TotalCountryTodayCases = country.TodayCases;

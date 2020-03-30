@@ -15,6 +15,7 @@
 
 		<Style TargetType="Label" x:Key="LabelHeading1" BasedOn="{StaticResource LabelHeadingBase}">
       <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     <Style TargetType="Label" x:Key="LabelHeading2" BasedOn="{StaticResource LabelHeadingBase}">
       <Setter Property="FontSize" Value="16"/>

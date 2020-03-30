@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>Covid19Count</string>
+	<string>Covid19Numbers</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.dougcumbie.covid19numbers</string>
 	<key>CFBundleVersion</key>

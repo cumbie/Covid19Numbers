@@ -14,8 +14,8 @@ namespace Covid19Numbers.Models
         [JsonProperty("country")]
         public string CountryName { get; set; }
 
-        [JsonProperty("flag")]
-        public int FlagImageUrl { get; set; }
+        [JsonProperty("countryInfo")]
+        public CountryInfo Info { get; set; }
 
         [JsonProperty("cases")]
         public int Cases { get; set; }
@@ -34,5 +34,14 @@ namespace Covid19Numbers.Models
 
         [JsonProperty("active")]
         public int Active { get; set; }
+    }
+
+    public class CountryInfo
+    {
+        [JsonProperty("_id")]
+        public string ID { get; set; }
+
+        [JsonProperty("flag")]
+        public string FlagImageUrl { get; set; }
     }
 }
