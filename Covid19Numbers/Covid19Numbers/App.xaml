@@ -5,6 +5,11 @@
              x:Class="Covid19Numbers.App">
 	<Application.Resources>
 
+    <!-- default styles -->
+    <!--<Style TargetType="Label">
+      <Setter Property="TextColor" Value="White"/>
+    </Style>-->
+
     <!-- labels are centered -->
     <Style TargetType="Label" x:Key="LabelHeadingBase">
       <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
@@ -19,6 +24,7 @@
     </Style>
     <Style TargetType="Label" x:Key="LabelHeading2" BasedOn="{StaticResource LabelHeadingBase}">
       <Setter Property="FontSize" Value="16"/>
+      <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     <Style TargetType="Label" x:Key="LabelHeading3" BasedOn="{StaticResource LabelHeadingBase}">
       <Setter Property="FontSize" Value="14"/>

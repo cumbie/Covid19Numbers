@@ -18,7 +18,7 @@ namespace Covid19Numbers.ViewModels
     {
         bool _running = false;
         int _counterStartDelay = 1000;
-        int _counterDelay = 1000;
+        int _counterDelay = 1000 * 60 * 2; // 2mins
 
         HttpClient _client;
 

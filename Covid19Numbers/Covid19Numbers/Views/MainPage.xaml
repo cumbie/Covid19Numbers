@@ -14,27 +14,46 @@
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
     </Grid.RowDefinitions>
 
     <Label Grid.ColumnSpan="2" Text="GLOBAL" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
-    <Label Grid.Row="1" Grid.ColumnSpan="2" Text="Totals" Style="{StaticResource LabelHeading2}"/>
-      <Label Grid.Row="2" Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="3" Text="Cases" Style="{StaticResource LabelHeading3}" />
-      <Label Grid.Row="2" Grid.Column="1" Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="3" Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
-    <Grid Grid.Row="4" Grid.ColumnSpan="2">
+    
+    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
         <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
       </Grid.RowDefinitions>
-      <Label Text="Last Update" Style="{StaticResource LabelHeading2}" />
-      <Label Grid.Row="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" />
+
+      <Frame Grid.Row="0" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"
+                 FontSize="22" FontAttributes="Bold"
+                 TextColor="Yellow" />
+          <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
+      
+      <Frame Grid.Row="0" Grid.Column="1" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}"
+                 FontSize="22" FontAttributes="Bold"
+                 TextColor="OrangeRed" />
+          <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
+    
+      <Label Grid.Row="1" Text="Last Update" Style="{StaticResource LabelHeading2}" HorizontalOptions="Start"/>
+      <Label Grid.Row="1" Grid.Column="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" HorizontalOptions="End" />
     </Grid>
 
-    <Label Grid.Row="5" Grid.ColumnSpan="2" Text="COUNTRY" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" />
-    <Grid Grid.Row="6" Grid.ColumnSpan="2">
+    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="COUNTRY" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" />
+    <Grid Grid.Row="3" Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition/>
@@ -44,27 +63,54 @@
         <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
         <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
       </Grid.RowDefinitions>
 
-      <Image Grid.ColumnSpan="2" Source="{Binding FlagImageUrl}" />
-      <Label Grid.ColumnSpan="2" Text="{Binding MyCountry}" Style="{StaticResource LabelHeading1}"
+      <Image Grid.Column="1" Source="{Binding FlagImageUrl}" />
+      <Label Grid.Column="0" Text="{Binding MyCountry}" Style="{StaticResource LabelHeading1}"
              VerticalOptions="CenterAndExpand" Margin="5,0"
-             TextColor="White" BackgroundColor="Black" FontSize="28"/>
+             FontSize="28"/>
 
-      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="Totals" Style="{StaticResource LabelHeading2}"/>
-      <Label Grid.Row="2" Text="{Binding TotalCountryCases}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="3" Text="Cases" Style="{StaticResource LabelHeading3}" />
-      <Label Grid.Row="2" Grid.Column="1" Text="{Binding TotalCountryDeaths}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="3" Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
+      <Frame Grid.Row="1" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalCountryCases}" Style="{StaticResource LabelHeading3}"
+                FontSize="22" FontAttributes="Bold"
+                TextColor="Yellow"/>
+          <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
 
-      <Label Grid.Row="4" Grid.ColumnSpan="2" Text="Today" Style="{StaticResource LabelHeading2}"/>
-      <Label Grid.Row="5" Text="{Binding TotalCountryTodayCases}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="6" Text="Cases" Style="{StaticResource LabelHeading3}" />
-      <Label Grid.Row="5" Grid.Column="1" Text="{Binding TotalCountryTodayDeaths}" Style="{StaticResource LabelHeading3}"/>
-      <Label Grid.Row="6" Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
+      <Frame Grid.Row="1" Grid.Column="1" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalCountryDeaths}" Style="{StaticResource LabelHeading3}"
+                 FontSize="22" FontAttributes="Bold"
+                 TextColor="OrangeRed"/>
+          <Label Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
+
+      <Label Grid.Row="2" Grid.ColumnSpan="2" Text="Today" Style="{StaticResource LabelHeading2}"/>
+      <Frame Grid.Row="3" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalCountryTodayCases}" Style="{StaticResource LabelHeading3}"
+                 FontSize="22" FontAttributes="Bold"
+                 TextColor="Yellow"/>
+          <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
+      
+      <Frame Grid.Row="3" Grid.Column="1" Padding="20,5" CornerRadius="8" 
+             BackgroundColor="DarkSlateGray" HasShadow="False">
+        <StackLayout>
+          <Label Text="{Binding TotalCountryTodayDeaths}" Style="{StaticResource LabelHeading3}"
+                 FontSize="22" FontAttributes="Bold"
+                 TextColor="OrangeRed"/>
+          <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
+        </StackLayout>
+      </Frame>
+      
     </Grid>
 
   </Grid>
