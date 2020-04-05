@@ -36,6 +36,10 @@ namespace Covid19Numbers.ViewModels
             _running = false;
             _client = new HttpClient();
 
+            this.AdUnitID = (Device.RuntimePlatform == Device.iOS)
+                ? Constants.AdMobAdUnitID_ad01_iOS
+                : Constants.AdMobAdUnitID_ad01_Android;
+
             RefreshCountriesList();
 
             SelectCountryCommand = new DelegateCommand(SelectCountry);
@@ -114,6 +118,13 @@ namespace Covid19Numbers.ViewModels
         {
             get { return _totalCountryTodayDeaths; }
             set { SetProperty(ref _totalCountryTodayDeaths, value); }
+        }
+
+        private string _adUnitId;
+        public string AdUnitID
+        {
+            get => _adUnitId;
+            set => SetProperty(ref _adUnitId, value);
         }
 
         #endregion

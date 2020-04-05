@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Covid19Numbers.Views.MainPage"
+             xmlns:controls="clr-namespace:Covid19Numbers.Controls"
              Title="{Binding Title}">
 
   <Grid RowSpacing="5" Margin="5" >
@@ -120,8 +121,7 @@
 
     <!-- gap -->
 
-    <!--<controls:AdMobView Grid.Row="5" AdUnitId="{Binding AdUnitID}" 
-                        BackgroundColor="{StaticResource MainBackgroundColor}" />-->
+    <controls:AdMobView Grid.Row="5" AdUnitId="{Binding AdUnitID}"  />
 
     <Grid Grid.Row="6" Grid.ColumnSpan="2" RowSpacing="0" BackgroundColor="White">
       <Grid.RowDefinitions>
