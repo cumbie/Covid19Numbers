@@ -27,7 +27,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.dougcumbie.covid19numbers</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon-60@2x</string>
@@ -50,5 +50,9 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>Covid19Numbers</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fonts/materialdesignicons-webfont.ttf</string>
+	</array>
 </dict>
 </plist>

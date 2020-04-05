@@ -30,6 +30,7 @@ namespace Covid19Numbers
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<SelectCountryPage, SelectCountryPageViewModel>();
         }
     }
 }

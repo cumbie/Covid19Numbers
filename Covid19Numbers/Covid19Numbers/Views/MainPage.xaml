@@ -4,7 +4,7 @@
              x:Class="Covid19Numbers.Views.MainPage"
              Title="{Binding Title}">
 
-  <Grid RowSpacing="5" Margin="5">
+  <Grid RowSpacing="5" Margin="5" >
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>
       <ColumnDefinition/>
@@ -14,9 +14,13 @@
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/> <!-- gap -->
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="80"/>
     </Grid.RowDefinitions>
 
-    <Label Grid.ColumnSpan="2" Text="GLOBAL" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
+    <Label Grid.ColumnSpan="2" Text=" GLOBAL" Style="{StaticResource LabelHeading1}"
+           HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="Silver"/>
     
     <Grid Grid.Row="1" Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
@@ -52,7 +56,9 @@
       <Label Grid.Row="1" Grid.Column="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" HorizontalOptions="End" />
     </Grid>
 
-    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="COUNTRY" Style="{StaticResource LabelHeading1}" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" />
+    <Label Grid.Row="2" Grid.ColumnSpan="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
+           HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="Silver" />
+
     <Grid Grid.Row="3" Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
@@ -66,7 +72,7 @@
       </Grid.RowDefinitions>
 
       <Image Grid.Column="1" Source="{Binding FlagImageUrl}" />
-      <Label Grid.Column="0" Text="{Binding MyCountry}" Style="{StaticResource LabelHeading1}"
+      <Label Grid.Column="0" Text="{Binding MyCountryCode}" Style="{StaticResource LabelHeading1}"
              VerticalOptions="CenterAndExpand" Margin="5,0"
              FontSize="28"/>
 
@@ -110,7 +116,32 @@
           <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
         </StackLayout>
       </Frame>
-      
+    </Grid>
+
+    <!-- gap -->
+
+    <!--<controls:AdMobView Grid.Row="5" AdUnitId="{Binding AdUnitID}" 
+                        BackgroundColor="{StaticResource MainBackgroundColor}" />-->
+
+    <Grid Grid.Row="6" Grid.ColumnSpan="2" RowSpacing="0" BackgroundColor="White">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+
+      <Button Style="{StaticResource IconButton}" Text="{StaticResource IconMyCountry}" Command="{Binding SelectCountryCommand}" FontSize="32" />
+      <Label Grid.Row="1" Text="My Country" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
+
+      <Button Grid.Column="1" Style="{StaticResource IconButton}" Text="{StaticResource IconSettings}" Command="{Binding GotoSettingsCommand}" FontSize="32"/>
+      <Label Grid.Row="1" Grid.Column="1" Text="Settings" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
+
+      <Button Grid.Column="2" Style="{StaticResource IconButton}" Text="{StaticResource IconAbout}" Command="{Binding GotoAboutCommand}" FontSize="32"/>
+      <Label Grid.Row="1" Grid.Column="2" Text="About" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
     </Grid>
 
   </Grid>

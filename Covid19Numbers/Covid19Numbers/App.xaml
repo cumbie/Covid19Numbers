@@ -30,5 +30,27 @@
       <Setter Property="FontSize" Value="14"/>
     </Style>
 
+    <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+      <On Platform="iOS" Value="Material Design Icons" />
+      <On Platform="Android" Value="fonts/materialdesignicons-webfont.ttf#Material Design Icons" />
+    </OnPlatform>
+
+    <!-- Font Icon Constants -->
+    <x:String x:Key="IconMyCountry">&#xf1e7;</x:String>
+    <x:String x:Key="IconSettings">&#xf8d5;</x:String>
+    <x:String x:Key="IconAbout">&#xf2fd;</x:String>
+    <x:String x:Key="IconRefresh">&#xf450;</x:String>
+
+    <Style x:Key="IconButton" TargetType="Button">
+      <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}" />
+      <Setter Property="FontSize" Value="40" />
+      <Setter Property="TextColor" Value="Gray" />
+      
+      <Setter Property="VerticalOptions" Value="FillAndExpand" />
+      <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+      <Setter Property="BorderColor" Value="Transparent" />
+      <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
 	</Application.Resources>
 </prism:PrismApplication>

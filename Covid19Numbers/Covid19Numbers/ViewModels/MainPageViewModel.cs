@@ -31,11 +31,18 @@ namespace Covid19Numbers.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            Title = "COVID-19 Numbers";
+            Title = Constants.AppName;
 
             _running = false;
-
             _client = new HttpClient();
+
+            RefreshCountriesList();
+
+            SelectCountryCommand = new DelegateCommand(SelectCountry);
+            GotoSettingsCommand = new DelegateCommand(GotoSettings);
+            GotoAboutCommand = new DelegateCommand(GotoAbout);
+
+            this.MyCountryCode = Settings.MyCountryCode;
 
             Task.Factory.StartNew(CounterThread);
         }
@@ -63,11 +70,11 @@ namespace Covid19Numbers.ViewModels
             set { SetProperty(ref _worldLastUpdate, value); }
         }
 
-        private string _myCountry;
-        public string MyCountry
+        private string _myCountryCode;
+        public string MyCountryCode
         {
-            get { return _myCountry; }
-            set { SetProperty(ref _myCountry, value); }
+            get { return _myCountryCode; }
+            set { SetProperty(ref _myCountryCode, value); }
         }
 
         private string _flagImageUrl;
@@ -111,6 +118,38 @@ namespace Covid19Numbers.ViewModels
 
         #endregion
 
+        #region Commands
+
+        public DelegateCommand RefreshAllCommand { get; private set; }
+        public DelegateCommand SelectCountryCommand { get; private set; }
+        public DelegateCommand GotoSettingsCommand { get; private set; }
+        public DelegateCommand GotoAboutCommand { get; private set; }
+
+        #endregion
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            this.MyCountryCode = Settings.MyCountryCode;
+
+            await RefreshStats();
+        }
+
+        private async Task RefreshCountriesList()
+        {
+            // TODO: this should be called when explicit refreshing and OnResume
+
+            try
+            {
+                var resp = await _client.GetAsync($"{_countryUrl}");
+                var json = await resp.Content.ReadAsStringAsync();
+                Settings.AllCountries = JsonConvert.DeserializeObject<List<SelectCountryModel>>(json);
+            }
+            catch (Exception x)
+            {
+                // log, display error, etc
+            }
+        }
+
         int _stateCnt = 0;
         void CounterThread()
         {
@@ -121,43 +160,7 @@ namespace Covid19Numbers.ViewModels
             {
                 while (_running)
                 {
-                    if (this.MyCountry == null)
-                    {
-                        SetMyCountry();
-                    }
-                    
-                    var worldResponse = _client.GetAsync(_worldUrl).GetAwaiter().GetResult();
-                    //var worldson = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
-                    var worldson = worldResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                    var world = JsonConvert.DeserializeObject<World>(worldson);
-
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        this.TotalCases = world.Cases;
-                        this.TotalDeaths = world.Deaths;
-                        this.WorldLastUpdate = world.UpdateTime;
-                    });
-
-                    var countryResponse = _client.GetAsync($"{_countryUrl}{this.MyCountry}").GetAwaiter().GetResult();
-                    var countryJson = countryResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                    //var countryJson = "{'country':'USA','countryInfo':{'_id':840,'lat':38,'long':-97,'flag':'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/us.png','iso3':'USA','iso2':'US'},'cases':112815,'todayCases':8689,'deaths':1880,'todayDeaths':184,'recovered':3219,'active':107716,'critical':2666,'casesPerOneMillion':341,'deathsPerOneMillion':6}";
-                    var country = JsonConvert.DeserializeObject<Country>(countryJson);
-
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        this.MyCountry = country.CountryName;
-                        this.FlagImageUrl = country.Info.FlagImageUrl;
-                        this.TotalCountryCases = country.Cases;
-                        this.TotalCountryDeaths = country.Deaths;
-                        this.TotalCountryTodayCases = country.TodayCases;
-                        this.TotalCountryTodayDeaths = country.TodayDeaths;
-                    });
-
-                    //if (_stateCnt++ == 5)
-                    //{
-                    //    var stateResponse = _client.GetAsync(_statesUrl).GetAwaiter().GetResult();
-                    //    var stateJson = stateResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                    //}
+                    RefreshStats().GetAwaiter().GetResult();
 
                     Thread.Sleep(_counterDelay);
                 }
@@ -168,11 +171,64 @@ namespace Covid19Numbers.ViewModels
             }
         }
 
-        private void SetMyCountry()
+        private async Task RefreshStats()
         {
-            this.MyCountry = "USA";
-            // TODO: use GPS to get country by geolocation
+            // TODO: move all API calls to a GetStatsService class
+
+            var worldResponse = await _client.GetAsync(_worldUrl);
+            //var worldson = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
+            var worldson = await worldResponse.Content.ReadAsStringAsync();
+            var world = JsonConvert.DeserializeObject<World>(worldson);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.TotalCases = world.Cases;
+                this.TotalDeaths = world.Deaths;
+                this.WorldLastUpdate = world.UpdateTime;
+            });
+            
+            var countryResponse = await _client.GetAsync($"{_countryUrl}{this.MyCountryCode}");
+            var countryJson = await countryResponse.Content.ReadAsStringAsync();
+            //var countryJson = "{'country':'USA','countryInfo':{'_id':840,'lat':38,'long':-97,'flag':'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/us.png','iso3':'USA','iso2':'US'},'cases':112815,'todayCases':8689,'deaths':1880,'todayDeaths':184,'recovered':3219,'active':107716,'critical':2666,'casesPerOneMillion':341,'deathsPerOneMillion':6}";
+            var country = JsonConvert.DeserializeObject<Country>(countryJson);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.MyCountryCode = country.CountryName;
+                this.FlagImageUrl = country.Info.FlagImageUrl;
+                this.TotalCountryCases = country.Cases;
+                this.TotalCountryDeaths = country.Deaths;
+                this.TotalCountryTodayCases = country.TodayCases;
+                this.TotalCountryTodayDeaths = country.TodayDeaths;
+            });
+
+            //if (_stateCnt++ == 5)
+            //{
+            //    var stateResponse = _client.GetAsync(_statesUrl).GetAwaiter().GetResult();
+            //    var stateJson = stateResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            //}
         }
 
+        public async void RefreshAll()
+        {
+            await RefreshCountriesList();
+
+            await RefreshStats();
+        }
+
+        public async void SelectCountry()
+        {
+            await NavigationService.NavigateAsync(nameof(Views.SelectCountryPage));
+        }
+
+        public void GotoSettings()
+        {
+
+        }
+
+        public void GotoAbout()
+        {
+
+        }
     }
 }
