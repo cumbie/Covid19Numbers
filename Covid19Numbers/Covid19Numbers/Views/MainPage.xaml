@@ -121,7 +121,8 @@
 
     <!-- gap -->
 
-    <controls:AdMobView Grid.Row="5" AdUnitId="{Binding AdUnitID}"  />
+    <controls:AdMobView Grid.Row="5" Grid.ColumnSpan="2" AdUnitId="{Binding AdUnitID}" BackgroundColor="Transparent"
+                        HorizontalOptions="FillAndExpand"/>
 
     <Grid Grid.Row="6" Grid.ColumnSpan="2" RowSpacing="0" BackgroundColor="White">
       <Grid.RowDefinitions>

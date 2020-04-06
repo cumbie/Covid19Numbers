@@ -7,12 +7,12 @@
 
     <Grid>
       <Grid.RowDefinitions>
-        <RowDefinition/>
+        <RowDefinition Height="auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
       <Label Text="Select A Country"/>
-      <ListView Grid.Row="1" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}">      <ListView.ItemTemplate>        <DataTemplate>          <TextCell Text="{Binding CountryName}"/>        </DataTemplate>      </ListView.ItemTemplate>    </ListView>
+      <ListView Grid.Row="1" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}" BackgroundColor="White" >      <ListView.ItemTemplate>        <DataTemplate>          <TextCell Text="{Binding CountryName}"/>        </DataTemplate>      </ListView.ItemTemplate>    </ListView>
 
     </Grid>
   

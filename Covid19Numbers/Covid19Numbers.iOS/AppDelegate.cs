@@ -21,7 +21,7 @@ namespace Covid19Numbers.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Google.MobileAds.MobileAds.Configure(Constants.AdMobAppID_iOS);
+            Google.MobileAds.MobileAds.SharedInstance.Start(null);
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));

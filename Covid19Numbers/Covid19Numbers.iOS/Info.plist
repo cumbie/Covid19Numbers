@@ -54,5 +54,7 @@
 	<array>
 		<string>fonts/materialdesignicons-webfont.ttf</string>
 	</array>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3015112688423164~5184923353</string>
 </dict>
 </plist>

@@ -19,13 +19,13 @@ namespace Covid19Numbers
         // Android Ad Unit ID(banner): 
         //
         public static string AdMobAppID_iOS = "ca-app-pub-3015112688423164~5184923353";
-        public static string AdMobAppID_Android = "ca-app-pub-3015112688423164/1251269978";
+        public static string AdMobAppID_Android = "";
 
 #if DEBUG
         public static string AdMobAdUnitID_ad01_iOS = testAdMobAdUnitID_iOS;
         public static string AdMobAdUnitID_ad01_Android = testAdMobAdUnitID_Android;
 #else
-                public static string AdMobAdUnitID_ad01_iOS = "";
+                public static string AdMobAdUnitID_ad01_iOS = "ca-app-pub-3015112688423164/1251269978";
                 public static string AdMobAdUnitID_ad01_Android = "";
 #endif
     }
