@@ -8,9 +8,10 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Net.Http;
-using Covid19Numbers.Models;
 using Newtonsoft.Json;
 using Xamarin.Forms;
+using Covid19Numbers.Api;
+using Covid19Numbers.Models;
 
 namespace Covid19Numbers.ViewModels
 {
@@ -20,13 +21,9 @@ namespace Covid19Numbers.ViewModels
         int _counterStartDelay = 1000;
         int _counterDelay = 1000 * 60 * 2; // 2mins
 
-        HttpClient _client;
-
         string _country = "US";
 
-        string _worldUrl = "https://corona.lmao.ninja/all";
-        string _countryUrl = "https://corona.lmao.ninja/countries/";
-        string _statesUrl = "https://corona.lmao.ninja/states";
+        ICovidApi _covidApi;
 
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -34,7 +31,7 @@ namespace Covid19Numbers.ViewModels
             Title = Constants.AppName;
 
             _running = false;
-            _client = new HttpClient();
+            _covidApi = new LmaoNinjaCovidApi();
 
             this.AdUnitID = (Device.RuntimePlatform == Device.iOS)
                 ? Constants.AdMobAdUnitID_ad01_iOS
@@ -42,6 +39,7 @@ namespace Covid19Numbers.ViewModels
 
             RefreshCountriesList();
 
+            RefreshAllCommand = new DelegateCommand(RefreshAll);
             SelectCountryCommand = new DelegateCommand(SelectCountry);
             GotoSettingsCommand = new DelegateCommand(GotoSettings);
             GotoAboutCommand = new DelegateCommand(GotoAbout);
@@ -56,35 +54,35 @@ namespace Covid19Numbers.ViewModels
         private int _totalCases = 0;
         public int TotalCases
         {
-            get { return _totalCases; }
-            set { SetProperty(ref _totalCases, value); }
+            get => _totalCases;
+            set => SetProperty(ref _totalCases, value);
         }
 
         private int _totalDeaths = 0;
         public int TotalDeaths
         {
-            get { return _totalDeaths; }
-            set { SetProperty(ref _totalDeaths, value); }
+            get => _totalDeaths;
+            set => SetProperty(ref _totalDeaths, value);
         }
 
         private DateTime _worldLastUpdate;
         public DateTime WorldLastUpdate
         {
-            get { return _worldLastUpdate; }
-            set { SetProperty(ref _worldLastUpdate, value); }
+            get => _worldLastUpdate;
+            set => SetProperty(ref _worldLastUpdate, value);
         }
 
         private string _myCountryCode;
         public string MyCountryCode
         {
-            get { return _myCountryCode; }
-            set { SetProperty(ref _myCountryCode, value); }
+            get => _myCountryCode;
+            set => SetProperty(ref _myCountryCode, value);
         }
 
         private string _flagImageUrl;
         public string FlagImageUrl
         {
-            get { return _flagImageUrl; }
+            get => _flagImageUrl;
             set
             {
                 if (value != _flagImageUrl)
@@ -95,29 +93,29 @@ namespace Covid19Numbers.ViewModels
         private int _totalCountryCases = 0;
         public int TotalCountryCases
         {
-            get { return _totalCountryCases; }
-            set { SetProperty(ref _totalCountryCases, value); }
+            get => _totalCountryCases;
+            set => SetProperty(ref _totalCountryCases, value);
         }
 
         private int _totalCountryDeaths = 0;
         public int TotalCountryDeaths
         {
-            get { return _totalCountryDeaths; }
-            set { SetProperty(ref _totalCountryDeaths, value); }
+            get => _totalCountryDeaths;
+            set => SetProperty(ref _totalCountryDeaths, value);
         }
 
         private int _totalCountryTodayCases = 0;
         public int TotalCountryTodayCases
         {
-            get { return _totalCountryTodayCases; }
-            set { SetProperty(ref _totalCountryTodayCases, value); }
+            get => _totalCountryTodayCases;
+            set => SetProperty(ref _totalCountryTodayCases, value);
         }
 
         private int _totalCountryTodayDeaths = 0;
         public int TotalCountryTodayDeaths
         {
-            get { return _totalCountryTodayDeaths; }
-            set { SetProperty(ref _totalCountryTodayDeaths, value); }
+            get => _totalCountryTodayDeaths;
+            set => SetProperty(ref _totalCountryTodayDeaths, value);
         }
 
         private string _adUnitId;
@@ -125,6 +123,13 @@ namespace Covid19Numbers.ViewModels
         {
             get => _adUnitId;
             set => SetProperty(ref _adUnitId, value);
+        }
+
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
 
         #endregion
@@ -151,9 +156,7 @@ namespace Covid19Numbers.ViewModels
 
             try
             {
-                var resp = await _client.GetAsync($"{_countryUrl}");
-                var json = await resp.Content.ReadAsStringAsync();
-                Settings.AllCountries = JsonConvert.DeserializeObject<List<SelectCountryModel>>(json);
+                Settings.AllCountries = await _covidApi.GetCountryList();
             }
             catch (Exception x)
             {
@@ -169,9 +172,25 @@ namespace Covid19Numbers.ViewModels
             _running = true;
             try
             {
+                int errorCount = 0;
                 while (_running)
-                {
-                    RefreshStats().GetAwaiter().GetResult();
+                {                    
+                    try
+                    {
+                        RefreshStats().GetAwaiter().GetResult();
+                        errorCount = 0;
+                    }
+                    catch (Exception x)
+                    {
+                        // log
+                        // if too many errors, abort, or wait a while?
+                        if (errorCount++ == 5)
+                        {
+                            // error message
+                            // abort, retry, wait for use refresh to restart
+                            // if (no internet?)
+                        }
+                    }
 
                     Thread.Sleep(_counterDelay);
                 }
@@ -184,25 +203,15 @@ namespace Covid19Numbers.ViewModels
 
         private async Task RefreshStats()
         {
-            // TODO: move all API calls to a GetStatsService class
-
-            var worldResponse = await _client.GetAsync(_worldUrl);
-            //var worldson = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
-            var worldson = await worldResponse.Content.ReadAsStringAsync();
-            var world = JsonConvert.DeserializeObject<World>(worldson);
-
+            var world = await _covidApi.GetGlobalStats();
             Device.BeginInvokeOnMainThread(() =>
             {
                 this.TotalCases = world.Cases;
                 this.TotalDeaths = world.Deaths;
                 this.WorldLastUpdate = world.UpdateTime;
             });
-            
-            var countryResponse = await _client.GetAsync($"{_countryUrl}{this.MyCountryCode}");
-            var countryJson = await countryResponse.Content.ReadAsStringAsync();
-            //var countryJson = "{'country':'USA','countryInfo':{'_id':840,'lat':38,'long':-97,'flag':'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/us.png','iso3':'USA','iso2':'US'},'cases':112815,'todayCases':8689,'deaths':1880,'todayDeaths':184,'recovered':3219,'active':107716,'critical':2666,'casesPerOneMillion':341,'deathsPerOneMillion':6}";
-            var country = JsonConvert.DeserializeObject<Country>(countryJson);
 
+            var country = await _covidApi.GetCountryStats(this.MyCountryCode);
             Device.BeginInvokeOnMainThread(() =>
             {
                 this.MyCountryCode = country.CountryName;
@@ -222,9 +231,13 @@ namespace Covid19Numbers.ViewModels
 
         public async void RefreshAll()
         {
+            this.IsRefreshing = true;
+
             await RefreshCountriesList();
 
             await RefreshStats();
+
+            this.IsRefreshing = false;
         }
 
         public async void SelectCountry()

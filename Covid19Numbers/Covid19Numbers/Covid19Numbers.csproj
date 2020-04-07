@@ -15,6 +15,7 @@
 	<Folder Include="Helpers\" />
 	<Folder Include="Controls\" />
     <Folder Include="Models\" />
+    <Folder Include="Api\" />
   </ItemGroup>
   
 </Project>
