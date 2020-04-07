@@ -137,8 +137,8 @@
 
     <Grid Grid.Row="1" RowSpacing="0" BackgroundColor="White">
       <Grid.RowDefinitions>
-        <RowDefinition Height="40"/>
-        <RowDefinition/>
+        <RowDefinition Height="50"/>
+        <RowDefinition Height="auto"/>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
@@ -147,13 +147,13 @@
       </Grid.ColumnDefinitions>
 
       <Button Style="{StaticResource IconButton}" Text="{StaticResource IconMyCountry}" Command="{Binding SelectCountryCommand}" FontSize="32" />
-      <Label Grid.Row="1" Text="My Country" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
+      <Label Grid.Row="1" Text="My Country" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
       <Button Grid.Column="1" Style="{StaticResource IconButton}" Text="{StaticResource IconSettings}" Command="{Binding GotoSettingsCommand}" FontSize="32"/>
-      <Label Grid.Row="1" Grid.Column="1" Text="Settings" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
+      <Label Grid.Row="1" Grid.Column="1" Text="Settings" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
       <Button Grid.Column="2" Style="{StaticResource IconButton}" Text="{StaticResource IconAbout}" Command="{Binding GotoAboutCommand}" FontSize="32"/>
-      <Label Grid.Row="1" Grid.Column="2" Text="About" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center"/>
+      <Label Grid.Row="1" Grid.Column="2" Text="About" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
     </Grid>  
 
   </Grid>
