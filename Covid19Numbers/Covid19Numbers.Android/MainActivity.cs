@@ -16,6 +16,8 @@ namespace Covid19Numbers.Droid
 
             base.OnCreate(bundle);
 
+            Android.Gms.Ads.MobileAds.Initialize(ApplicationContext, Constants.AdMobAppID_Android);
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
         }
