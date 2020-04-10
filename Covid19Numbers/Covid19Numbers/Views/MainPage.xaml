@@ -14,7 +14,7 @@
     <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshAllCommand}"
                  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
       <ScrollView>
-        <Grid RowSpacing="5" Margin="5" >
+        <Grid RowSpacing="5" Margin="5" ColumnSpacing="0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -28,8 +28,14 @@
             <RowDefinition Height="auto"/>
           </Grid.RowDefinitions>
 
-          <Label Grid.ColumnSpan="2" Text=" GLOBAL" Style="{StaticResource LabelHeading1}"
+          <Label Text=" GLOBAL" Style="{StaticResource LabelHeading1}"
                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="Silver"/>
+          <Label Grid.Column="1" Text="More Info &#x300b;" Style="{StaticResource LabelHeading1}" TextColor="Blue"
+                 HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" BackgroundColor="Silver">
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding GotoGlobalStatsCommand}"/>
+            </Label.GestureRecognizers>
+          </Label>
     
           <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

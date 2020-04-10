@@ -1,9 +1,10 @@
 ﻿using Prism;
 using Prism.Ioc;
-using Covid19Numbers.ViewModels;
-using Covid19Numbers.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Covid19Numbers.ViewModels;
+using Covid19Numbers.Views;
+using Covid19Numbers.Api;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Covid19Numbers
@@ -28,9 +29,13 @@ namespace Covid19Numbers
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ICovidApi, LmaoNinjaCovidApi>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SelectCountryPage, SelectCountryPageViewModel>();
+            containerRegistry.RegisterForNavigation<GlobalStatsPage, GlobalStatsPageViewModel>();
+            containerRegistry.RegisterForNavigation<CountryStatsPage, CountryStatsPageViewModel>();
         }
     }
 }

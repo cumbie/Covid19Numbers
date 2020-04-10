@@ -25,13 +25,13 @@ namespace Covid19Numbers.ViewModels
 
         ICovidApi _covidApi;
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, ICovidApi covidApi)
             : base(navigationService)
         {
             Title = Constants.AppName;
 
             _running = false;
-            _covidApi = new LmaoNinjaCovidApi();
+            _covidApi = covidApi;
 
             this.AdUnitID = (Device.RuntimePlatform == Device.iOS)
                 ? Constants.AdMobAdUnitID_ad01_iOS
@@ -43,6 +43,8 @@ namespace Covid19Numbers.ViewModels
             SelectCountryCommand = new DelegateCommand(SelectCountry);
             GotoSettingsCommand = new DelegateCommand(GotoSettings);
             GotoAboutCommand = new DelegateCommand(GotoAbout);
+            GotoGlobalStatsCommand = new DelegateCommand(GotoGlobalStats);
+            GotoCountryStatsCommand = new DelegateCommand(GotoCountryStats);
 
             this.MyCountryCode = Settings.MyCountryCode;
 
@@ -140,6 +142,8 @@ namespace Covid19Numbers.ViewModels
         public DelegateCommand SelectCountryCommand { get; private set; }
         public DelegateCommand GotoSettingsCommand { get; private set; }
         public DelegateCommand GotoAboutCommand { get; private set; }
+        public DelegateCommand GotoGlobalStatsCommand { get; private set; }
+        public DelegateCommand GotoCountryStatsCommand { get; private set; }
 
         #endregion
 
@@ -253,6 +257,18 @@ namespace Covid19Numbers.ViewModels
         public void GotoAbout()
         {
 
+        }
+
+        public async void GotoGlobalStats()
+        {
+            await NavigationService.NavigateAsync(nameof(Views.GlobalStatsPage));
+        }
+
+        public async void GotoCountryStats()
+        {
+            NavigationParameters param = new NavigationParameters();
+            param.Add("CountryCode", this.MyCountryCode);
+            await NavigationService.NavigateAsync(nameof(Views.CountryStatsPage), param);
         }
     }
 }
