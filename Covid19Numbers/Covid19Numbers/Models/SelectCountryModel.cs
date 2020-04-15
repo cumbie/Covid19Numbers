@@ -15,6 +15,9 @@ namespace Covid19Numbers.Models
         [JsonIgnore]
         public string CountryCode => this.CountryInfo?.CountryCode;
 
+        [JsonProperty("cases")]
+        public int Cases { get; set; }
+
         [JsonProperty("countryInfo")]
         public SelectCountryInfo CountryInfo { get; set; }
     }

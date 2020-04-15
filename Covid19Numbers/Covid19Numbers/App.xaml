@@ -2,8 +2,11 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+             xmlns:converters="clr-namespace:Covid19Numbers.Converters"
              x:Class="Covid19Numbers.App">
 	<Application.Resources>
+
+    <converters:PlusMinusStringConverter x:Key="PlusMinusStringConverter" />
 
     <!-- default styles -->
     <!--<Style TargetType="Label">

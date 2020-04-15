@@ -160,7 +160,8 @@ namespace Covid19Numbers.ViewModels
 
             try
             {
-                Settings.AllCountries = await _covidApi.GetCountryList();
+                var countries = await _covidApi.GetCountryList();
+                Settings.AllCountries = countries.OrderByDescending(c => c.Cases).ToList();
             }
             catch (Exception x)
             {
@@ -262,7 +263,7 @@ namespace Covid19Numbers.ViewModels
         public async void GotoGlobalStats()
         {
             await NavigationService.NavigateAsync(nameof(Views.GlobalStatsPage));
-        }
+		}
 
         public async void GotoCountryStats()
         {

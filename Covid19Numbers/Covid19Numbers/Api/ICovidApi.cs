@@ -8,7 +8,11 @@ namespace Covid19Numbers.Api
     public interface ICovidApi
     {
         Task<World> GetGlobalStats();
+
+        Task<WorldHistory> GetGlobalHistory(int days = 30);
+
         Task<List<SelectCountryModel>> GetCountryList();
+
         Task<Country> GetCountryStats(string countryCode);
     }
 }

@@ -3,6 +3,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Covid19Numbers.Views.GlobalStatsPage">
+             x:Class="Covid19Numbers.Views.GlobalStatsPage"
+             x:Name="thisPage">
+  <!--//{
+  //  "updated": 1586500201754,
+  //  "cases": 1605372,
+  //  "todayCases": 1720,
+  //  "deaths": 95753,
+  //  "todayDeaths": 61,
+  //  "recovered": 356952,
+  //  "active": 1152667,
+  //  "critical": 49143,
+  //  "casesPerOneMillion": 206,
+  //  "deathsPerOneMillion": 12,
+  //  "tests": 12662352,
+  //  "testsPerOneMillion": 1624.8,
+  //  "affectedCountries": 212
+  //}-->
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid BindingContext="{Binding GlobalStats}" >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+
+      <Label Grid.ColumnSpan="2" Text="Global Statistics" Style="{StaticResource LabelHeading1}" />
+
+      <Label Grid.Row="1" Text="Last Update" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="1" Grid.Column="1" Text="{Binding UpdateTime}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="2" Text="Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cases}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="3" Text="Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="3" Grid.Column="1" Text="{Binding Deaths}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="4" Text="Active" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="4" Grid.Column="1" Text="{Binding Active}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="5" Text="Recovered" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="5" Grid.Column="1" Text="{Binding Recovered}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="6" Text="Critical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="6" Grid.Column="1" Text="{Binding Critical}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+      <Label Grid.Row="7" Text="Countries Affected" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+      <Label Grid.Row="7" Grid.Column="1" Text="{Binding AffectedCountries}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+    </Grid>
   
+    <Label Grid.Row="1" Text="Historical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+
+    <ListView Grid.Row="2" ItemsSource="{Binding History}" BackgroundColor="White">
+      <ListView.ItemTemplate>        <DataTemplate>          <ViewCell>            <Grid>              <Grid.RowDefinitions>                <RowDefinition/>                <RowDefinition/>              </Grid.RowDefinitions>              <Grid.ColumnDefinitions>                <ColumnDefinition/>                   <ColumnDefinition/>                   <ColumnDefinition/>                   <ColumnDefinition/>                 </Grid.ColumnDefinitions>              <Label Grid.RowSpan="2" Text="{Binding Date, StringFormat='{0:MMM dd yyyy}'}" VerticalTextAlignment="Center"/>              <Label Grid.Column="1" Text="{Binding Cases}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">                <Label Grid.Row="1" Grid.Column="1" Text="{Binding NewCases, Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewCases, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>                <Label Text="{Binding CasesUp, Converter={StaticResource PlusMinusStringConverter}}"/>              </StackLayout>              <Label Grid.Column="2" Text="{Binding Deaths}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0">                <Label Grid.Row="1" Grid.Column="2" Text="{Binding NewDeaths, Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewDeaths, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>                <Label Text="{Binding DeathsUp, Converter={StaticResource PlusMinusStringConverter}}"/>              </StackLayout>              <Label Grid.Column="3" Text="{Binding Recovered}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Spacing="0">                <Label Grid.Row="1" Grid.Column="3" Text="{Binding NewRecovered, Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewRecovered, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>                <Label Text="{Binding RecoveredUp, Converter={StaticResource PlusMinusStringConverter}}"/>              </StackLayout>            </Grid>          </ViewCell>        </DataTemplate>      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+
 </ContentPage>

@@ -204,7 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Covid19Numbers\Covid19Numbers.csproj">
-      <Project>{BD113F4A-84E7-4A0A-A2A2-E37E3E2352BE}</Project>
+      <Project>{C53EAB1A-114D-4F3E-97C4-9CFA3853855C}</Project>
       <Name>Covid19Numbers</Name>
     </ProjectReference>
   </ItemGroup>

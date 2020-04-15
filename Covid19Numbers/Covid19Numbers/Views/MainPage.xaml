@@ -71,8 +71,14 @@
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" HorizontalOptions="End" />
           </Grid>
 
-          <Label Grid.Row="2" Grid.ColumnSpan="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
+          <Label Grid.Row="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="Silver" />
+          <Label Grid.Row="2" Grid.Column="1" Text="More Info &#x300b;" Style="{StaticResource LabelHeading1}" TextColor="Blue"
+                 HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" BackgroundColor="Silver">
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding GotoCountryStatsCommand}"/>
+            </Label.GestureRecognizers>
+          </Label>
 
           <Grid Grid.Row="3" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
