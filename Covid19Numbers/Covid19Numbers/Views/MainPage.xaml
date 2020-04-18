@@ -66,9 +66,14 @@
                 <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
               </StackLayout>
             </Frame>
-    
-            <Label Grid.Row="1" Text="Last Update" Style="{StaticResource LabelHeading2}" HorizontalOptions="Start"/>
-            <Label Grid.Row="1" Grid.Column="1" Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" HorizontalOptions="End" />
+
+            <Frame Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="8" Padding="20,10"
+                   BackgroundColor="DarkSlateGray" HasShadow="False">
+              <StackLayout Orientation="Horizontal">
+                <Label Text="Last Update" Style="{StaticResource LabelHeading2}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                <Label Text="{Binding WorldLastUpdate}" Style="{StaticResource LabelHeading3}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" />
+              </StackLayout>
+            </Frame>
           </Grid>
 
           <Label Grid.Row="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
@@ -103,7 +108,7 @@
                 <Label Text="{Binding TotalCountryCases}" Style="{StaticResource LabelHeading3}"
                       FontSize="22" FontAttributes="Bold"
                       TextColor="Yellow"/>
-                <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
+                <Label Text="{Binding CountryCasesPercent, StringFormat='Cases ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
               </StackLayout>
             </Frame>
 
@@ -113,7 +118,7 @@
                 <Label Text="{Binding TotalCountryDeaths}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="OrangeRed"/>
-                <Label Grid.Column="1" Text="Deaths" Style="{StaticResource LabelHeading3}" />
+                <Label Text="{Binding CountryDeathsPercent, StringFormat='Deaths ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
               </StackLayout>
             </Frame>
 

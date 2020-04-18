@@ -34,6 +34,22 @@ namespace Covid19Numbers.Models
 
         [JsonProperty("active")]
         public int Active { get; set; }
+
+        #region Internal Values
+
+        [JsonIgnore]
+        public double TotalGlobalCases { get; set; }
+
+        [JsonIgnore]
+        public double TotalGlobalDeaths { get; set; }
+
+        [JsonIgnore]
+        public double PercentCases => Math.Round(100.0 * (double)this.Cases / this.TotalGlobalCases, 3);
+
+        [JsonIgnore]
+        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalGlobalDeaths, 3);
+
+        #endregion
     }
 
     public class CountryInfo

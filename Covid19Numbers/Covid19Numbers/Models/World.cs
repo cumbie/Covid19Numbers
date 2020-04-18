@@ -37,5 +37,12 @@ namespace Covid19Numbers.Models
 
         [JsonProperty("affectedCountries")]
         public int AffectedCountries { get; set; }
+
+        #region Internal Values
+
+        [JsonIgnore]
+        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.Cases, 3);
+
+        #endregion
     }
 }

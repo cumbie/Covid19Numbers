@@ -31,6 +31,7 @@
     </Style>
     <Style TargetType="Label" x:Key="LabelHeading3" BasedOn="{StaticResource LabelHeadingBase}">
       <Setter Property="FontSize" Value="14"/>
+      <Setter Property="TextColor" Value="LightGray"/>
     </Style>
 
     <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">

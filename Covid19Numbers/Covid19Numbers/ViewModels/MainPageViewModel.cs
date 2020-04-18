@@ -99,11 +99,25 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _totalCountryCases, value);
         }
 
+        private double _countryCasesPercent = 0;
+        public double CountryCasesPercent
+        {
+            get => _countryCasesPercent;
+            set => SetProperty(ref _countryCasesPercent, value);
+        }
+
         private int _totalCountryDeaths = 0;
         public int TotalCountryDeaths
         {
             get => _totalCountryDeaths;
             set => SetProperty(ref _totalCountryDeaths, value);
+        }
+
+        private double _countryDeathsPercent = 0;
+        public double CountryDeathsPercent
+        {
+            get => _countryDeathsPercent;
+            set => SetProperty(ref _countryDeathsPercent, value);
         }
 
         private int _totalCountryTodayCases = 0;
@@ -202,7 +216,7 @@ namespace Covid19Numbers.ViewModels
             }
             catch (Exception x)
             {
-                Console.WriteLine($"CounterError: {x.ToString()}");
+                Console.WriteLine($"CounterError: {x}");
             }
         }
 
@@ -222,7 +236,9 @@ namespace Covid19Numbers.ViewModels
                 this.MyCountryCode = country.CountryName;
                 this.FlagImageUrl = country.Info.FlagImageUrl;
                 this.TotalCountryCases = country.Cases;
+                this.CountryCasesPercent = country.PercentCases;
                 this.TotalCountryDeaths = country.Deaths;
+                this.CountryDeathsPercent = country.PercentDeaths;
                 this.TotalCountryTodayCases = country.TodayCases;
                 this.TotalCountryTodayDeaths = country.TodayDeaths;
             });

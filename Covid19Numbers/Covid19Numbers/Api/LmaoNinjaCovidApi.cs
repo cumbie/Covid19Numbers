@@ -13,9 +13,15 @@ namespace Covid19Numbers.Api
 
         string _baseUrl = "https://corona.lmao.ninja";
         string _worldEndpoint = "/v2/all";
+        string _continentsEndpoint = "/v2/continents";
         string _worldHistorialEndpoint = "/v2/historical/all";
+
         string _countryEndpoint = "/v2/countries/";
+
         string _statesEndpoint = "/states";
+
+        private int _latestGlobalTotalCases = -1;
+        private int _latestGlobalTotalDeaths = -1;
 
         public LmaoNinjaCovidApi()
         {
@@ -24,7 +30,7 @@ namespace Covid19Numbers.Api
 
         private string Url(string endpoint) => $"{_baseUrl}{endpoint}";
 
-        public async Task<WorldHistory> GetGlobalHistory(int days = 30)
+        public async Task<WorldHistory> GetGlobalHistory(int days = 30) // TODO: pulldown to select days
         {
             var response = await _client.GetAsync(Url(_worldHistorialEndpoint));
             var json = await response.Content.ReadAsStringAsync();
@@ -35,10 +41,13 @@ namespace Covid19Numbers.Api
         public async Task<World> GetGlobalStats()
         {
             var response = await _client.GetAsync(Url(_worldEndpoint));
-            //var json = "{\"cases\":597458,\"deaths\":27370,\"recovered\":133373,\"updated\":1585375470343,\"active\":436715}";
             var json = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<World>(json);
+            var world = JsonConvert.DeserializeObject<World>(json);
+            _latestGlobalTotalCases = world.Cases;
+            _latestGlobalTotalDeaths = world.Deaths;
+
+            return world;
         }
 
         public async Task<List<SelectCountryModel>> GetCountryList()
@@ -46,16 +55,23 @@ namespace Covid19Numbers.Api
             var response = await _client.GetAsync($"{Url(_countryEndpoint)}");
             var json = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<List<SelectCountryModel>>(json);
+            var countries = JsonConvert.DeserializeObject<List<SelectCountryModel>>(json);
+
+            return countries;
         }
 
         public async Task<Country> GetCountryStats(string countryCode)
         {
             var response = await _client.GetAsync($"{Url(_countryEndpoint)}{countryCode}");
             var json = await response.Content.ReadAsStringAsync();
-            //var json = "{'country':'USA','countryInfo':{'_id':840,'lat':38,'long':-97,'flag':'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/us.png','iso3':'USA','iso2':'US'},'cases':112815,'todayCases':8689,'deaths':1880,'todayDeaths':184,'recovered':3219,'active':107716,'critical':2666,'casesPerOneMillion':341,'deathsPerOneMillion':6}";
+            
+            var country = JsonConvert.DeserializeObject<Country>(json);
+            if (_latestGlobalTotalCases == -1 || _latestGlobalTotalDeaths == -1)
+                await GetGlobalStats();
 
-            return JsonConvert.DeserializeObject<Country>(json);
+            country.TotalGlobalCases = _latestGlobalTotalCases;
+            country.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            return country;
         }
     }
 }
