@@ -38,7 +38,7 @@ namespace Covid19Numbers.Models
 
                 var lastStat = stats.LastOrDefault();
 
-                stats.Add(new WorldDayStat
+                var stat = new WorldDayStat
                 {
                     Date = date,
                     Cases = this.Cases[date],
@@ -52,7 +52,13 @@ namespace Covid19Numbers.Models
                     CasesUp = (this.Cases.ContainsKey(yesterday) && lastStat != null) &&  newCasesToday > lastStat.NewCases,
                     DeathsUp = (this.Deaths.ContainsKey(yesterday) && lastStat != null) && newDeathsToday > lastStat.NewDeaths,
                     RecoveredUp = (this.Recovered.ContainsKey(yesterday) && lastStat != null) && newRecoveredToday > lastStat.NewRecovered
-                });
+                };
+
+                stat.DeltaCases = (lastStat != null) ? (stat.NewCases - lastStat.NewCases) : stat.NewCases;
+                stat.DeltaDeaths = (lastStat != null) ? (stat.NewDeaths - lastStat.NewDeaths) : stat.NewDeaths;
+                stat.DeltaRecovered = (lastStat != null) ? (stat.NewRecovered - lastStat.NewRecovered) : stat.NewRecovered;
+
+                stats.Add(stat);
             }
 
             return stats.OrderByDescending(h => h.Date).ToList();
@@ -69,6 +75,10 @@ namespace Covid19Numbers.Models
         public int NewCases { get; set; }
         public int NewDeaths { get; set; }
         public int NewRecovered { get; set; }
+
+        public int DeltaCases { get; set; }
+        public int DeltaDeaths { get; set; }
+        public int DeltaRecovered { get; set; }
 
         public bool CasesUp { get; set; }
         public bool DeathsUp { get; set; }

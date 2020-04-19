@@ -32,9 +32,20 @@ namespace Covid19Numbers.Converters
             }
             else if (targetType == typeof(Color))
             {
-                //int val = (int)parameter;
-                int val = (int)value;  // up: \u2191 or \u25B2, down: \u2193 or \u25BC
-                return (val > 0) ? Color.Red : (val < 0 ? Color.Green : Color.Black);
+                Color retColor = Color.Transparent;
+
+                if (value is int)
+                {
+                    int val = (int)value;  // up: \u2191 or \u25B2, down: \u2193 or \u25BC
+                    retColor = (val > 0) ? Color.Red : (val < 0 ? Color.Green : Color.Black);
+                }
+                else if (value is bool)
+                {
+                    bool up = (bool)value;
+                    retColor = up ? Color.Red : Color.Green;
+                }
+
+                return retColor;
             }
             else
                 return null;

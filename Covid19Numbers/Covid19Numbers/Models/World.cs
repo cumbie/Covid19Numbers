@@ -17,14 +17,14 @@ namespace Covid19Numbers.Models
         [JsonProperty("cases")]
         public int Cases { get; set; }
 
-        //[JsonProperty("todayCases")]
-        //public int TodayCases { get; set; }
+        [JsonProperty("todayCases")]
+        public int TodayCases { get; set; }
 
         [JsonProperty("deaths")]
         public int Deaths { get; set; }
 
-        //[JsonProperty("todayDeaths")]
-        //public int TodayDeaths { get; set; }
+        [JsonProperty("todayDeaths")]
+        public int TodayDeaths { get; set; }
 
         [JsonProperty("recovered")]
         public int Recovered { get; set; }
@@ -35,6 +35,9 @@ namespace Covid19Numbers.Models
         [JsonProperty("critical")]
         public int Critical { get; set; }
 
+        [JsonProperty("tests")]
+        public int Tests { get; set; }
+
         [JsonProperty("affectedCountries")]
         public int AffectedCountries { get; set; }
 
@@ -42,6 +45,15 @@ namespace Covid19Numbers.Models
 
         [JsonIgnore]
         public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.Cases, 3);
+
+        [JsonIgnore]
+        public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.Cases, 3);
+
+        [JsonIgnore]
+        public double PercentActive => Math.Round(100.0 * (double)this.Active / this.Cases, 3);
+
+        [JsonIgnore]
+        public double PercentCritical => Math.Round(100.0 * (double)this.Critical / this.Cases, 3);
 
         #endregion
     }
