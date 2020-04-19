@@ -67,7 +67,7 @@
               </StackLayout>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="8" Padding="20,10"
+            <Frame Grid.Row="1" Grid.ColumnSpan="2" CornerRadius="8" Padding="10,10"
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout Orientation="Horizontal">
                 <Label Text="Last Update" Style="{StaticResource LabelHeading2}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
