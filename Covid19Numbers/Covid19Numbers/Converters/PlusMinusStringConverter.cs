@@ -33,15 +33,23 @@ namespace Covid19Numbers.Converters
             else if (targetType == typeof(Color))
             {
                 Color retColor = Color.Transparent;
+                bool invert = (parameter != null) && (bool)parameter;
 
                 if (value is int)
                 {
                     int val = (int)value;  // up: \u2191 or \u25B2, down: \u2193 or \u25BC
-                    retColor = (val > 0) ? Color.Red : (val < 0 ? Color.Green : Color.Black);
+                    bool bad = (val > 0);
+                    if (invert)
+                        bad = !bad;
+
+                    retColor = bad ? Color.Red : Color.Green;
                 }
                 else if (value is bool)
                 {
                     bool up = (bool)value;
+                    if (invert)
+                        up = !up;
+
                     retColor = up ? Color.Red : Color.Green;
                 }
 

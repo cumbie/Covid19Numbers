@@ -278,8 +278,8 @@ namespace Covid19Numbers.ViewModels
 
         public async void GotoGlobalStats()
         {
-            await NavigationService.NavigateAsync(nameof(Views.GlobalStatsPage));
-		}
+            await NavigationService.NavigateAsync(nameof(Views.GlobalStatsTabbedPage));
+        }
 
         public async void GotoCountryStats()
         {

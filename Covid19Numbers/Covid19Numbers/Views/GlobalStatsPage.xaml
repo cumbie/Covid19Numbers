@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Covid19Numbers.Views.GlobalStatsPage"
-             x:Name="thisPage">
+             Title="Global Statistics">
   <!--//{
   //  "updated": 1586500201754,
   //  "cases": 1605372,
@@ -21,83 +21,69 @@
   //  "affectedCountries": 212
   //}-->
 
-  <Grid>
+  <Grid BindingContext="{Binding GlobalStats}" Margin="10,0">
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
-      <RowDefinition Height="*"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
     </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
 
-    <Grid BindingContext="{Binding GlobalStats}" Margin="10,0">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="auto"/>
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition/>
-        <ColumnDefinition/>
-      </Grid.ColumnDefinitions>
+    <Label Grid.ColumnSpan="2" Text="Global Statistics" Style="{StaticResource LabelHeading1}" />
 
-      <Label Grid.ColumnSpan="2" Text="Global Statistics" Style="{StaticResource LabelHeading1}" />
+    <Label Grid.Row="1" Text="Total Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Cases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
 
-      <Label Grid.Row="1" Text="Last Update" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="1" Grid.Column="1" Text="{Binding UpdateTime}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+    <Label Grid.Row="2" Text="Today Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="2" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
 
-      <Label Grid.Row="2" Text="Total Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-
-      <Label Grid.Row="3" Text="Today Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="3" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-
-      <Label Grid.Row="4" Text="Total Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-        <Label Text="{Binding Deaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-        <Label Text="{Binding PercentDeaths, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-      </StackLayout>
+    <Label Grid.Row="3" Text="Total Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+      <Label Text="{Binding Deaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+      <Label Text="{Binding PercentDeaths, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+    </StackLayout>
       
-      <Label Grid.Row="5" Text="Today Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="5" Grid.Column="1" Text="{Binding TodayDeaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+    <Label Grid.Row="4" Text="Today Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="4" Grid.Column="1" Text="{Binding TodayDeaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
       
-      <Label Grid.Row="6" Text="Active" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-        <Label Text="{Binding Active, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-        <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-      </StackLayout>
+    <Label Grid.Row="5" Text="Active" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <StackLayout Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+      <Label Text="{Binding Active, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+      <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+    </StackLayout>
 
-      <Label Grid.Row="7" Text="Recovered" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <StackLayout Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-        <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-        <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-      </StackLayout>
+    <Label Grid.Row="6" Text="Recovered" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+      <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+      <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+    </StackLayout>
 
-      <Label Grid.Row="8" Text="Critical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <StackLayout Grid.Row="8" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-        <Label Text="{Binding Critical, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand" />
-        <Label Text="{Binding PercentCritical, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-      </StackLayout>
+    <Label Grid.Row="7" Text="Critical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <StackLayout Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+      <Label Text="{Binding Critical, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand" />
+      <Label Text="{Binding PercentCritical, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+    </StackLayout>
       
-      <Label Grid.Row="9" Text="Tests" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="9" Grid.Column="1" Text="{Binding Tests, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+    <Label Grid.Row="8" Text="Tests" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="8" Grid.Column="1" Text="{Binding Tests, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
       
-      <Label Grid.Row="10" Text="Countries Affected" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-      <Label Grid.Row="10" Grid.Column="1" Text="{Binding AffectedCountries}" HorizontalOptions="EndAndExpand"/>
+    <Label Grid.Row="9" Text="Countries Affected" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="9" Grid.Column="1" Text="{Binding AffectedCountries}" HorizontalOptions="EndAndExpand"/>
 
-    </Grid>
-  
-    <Label Grid.Row="1" Text="Historical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+    <Label Grid.Row="10" Text="Last Update" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+    <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
 
-    <ListView Grid.Row="2" ItemsSource="{Binding History}" BackgroundColor="White" SelectionMode="None">
-      <ListView.ItemTemplate>        <DataTemplate>          <ViewCell>            <Grid ColumnSpacing="0" Margin="5,0">              <Grid.RowDefinitions>                <RowDefinition/>                <RowDefinition/>              </Grid.RowDefinitions>              <Grid.ColumnDefinitions>                <ColumnDefinition Width="auto"/>                   <ColumnDefinition/>                   <ColumnDefinition/>                   <ColumnDefinition/>                 </Grid.ColumnDefinitions>              <Label Grid.RowSpan="2" FontSize="10" Text="{Binding Date, StringFormat='{0:MM/dd/yy}'}" VerticalTextAlignment="Center"/>              <Label Grid.Column="1" FontSize="10" Text="{Binding Cases, StringFormat='{0:0,0}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">                <Label FontSize="10" Text="{Binding NewCases, StringFormat='{0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewCases, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding DeltaCases, StringFormat=' ({0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding DeltaCases, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="End" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding CasesUp, StringFormat='{0})', Converter={StaticResource PlusMinusStringConverter}}"                       TextColor="{Binding CasesUp, Converter={StaticResource PlusMinusStringConverter}}"                       HorizontalOptions="End"/>              </StackLayout>              <Label Grid.Column="2" FontSize="10" Text="{Binding Deaths, StringFormat='{0:0,0}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0">                <Label FontSize="10" Text="{Binding NewDeaths, StringFormat='{0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewDeaths, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding DeltaDeaths, StringFormat=' ({0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding DeltaDeaths, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="End" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding DeathsUp, StringFormat='{0})', Converter={StaticResource PlusMinusStringConverter}}"                       TextColor="{Binding DeathsUp, Converter={StaticResource PlusMinusStringConverter}}"                       HorizontalOptions="End"/>              </StackLayout>              <Label Grid.Column="3" FontSize="10" Text="{Binding Recovered, StringFormat='{0:0,0}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>              <StackLayout Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Spacing="0">                <Label FontSize="10" Text="{Binding NewRecovered, StringFormat='{0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding NewRecovered, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding DeltaRecovered, StringFormat=' ({0:0,0}', Converter={StaticResource PlusMinusStringConverter}}"                     TextColor="{Binding DeltaRecovered, Converter={StaticResource PlusMinusStringConverter}}"                     HorizontalOptions="End" VerticalTextAlignment="Center"/>                <Label FontSize="10" Text="{Binding RecoveredUp, StringFormat='{0})', Converter={StaticResource PlusMinusStringConverter}}"                       TextColor="{Binding RecoveredUp, Converter={StaticResource PlusMinusStringConverter}}"                       HorizontalOptions="End"/>              </StackLayout>            </Grid>          </ViewCell>        </DataTemplate>      </ListView.ItemTemplate>
-    </ListView>
   </Grid>
-
+  
 </ContentPage>

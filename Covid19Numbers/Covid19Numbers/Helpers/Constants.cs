@@ -5,6 +5,7 @@ namespace Covid19Numbers
     public class Constants
     {
         public static string AppName = "COVID-19 Numbers";
+        public static int RefreshMaxMs = 1000 * 60 * 2; // 2mins
 
         // AdMob IDs --- TODO: create new ones
         //

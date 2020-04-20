@@ -36,6 +36,8 @@ namespace Covid19Numbers
             containerRegistry.RegisterForNavigation<SelectCountryPage, SelectCountryPageViewModel>();
             containerRegistry.RegisterForNavigation<GlobalStatsPage, GlobalStatsPageViewModel>();
             containerRegistry.RegisterForNavigation<CountryStatsPage, CountryStatsPageViewModel>();
+            containerRegistry.RegisterForNavigation<GlobalStatsTabbedPage, GlobalStatsTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<GlobalHistoricalPage, GlobalHistoricalPageViewModel>();
         }
     }
 }

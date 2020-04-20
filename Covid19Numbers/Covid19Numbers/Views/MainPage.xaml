@@ -50,7 +50,7 @@
             <Frame Grid.Row="0" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalCases}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="Yellow" />
                 <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
@@ -60,7 +60,7 @@
             <Frame Grid.Row="0" Grid.Column="1" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalDeaths}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="OrangeRed" />
                 <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
@@ -105,7 +105,7 @@
             <Frame Grid.Row="1" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalCountryCases}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalCountryCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                       FontSize="22" FontAttributes="Bold"
                       TextColor="Yellow"/>
                 <Label Text="{Binding CountryCasesPercent, StringFormat='Cases ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
@@ -115,7 +115,7 @@
             <Frame Grid.Row="1" Grid.Column="1" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalCountryDeaths}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalCountryDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="OrangeRed"/>
                 <Label Text="{Binding CountryDeathsPercent, StringFormat='Deaths ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
@@ -126,7 +126,7 @@
             <Frame Grid.Row="3" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalCountryTodayCases}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalCountryTodayCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="Yellow"/>
                 <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
@@ -136,7 +136,7 @@
             <Frame Grid.Row="3" Grid.Column="1" Padding="20,5" CornerRadius="8" 
                    BackgroundColor="DarkSlateGray" HasShadow="False">
               <StackLayout>
-                <Label Text="{Binding TotalCountryTodayDeaths}" Style="{StaticResource LabelHeading3}"
+                <Label Text="{Binding TotalCountryTodayDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelHeading3}"
                        FontSize="22" FontAttributes="Bold"
                        TextColor="OrangeRed"/>
                 <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />

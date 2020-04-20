@@ -28,14 +28,30 @@ namespace Covid19Numbers.Api
             _client = new HttpClient();
         }
 
+        #region Properties
+
+        public DateTime GlobalHistoryLastUpdate { get; private set; }
+        public DateTime GlobalStatsLastUpdate { get; private set; }
+        public DateTime CountryStatsLastUpdate { get; private set; }
+
+        #endregion
+
         private string Url(string endpoint) => $"{_baseUrl}{endpoint}";
 
         public async Task<WorldHistory> GetGlobalHistory(int days = 30) // TODO: pulldown to select days
         {
-            var response = await _client.GetAsync(Url(_worldHistorialEndpoint));
+            var url = Url(_worldHistorialEndpoint);
+            if (days > 0 && days != 30)
+            {
+                url += $"?lastdays={days}";
+            }
+            var response = await _client.GetAsync(url);
             var json = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<WorldHistory>(json);
+            var history = JsonConvert.DeserializeObject<WorldHistory>(json);
+            this.GlobalHistoryLastUpdate = DateTime.Now;
+
+            return history;
         }
 
         public async Task<World> GetGlobalStats()
@@ -44,6 +60,8 @@ namespace Covid19Numbers.Api
             var json = await response.Content.ReadAsStringAsync();
 
             var world = JsonConvert.DeserializeObject<World>(json);
+            this.GlobalStatsLastUpdate = DateTime.Now;
+
             _latestGlobalTotalCases = world.Cases;
             _latestGlobalTotalDeaths = world.Deaths;
 
@@ -56,7 +74,7 @@ namespace Covid19Numbers.Api
             var json = await response.Content.ReadAsStringAsync();
 
             var countries = JsonConvert.DeserializeObject<List<SelectCountryModel>>(json);
-
+            
             return countries;
         }
 
@@ -66,11 +84,14 @@ namespace Covid19Numbers.Api
             var json = await response.Content.ReadAsStringAsync();
             
             var country = JsonConvert.DeserializeObject<Country>(json);
+            this.CountryStatsLastUpdate = DateTime.Now;
+
             if (_latestGlobalTotalCases == -1 || _latestGlobalTotalDeaths == -1)
                 await GetGlobalStats();
 
             country.TotalGlobalCases = _latestGlobalTotalCases;
             country.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+
             return country;
         }
     }

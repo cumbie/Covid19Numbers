@@ -65,7 +65,7 @@ namespace Covid19Numbers.Models
         }
     }
 
-    public class WorldDayStat : Prism.Mvvm.BindableBase
+    public class WorldDayStat
     {
         public DateTime Date { get; set; }
         public int Cases { get; set; }
