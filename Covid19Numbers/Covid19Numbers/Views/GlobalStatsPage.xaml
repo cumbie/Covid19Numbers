@@ -21,69 +21,76 @@
   //  "affectedCountries": 212
   //}-->
 
-  <Grid BindingContext="{Binding GlobalStats}" Margin="10,0">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="auto"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
+  <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}"
+                 VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <ScrollView>
 
-    <Label Grid.ColumnSpan="2" Text="Global Statistics" Style="{StaticResource LabelHeading1}" />
+      <Grid BindingContext="{Binding GlobalStats}" Margin="10,0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-    <Label Grid.Row="1" Text="Total Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Cases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+        <Label Grid.ColumnSpan="2" Text="Global Statistics" Style="{StaticResource LabelHeading1}" />
 
-    <Label Grid.Row="2" Text="Today Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="2" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+        <Label Grid.Row="1" Text="Total Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Cases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
 
-    <Label Grid.Row="3" Text="Total Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-      <Label Text="{Binding Deaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-      <Label Text="{Binding PercentDeaths, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-    </StackLayout>
+        <Label Grid.Row="2" Text="Today Cases" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+
+        <Label Grid.Row="3" Text="Total Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+          <Label Text="{Binding Deaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+          <Label Text="{Binding PercentDeaths, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+        </StackLayout>
       
-    <Label Grid.Row="4" Text="Today Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="4" Grid.Column="1" Text="{Binding TodayDeaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+        <Label Grid.Row="4" Text="Today Deaths" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="4" Grid.Column="1" Text="{Binding TodayDeaths, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
       
-    <Label Grid.Row="5" Text="Active" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <StackLayout Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-      <Label Text="{Binding Active, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-      <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-    </StackLayout>
+        <Label Grid.Row="5" Text="Active" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <StackLayout Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+          <Label Text="{Binding Active, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+          <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+        </StackLayout>
 
-    <Label Grid.Row="6" Text="Recovered" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-      <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
-      <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-    </StackLayout>
+        <Label Grid.Row="6" Text="Recovered" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+          <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+          <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+        </StackLayout>
 
-    <Label Grid.Row="7" Text="Critical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <StackLayout Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-      <Label Text="{Binding Critical, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand" />
-      <Label Text="{Binding PercentCritical, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
-    </StackLayout>
+        <Label Grid.Row="7" Text="Critical" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <StackLayout Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+          <Label Text="{Binding Critical, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand" />
+          <Label Text="{Binding PercentCritical, StringFormat=' ({0:0.0}%)'}" HorizontalOptions="End"/>
+        </StackLayout>
       
-    <Label Grid.Row="8" Text="Tests" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="8" Grid.Column="1" Text="{Binding Tests, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
+        <Label Grid.Row="8" Text="Tests" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="8" Grid.Column="1" Text="{Binding Tests, StringFormat='{0:0,0}'}" HorizontalOptions="EndAndExpand"/>
       
-    <Label Grid.Row="9" Text="Countries Affected" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="9" Grid.Column="1" Text="{Binding AffectedCountries}" HorizontalOptions="EndAndExpand"/>
+        <Label Grid.Row="9" Text="Countries Affected" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="9" Grid.Column="1" Text="{Binding AffectedCountries}" HorizontalOptions="EndAndExpand"/>
 
-    <Label Grid.Row="10" Text="Last Update" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-    <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+        <Label Grid.Row="10" Text="Last Update" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+        <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
 
-  </Grid>
+      </Grid>
+
+    </ScrollView>
+  </RefreshView>
   
 </ContentPage>

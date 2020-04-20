@@ -39,7 +39,7 @@ namespace Covid19Numbers.ViewModels
 
         #endregion
 
-        protected override async void RaiseIsActiveChanged()
+        protected async override void RaiseIsActiveChanged()
         {
             base.RaiseIsActiveChanged();
 
@@ -57,7 +57,7 @@ namespace Covid19Numbers.ViewModels
             await Refresh();
         }
 
-        private async Task Refresh()
+        public override async Task Refresh()
         {
             var worldHistory = await _covidApi.GetGlobalHistory(1000);
             var stats = worldHistory.GetHistoricalStats();

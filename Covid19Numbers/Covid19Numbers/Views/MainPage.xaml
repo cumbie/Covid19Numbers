@@ -11,7 +11,7 @@
       <RowDefinition Height="80"/>
     </Grid.RowDefinitions>
 
-    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshAllCommand}"
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}"
                  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
       <ScrollView>
         <Grid RowSpacing="5" Margin="5" ColumnSpacing="0">

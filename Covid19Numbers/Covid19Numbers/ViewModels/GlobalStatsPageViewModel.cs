@@ -50,7 +50,7 @@ namespace Covid19Numbers.ViewModels
             await Refresh();
         }
 
-        private async Task Refresh()
+        public override async Task Refresh()
         {
             this.GlobalStats = await _covidApi.GetGlobalStats();
         }

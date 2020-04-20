@@ -39,7 +39,6 @@ namespace Covid19Numbers.ViewModels
 
             RefreshCountriesList();
 
-            RefreshAllCommand = new DelegateCommand(RefreshAll);
             SelectCountryCommand = new DelegateCommand(SelectCountry);
             GotoSettingsCommand = new DelegateCommand(GotoSettings);
             GotoAboutCommand = new DelegateCommand(GotoAbout);
@@ -141,18 +140,10 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _adUnitId, value);
         }
 
-        private bool _isRefreshing = false;
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
-        }
-
         #endregion
 
         #region Commands
 
-        public DelegateCommand RefreshAllCommand { get; private set; }
         public DelegateCommand SelectCountryCommand { get; private set; }
         public DelegateCommand GotoSettingsCommand { get; private set; }
         public DelegateCommand GotoAboutCommand { get; private set; }
@@ -250,15 +241,11 @@ namespace Covid19Numbers.ViewModels
             //}
         }
 
-        public async void RefreshAll()
+        public override async Task Refresh()
         {
-            this.IsRefreshing = true;
-
             await RefreshCountriesList();
 
             await RefreshStats();
-
-            this.IsRefreshing = false;
         }
 
         public async void SelectCountry()
