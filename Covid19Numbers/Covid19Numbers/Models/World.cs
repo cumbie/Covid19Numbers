@@ -47,6 +47,9 @@ namespace Covid19Numbers.Models
         public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.Cases, 3);
 
         [JsonIgnore]
+        public double PercentTodayDeaths => Math.Round(100.0 * (double)this.TodayDeaths / this.TodayCases, 3);
+
+        [JsonIgnore]
         public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.Cases, 3);
 
         [JsonIgnore]

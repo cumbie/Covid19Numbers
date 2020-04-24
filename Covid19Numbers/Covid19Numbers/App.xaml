@@ -7,9 +7,14 @@
 	<Application.Resources>
 
     <converters:PlusMinusStringConverter x:Key="PlusMinusStringConverter" />
-    <converters:HighlightRowColorConverter x:Key="HighlightRowColorConverter" />
 
-    <Color x:Key="HighlightColor">Blue</Color>
+    <Color x:Key="SectionHeaderColor">Silver</Color>
+    <Color x:Key="StatsBackgroundColor">DarkSlateGray</Color>
+    <Color x:Key="NameSubTextColor">LightGray</Color>
+    <Color x:Key="CasesTextColor">Yellow</Color>
+    <Color x:Key="DeathsTextColor">OrangeRed</Color>
+    <Color x:Key="MiscTextColor">LightBlue</Color>
+
     <x:Boolean x:Key="TrueValue">True</x:Boolean>
     <x:Boolean x:Key="FalseValue">False</x:Boolean>
 
@@ -24,6 +29,7 @@
       <Setter Property="VerticalOptions" Value="FillAndExpand"/>
       <Setter Property="HorizontalTextAlignment" Value="Center"/>
       <Setter Property="VerticalTextAlignment" Value="Center"/>
+      <Setter Property="Padding" Value="5"/>
     </Style>
 
 		<Style TargetType="Label" x:Key="LabelHeading1" BasedOn="{StaticResource LabelHeadingBase}">
@@ -35,8 +41,27 @@
       <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     <Style TargetType="Label" x:Key="LabelHeading3" BasedOn="{StaticResource LabelHeadingBase}">
-      <Setter Property="FontSize" Value="14"/>
-      <Setter Property="TextColor" Value="LightGray"/>
+      <Setter Property="FontSize" Value="18"/>
+      <Setter Property="TextColor" Value="{StaticResource NameSubTextColor}"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelValueLarge" BasedOn="{StaticResource LabelHeadingBase}">
+      <Setter Property="FontSize" Value="26"/>
+      <Setter Property="FontAttributes" Value="Bold" />
+      <Setter Property="TextColor" Value="{StaticResource MiscTextColor}"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelHeading">
+      <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+      <Setter Property="HorizontalTextAlignment" Value="Start"/>
+      <Setter Property="Padding" Value="5"/>
+      <Setter Property="FontAttributes" Value="Bold" />
+      <Setter Property="TextColor" Value="{StaticResource NameSubTextColor}"/>
+      <Setter Property="BackgroundColor" Value="{StaticResource StatsBackgroundColor}"/>
+    </Style>
+    <Style TargetType="Label" x:Key="LabelValue" BasedOn="{StaticResource LabelHeading}">
+      <Setter Property="HorizontalTextAlignment" Value="End"/>
+      <Setter Property="TextColor" Value="{StaticResource MiscTextColor}"/>
     </Style>
 
     <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">

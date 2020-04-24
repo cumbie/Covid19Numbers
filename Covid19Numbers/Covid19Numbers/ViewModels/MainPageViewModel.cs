@@ -52,6 +52,13 @@ namespace Covid19Numbers.ViewModels
 
         #region Properties
 
+        private string _adUnitId;
+        public string AdUnitID
+        {
+            get => _adUnitId;
+            set => SetProperty(ref _adUnitId, value);
+        }
+
         private int _totalCases = 0;
         public int TotalCases
         {
@@ -131,13 +138,6 @@ namespace Covid19Numbers.ViewModels
         {
             get => _totalCountryTodayDeaths;
             set => SetProperty(ref _totalCountryTodayDeaths, value);
-        }
-
-        private string _adUnitId;
-        public string AdUnitID
-        {
-            get => _adUnitId;
-            set => SetProperty(ref _adUnitId, value);
         }
 
         #endregion
