@@ -8,6 +8,6 @@
 
   <views:GlobalStatsPage/>
   <views:GlobalHistoricalPage/>
-  <views:GlobalChartsPage/>
+  <views:GlobalCurvesPage/>
 
 </TabbedPage>

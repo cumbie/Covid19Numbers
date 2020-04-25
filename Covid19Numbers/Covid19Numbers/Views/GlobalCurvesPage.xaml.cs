@@ -2,9 +2,9 @@
 
 namespace Covid19Numbers.Views
 {
-    public partial class GlobalChartsPage : ContentPage
+    public partial class GlobalCurvesPage : ContentPage
     {
-        public GlobalChartsPage()
+        public GlobalCurvesPage()
         {
             InitializeComponent();
         }
