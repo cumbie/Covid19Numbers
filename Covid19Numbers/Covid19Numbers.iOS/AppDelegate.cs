@@ -24,6 +24,9 @@ namespace Covid19Numbers.iOS
             Google.MobileAds.MobileAds.SharedInstance.Start(null);
 
             global::Xamarin.Forms.Forms.Init();
+
+            OxyPlot.Xamarin.Forms.Platform.iOS.PlotViewRenderer.Init();
+
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
