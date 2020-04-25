@@ -12,8 +12,6 @@ namespace Covid19Numbers.Models
         [JsonProperty("updated")]
         public long Updated { get; set; }
 
-        public DateTime UpdateTime => TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.FromUnixTimeMilliseconds(this.Updated).DateTime, TimeZoneInfo.Local);
-
         [JsonProperty("cases")]
         public int Cases { get; set; }
 
@@ -42,6 +40,12 @@ namespace Covid19Numbers.Models
         public int AffectedCountries { get; set; }
 
         #region Internal Values
+
+        [JsonIgnore]
+        public DateTime UpdateTime => DateTimeOffset.FromUnixTimeMilliseconds(this.Updated).DateTime;
+
+        [JsonIgnore]
+        public DateTime UpdateLocalTime => TimeZoneInfo.ConvertTimeFromUtc(UpdateTime, TimeZoneInfo.Local);
 
         [JsonIgnore]
         public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.Cases, 3);

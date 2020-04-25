@@ -80,6 +80,13 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _worldLastUpdate, value);
         }
 
+        private DateTime _worldLastUpdateLocal;
+        public DateTime WorldLastUpdateLocal
+        {
+            get => _worldLastUpdateLocal;
+            set => SetProperty(ref _worldLastUpdateLocal, value);
+        }
+
         private string _myCountryCode;
         public string MyCountryCode
         {
@@ -219,6 +226,7 @@ namespace Covid19Numbers.ViewModels
                 this.TotalCases = world.Cases;
                 this.TotalDeaths = world.Deaths;
                 this.WorldLastUpdate = world.UpdateTime;
+                this.WorldLastUpdateLocal = world.UpdateLocalTime;
             });
 
             var country = await _covidApi.GetCountryStats(this.MyCountryCode);

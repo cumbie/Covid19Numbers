@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:Covid19Numbers.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Covid19Numbers.Views.GlobalStatsPage"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="Global Statistics">
   <!--//{
   //  "updated": 1586500201754,
@@ -22,7 +23,7 @@
   //  "affectedCountries": 212
   //}-->
 
-  <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}"
+  <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" 
                VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
     <ScrollView>
 
@@ -95,7 +96,7 @@
         <Label Grid.Row="9" Grid.Column="1" Text="{Binding AffectedCountries}" Style="{StaticResource LabelValue}" />
 
         <Label Grid.Row="10" Text="Last Update" Style="{StaticResource LabelHeading}"/>
-        <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime}" Style="{StaticResource LabelValue}" />
+        <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime, StringFormat='{0:dd MMM yyyy hh:mm:ss tt} (UTC)'}" Style="{StaticResource LabelValue}" />
 
         <!--gap--> 
 
