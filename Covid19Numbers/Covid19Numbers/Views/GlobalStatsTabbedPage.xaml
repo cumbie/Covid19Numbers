@@ -6,8 +6,8 @@
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="Covid19Numbers.Views.GlobalStatsTabbedPage">
 
-  <views:GlobalStatsPage/>
+  <views:GlobalStatsPage />
   <views:GlobalHistoricalPage/>
-  <views:GlobalCurvesPage/>
+  <views:GlobalCurvesPage />
 
 </TabbedPage>

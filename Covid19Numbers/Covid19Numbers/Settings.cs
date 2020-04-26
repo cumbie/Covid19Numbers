@@ -19,6 +19,7 @@ namespace Covid19Numbers
             {
                 "[ {\"country\": \"USA\", \"countryInfo\": {\"iso3\": \"USA\"}} ]"
             };
+            public static int RefreshRate = 2;
         }
 
         public static List<SelectCountryModel> AllCountries
@@ -44,6 +45,15 @@ namespace Covid19Numbers
         {
             get => AppSettings.GetValueOrDefault(nameof(MyCountryCode), SettingsDefaults.MyCountryCode);
             set => AppSettings.AddOrUpdateValue(nameof(MyCountryCode), value);
+        }
+
+        /// <summary>
+        /// API call Refresh Rate
+        /// </summary>
+        public static int RefreshRate
+        {
+            get => AppSettings.GetValueOrDefault(nameof(RefreshRate), SettingsDefaults.RefreshRate);
+            set => AppSettings.AddOrUpdateValue(nameof(RefreshRate), value);
         }
     }
 }

@@ -39,8 +39,7 @@
             </Label.GestureRecognizers>
           </Label>
 
-          <Frame Grid.Row="1" Padding="20,5" CornerRadius="8" Margin="0,0,3,0"
-                  BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+          <Frame Grid.Row="1" Style="{StaticResource FrameValue}" Margin="0,0,3,0">
             <StackLayout>
               <Label Text="{Binding TotalCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                       TextColor="{StaticResource CasesTextColor}" />
@@ -48,8 +47,7 @@
             </StackLayout>
           </Frame>
       
-          <Frame Grid.Row="1" Grid.Column="1" Padding="20,5" CornerRadius="8" Margin="3,0,0,0"
-                  BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+          <Frame Grid.Row="1" Grid.Column="1"  Style="{StaticResource FrameValue}" Margin="3,0,0,0">
             <StackLayout>
               <Label Text="{Binding TotalDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                       TextColor="{StaticResource DeathsTextColor}" />
@@ -83,8 +81,7 @@
                    VerticalOptions="CenterAndExpand" Margin="5,0"
                    FontSize="28"/>
 
-            <Frame Grid.Row="1" Padding="20,5" CornerRadius="8" 
-                   BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+            <Frame Grid.Row="1" Style="{StaticResource FrameValue}">
               <StackLayout>
                 <Label Text="{Binding TotalCountryCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                       TextColor="{StaticResource CasesTextColor}"/>
@@ -92,8 +89,7 @@
               </StackLayout>
             </Frame>
 
-            <Frame Grid.Row="1" Grid.Column="1" Padding="20,5" CornerRadius="8" 
-                   BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+            <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource FrameValue}">
               <StackLayout>
                 <Label Text="{Binding TotalCountryDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource DeathsTextColor}"/>
@@ -102,8 +98,7 @@
             </Frame>
 
             <Label Grid.Row="2" Grid.ColumnSpan="2" Text="Today" Style="{StaticResource LabelHeading2}"/>
-            <Frame Grid.Row="3" Padding="20,5" CornerRadius="8" 
-                   BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+            <Frame Grid.Row="3" Style="{StaticResource FrameValue}">
               <StackLayout>
                 <Label Text="{Binding TotalCountryTodayCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource CasesTextColor}"/>
@@ -111,8 +106,7 @@
               </StackLayout>
             </Frame>
       
-            <Frame Grid.Row="3" Grid.Column="1" Padding="20,5" CornerRadius="8" 
-                   BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+            <Frame Grid.Row="3" Grid.Column="1" Style="{StaticResource FrameValue}">
               <StackLayout>
                 <Label Text="{Binding TotalCountryTodayDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource DeathsTextColor}"/>
@@ -123,8 +117,7 @@
 
            <!--gap-->
 
-          <Frame Grid.Row="5" Grid.ColumnSpan="2" CornerRadius="8" Padding="10,10"
-                 BackgroundColor="{StaticResource StatsBackgroundColor}" HasShadow="False">
+          <Frame Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource FrameValue}" Padding="10,10">
             <StackLayout Orientation="Horizontal">
               <Label Text="Last Update" Style="{StaticResource LabelHeading}"/>
               <StackLayout Orientation="Vertical" Spacing="1">
@@ -152,14 +145,17 @@
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <Button Style="{StaticResource IconButton}" Text="{StaticResource IconMyCountry}" Command="{Binding SelectCountryCommand}" FontSize="32" />
-      <Label Grid.Row="1" Text="My Country" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+      <Button Style="{StaticResource IconButton}" Text="{StaticResource IconMyCountry}" Command="{Binding GotoGlobalStatsCommand}" FontSize="32" />
+      <Label Grid.Row="1" Text="Global Stats" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
-      <Button Grid.Column="1" Style="{StaticResource IconButton}" Text="{StaticResource IconSettings}" Command="{Binding GotoSettingsCommand}" FontSize="32"/>
-      <Label Grid.Row="1" Grid.Column="1" Text="Settings" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+      <Button Grid.Column="1" Style="{StaticResource IconButton}" Text="{StaticResource IconMyCountry}" Command="{Binding GotoCountryStatsCommand}" FontSize="32" />
+      <Label Grid.Row="1" Grid.Column="1" Text="Country Stats" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
-      <Button Grid.Column="2" Style="{StaticResource IconButton}" Text="{StaticResource IconAbout}" Command="{Binding GotoAboutCommand}" FontSize="32"/>
-      <Label Grid.Row="1" Grid.Column="2" Text="About" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+      <Button Grid.Column="2" Style="{StaticResource IconButton}" Text="{StaticResource IconSettings}" Command="{Binding GotoSettingsCommand}" FontSize="32"/>
+      <Label Grid.Row="1" Grid.Column="2" Text="Settings" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+
+      <!--<Button Grid.Column="2" Style="{StaticResource IconButton}" Text="{StaticResource IconAbout}" Command="{Binding GotoAboutCommand}" FontSize="32"/>
+      <Label Grid.Row="1" Grid.Column="2" Text="About" FontSize="11" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>-->
     </Grid>  
 
   </Grid>

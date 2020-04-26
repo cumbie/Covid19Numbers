@@ -66,6 +66,13 @@
       <Setter Property="TextColor" Value="{StaticResource MiscTextColor}"/>
     </Style>
 
+    <Style TargetType="Frame" x:Key="FrameValue">
+      <Setter Property="Padding" Value="20,5"/>
+      <Setter Property="CornerRadius" Value="8"/>
+      <Setter Property="BackgroundColor" Value="{StaticResource StatsBackgroundColor}"/>
+      <Setter Property="HasShadow" Value="False"/>
+    </Style>
+
     <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
       <On Platform="iOS" Value="Material Design Icons" />
       <On Platform="Android" Value="fonts/materialdesignicons-webfont.ttf#Material Design Icons" />
@@ -76,6 +83,8 @@
     <x:String x:Key="IconSettings">&#xf8d5;</x:String>
     <x:String x:Key="IconAbout">&#xf2fd;</x:String>
     <x:String x:Key="IconRefresh">&#xf450;</x:String>
+    <x:String x:Key="IconLineChart">&#xf12a;</x:String>
+    <x:String x:Key="IconHistory">&#xf969;</x:String>
 
     <Style x:Key="IconButton" TargetType="Button">
       <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}" />

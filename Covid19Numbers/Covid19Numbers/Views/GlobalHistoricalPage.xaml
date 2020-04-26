@@ -7,6 +7,10 @@
              BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="Global History">
 
+  <ContentPage.IconImageSource>
+    <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconHistory}" />
+  </ContentPage.IconImageSource>
+
   <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}"
                  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
     <ScrollView>
@@ -24,7 +28,7 @@
                BackgroundColor="{StaticResource SectionHeaderColor}"
                HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
 
-        <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0" HorizontalOptions="FillAndExpand">
+        <Grid Grid.Row="1" RowSpacing="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand">
           <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -51,12 +55,12 @@
           
         </Grid>
 
-        <Grid Grid.Row="2" Margin="5,0" BackgroundColor="LightGray">          <Grid.ColumnDefinitions>            <ColumnDefinition/>               <ColumnDefinition/>               <ColumnDefinition/>               <ColumnDefinition/>             </Grid.ColumnDefinitions>
+        <Grid Grid.Row="2" Margin="5,0" BackgroundColor="{StaticResource SectionHeaderColor}">          <Grid.ColumnDefinitions>            <ColumnDefinition Width="60"/>               <ColumnDefinition/>               <ColumnDefinition/>               <ColumnDefinition/>             </Grid.ColumnDefinitions>
 
-          <Label FontSize="12" FontAttributes="Bold" Text="Date" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
-          <Label Grid.Column="1" FontSize="12" FontAttributes="Bold" Text="Cases" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center"/>
-          <Label Grid.Column="2" FontSize="12" FontAttributes="Bold" Text="Deaths" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center"/>
-          <Label Grid.Column="3" FontSize="12" FontAttributes="Bold" Text="Recovered" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center"/>
+          <Label Text="Date" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+          <Label Grid.Column="1" Text="Cases" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+          <Label Grid.Column="2" Text="Deaths" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+          <Label Grid.Column="3" Text="Recovered" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
 
         </Grid>
 

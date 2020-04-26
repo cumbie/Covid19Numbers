@@ -8,5 +8,13 @@ namespace Covid19Numbers.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+
+            // must repaint plot on orientation change
+            _plotView?.Model?.InvalidatePlot(true);
+        }
     }
 }
