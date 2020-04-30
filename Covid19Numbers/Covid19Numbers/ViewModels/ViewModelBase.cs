@@ -78,6 +78,11 @@ namespace Covid19Numbers.ViewModels
 
         protected virtual void RaiseIsActiveChanged()
         {
+            //if (this.IsActive)
+            //    Settings.CurrentPagePath = this.NavigationService.GetNavigationUriPath();
+            //else
+            //    Settings.LastPagePath = this.NavigationService.GetNavigationUriPath();
+
             IsActiveChanged?.Invoke(this, EventArgs.Empty);
         }
 

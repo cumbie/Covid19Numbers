@@ -30,14 +30,8 @@
             <RowDefinition Height="auto"/>
           </Grid.RowDefinitions>
 
-          <Label Text=" GLOBAL" Style="{StaticResource LabelHeading1}"
+          <Label Grid.ColumnSpan="2" Text=" GLOBAL" Style="{StaticResource LabelHeading1}"
                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="{StaticResource SectionHeaderColor}"/>
-          <Label Grid.Column="1" Text="More Info &#x300b;" Style="{StaticResource LabelHeading1}" TextColor="Blue"
-                 HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" BackgroundColor="{StaticResource SectionHeaderColor}">
-            <Label.GestureRecognizers>
-              <TapGestureRecognizer Command="{Binding GotoGlobalStatsCommand}"/>
-            </Label.GestureRecognizers>
-          </Label>
 
           <Frame Grid.Row="1" Style="{StaticResource FrameValue}" Margin="0,0,3,0">
             <StackLayout>
@@ -55,14 +49,8 @@
             </StackLayout>
           </Frame>
 
-          <Label Grid.Row="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
+          <Label Grid.Row="2" Grid.ColumnSpan="2" Text=" COUNTRY" Style="{StaticResource LabelHeading1}"
                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" BackgroundColor="{StaticResource SectionHeaderColor}" />
-          <Label Grid.Row="2" Grid.Column="1" Text="More Info &#x300b;" Style="{StaticResource LabelHeading1}" TextColor="Blue"
-                 HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" BackgroundColor="{StaticResource SectionHeaderColor}">
-            <Label.GestureRecognizers>
-              <TapGestureRecognizer Command="{Binding GotoCountryStatsCommand}"/>
-            </Label.GestureRecognizers>
-          </Label>
 
           <Grid Grid.Row="3" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

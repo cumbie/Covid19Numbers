@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Covid19Numbers.Api;
+using Covid19Numbers.Models;
 
 namespace Covid19Numbers.ViewModels
 {
@@ -28,13 +29,26 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _countryCode, value);
         }
 
+        private Country _countryStats;
+        public Country CountryStats
+        {
+            get => _countryStats;
+            set => SetProperty(ref _countryStats, value);
+        }
+
         #endregion
+
+        protected override async void RaiseIsActiveChanged()
+        {
+            base.RaiseIsActiveChanged();
+
+            this.CountryCode = Settings.MyCountryCode;
+            Refresh();
+        }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            base.OnNavigatedTo(parameters);
-
-            this.CountryCode = (string)parameters["CountryCode"];
+            this.CountryCode = Settings.MyCountryCode;
             Refresh();
         }
 
@@ -43,7 +57,7 @@ namespace Covid19Numbers.ViewModels
             if (string.IsNullOrWhiteSpace(this.CountryCode))
                 return;
 
-            var stats = await _covidApi.GetCountryStats(this.CountryCode);
+            this.CountryStats = await _covidApi.GetCountryStats(this.CountryCode);
         }
     }
 }

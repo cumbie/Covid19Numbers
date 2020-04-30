@@ -22,6 +22,7 @@ namespace Covid19Numbers.Api
 
         private int _latestGlobalTotalCases = -1;
         private int _latestGlobalTotalDeaths = -1;
+        private int _latestGlobalTotalTests = -1;
 
         public LmaoNinjaCovidApi()
         {
@@ -64,6 +65,7 @@ namespace Covid19Numbers.Api
 
             _latestGlobalTotalCases = world.Cases;
             _latestGlobalTotalDeaths = world.Deaths;
+            _latestGlobalTotalTests = world.Tests;
 
             return world;
         }
@@ -86,11 +88,14 @@ namespace Covid19Numbers.Api
             var country = JsonConvert.DeserializeObject<Country>(json);
             this.CountryStatsLastUpdate = DateTime.Now;
 
-            if (_latestGlobalTotalCases == -1 || _latestGlobalTotalDeaths == -1)
+            if (_latestGlobalTotalCases == -1 ||
+                _latestGlobalTotalDeaths == -1 ||
+                _latestGlobalTotalTests == -1)
                 await GetGlobalStats();
 
             country.TotalGlobalCases = _latestGlobalTotalCases;
             country.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            country.TotalGlobalTests = _latestGlobalTotalTests;
 
             return country;
         }

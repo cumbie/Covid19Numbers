@@ -278,9 +278,7 @@ namespace Covid19Numbers.ViewModels
 
         public async void GotoCountryStats()
         {
-            NavigationParameters param = new NavigationParameters();
-            param.Add("CountryCode", this.MyCountryCode);
-            await NavigationService.NavigateAsync(nameof(Views.CountryStatsPage), param);
+            await NavigationService.NavigateAsync(nameof(Views.CountryStatsTabbedPage));
         }
     }
 }

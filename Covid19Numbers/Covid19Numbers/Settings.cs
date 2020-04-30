@@ -55,5 +55,23 @@ namespace Covid19Numbers
             get => AppSettings.GetValueOrDefault(nameof(RefreshRate), SettingsDefaults.RefreshRate);
             set => AppSettings.AddOrUpdateValue(nameof(RefreshRate), value);
         }
+
+        ///// <summary>
+        ///// last page absolute path
+        ///// </summary>
+        //public static string LastPagePath
+        //{
+        //    get => AppSettings.GetValueOrDefault(nameof(LastPagePath), string.Empty);
+        //    set => AppSettings.AddOrUpdateValue(nameof(LastPagePath), value);
+        //}
+
+        ///// <summary>
+        ///// current page absolute path
+        ///// </summary>
+        //public static string CurrentPagePath
+        //{
+        //    get => AppSettings.GetValueOrDefault(nameof(CurrentPagePath), string.Empty);
+        //    set => AppSettings.AddOrUpdateValue(nameof(CurrentPagePath), value);
+        //}
     }
 }

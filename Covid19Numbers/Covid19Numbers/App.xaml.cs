@@ -40,6 +40,9 @@ namespace Covid19Numbers
             containerRegistry.RegisterForNavigation<GlobalHistoricalPage, GlobalHistoricalPageViewModel>();
             containerRegistry.RegisterForNavigation<GlobalCurvesPage, GlobalCurvesPageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<CountryStatsTabbedPage, CountryStatsTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<CountryHistoricalPage, CountryHistoricalPageViewModel>();
+            containerRegistry.RegisterForNavigation<CountryCurvesPage, CountryCurvesPageViewModel>();
         }
     }
 }

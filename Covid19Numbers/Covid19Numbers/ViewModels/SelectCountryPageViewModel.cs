@@ -41,6 +41,17 @@ namespace Covid19Numbers.ViewModels
         }
 
         #endregion
+        protected override void RaiseIsActiveChanged()
+        {
+            base.RaiseIsActiveChanged();
+
+            this.Countries = new ObservableCollection<SelectCountryModel>(Settings.AllCountries);
+
+            if (this.Countries != null)
+            {
+                this.SelectedCountry = this.Countries.FirstOrDefault(c => c.CountryCode == Settings.MyCountryCode);
+            }
+        }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
