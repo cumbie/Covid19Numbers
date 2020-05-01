@@ -36,14 +36,17 @@
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.ColumnSpan="2" Text="{Binding CountryName, StringFormat='{0} Statistics'}" Style="{StaticResource LabelHeading1}"
+        <Label Grid.ColumnSpan="2" Text="{Binding CountryName, StringFormat='Statistics for {0}'}" Style="{StaticResource LabelHeading1}"
                HorizontalOptions="FillAndExpand"
                BackgroundColor="{StaticResource SectionHeaderColor}"/>
 
-        <Image Grid.Row="1" Grid.ColumnSpan="2" Source="{Binding Info.FlagImageUrl}" />
+        <Image Grid.Row="1" Grid.ColumnSpan="2" Source="{Binding Info.FlagImageUrl}" BackgroundColor="{StaticResource SectionHeaderColor}" />
 
         <Label Grid.Row="2" Text="Total Cases" Style="{StaticResource LabelHeading}"/>
-        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
+        <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+          <Label Text="{Binding PercentCases, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
+          <Label Text="{Binding Cases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
+        </StackLayout>
 
         <Label Grid.Row="3" Text="Today Cases" Style="{StaticResource LabelHeading}"/>
         <Label Grid.Row="3" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />

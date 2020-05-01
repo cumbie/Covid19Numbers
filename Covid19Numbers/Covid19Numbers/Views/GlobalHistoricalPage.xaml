@@ -24,7 +24,7 @@
           <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Text="Historical Statistics" Style="{StaticResource LabelHeading1}"
+        <Label Text="Global Historical Statistics" Style="{StaticResource LabelHeading1}"
                BackgroundColor="{StaticResource SectionHeaderColor}"
                HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
 

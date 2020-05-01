@@ -11,13 +11,19 @@ namespace Covid19Numbers.Api
     {
         HttpClient _client;
 
-        string _baseUrl = "https://corona.lmao.ninja";
+        //string _baseUrl = "https://corona.lmao.ninja";
+        string _baseUrl = "https://disease.sh";
+
+        // world
         string _worldEndpoint = "/v2/all";
         string _continentsEndpoint = "/v2/continents";
         string _worldHistorialEndpoint = "/v2/historical/all";
 
+        // country
         string _countryEndpoint = "/v2/countries/";
+        string _countryHistoricalEndpoint = "/v2/historical"; // /{country}
 
+        // states/provinces
         string _statesEndpoint = "/states";
 
         private int _latestGlobalTotalCases = -1;
@@ -31,13 +37,30 @@ namespace Covid19Numbers.Api
 
         #region Properties
 
-        public DateTime GlobalHistoryLastUpdate { get; private set; }
         public DateTime GlobalStatsLastUpdate { get; private set; }
+        public DateTime GlobalHistoryLastUpdate { get; private set; }
+
         public DateTime CountryStatsLastUpdate { get; private set; }
+        public DateTime CountryHistoryLastUpdate { get; private set; }
+
+        public bool ValidGlobalStats => IsStatValid(GlobalStatsLastUpdate);
+        public bool ValidGlobalHistory => IsStatValid(GlobalHistoryLastUpdate);
+
+        public bool ValidCountryStats => IsStatValid(CountryStatsLastUpdate);
+        public bool ValidCountryHistory => IsStatValid(CountryHistoryLastUpdate);
 
         #endregion
 
+        #region Helper Functions
+
+        private bool IsStatValid(DateTime lastUpdate)
+        {
+            return lastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now;
+        }
+
         private string Url(string endpoint) => $"{_baseUrl}{endpoint}";
+
+        #endregion
 
         public async Task<WorldHistory> GetGlobalHistory(int days = 30) // TODO: pulldown to select days
         {
@@ -98,6 +121,22 @@ namespace Covid19Numbers.Api
             country.TotalGlobalTests = _latestGlobalTotalTests;
 
             return country;
+        }
+
+        public async Task<CountryHistory> GetCountryHistory(string countryCode, int days = 30)
+        {
+            var url = Url($"{_countryHistoricalEndpoint}/{countryCode}");
+            if (days > 0 && days != 30)
+            {
+                url += $"?lastdays={days}";
+            }
+            var response = await _client.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            var history = JsonConvert.DeserializeObject<CountryHistory>(json);
+            this.CountryHistoryLastUpdate = DateTime.Now;
+
+            return history;
         }
     }
 }

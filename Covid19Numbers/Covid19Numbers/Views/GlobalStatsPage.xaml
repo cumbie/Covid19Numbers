@@ -96,7 +96,7 @@
         <Label Grid.Row="8" Text="Tests" Style="{StaticResource LabelHeading}"/>
         <Label Grid.Row="8" Grid.Column="1" Text="{Binding Tests, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
       
-        <Label Grid.Row="9" Text="Countries Affected" Style="{StaticResource LabelHeading}"/>
+        <Label Grid.Row="9" Text="Countries" Style="{StaticResource LabelHeading}"/>
         <Label Grid.Row="9" Grid.Column="1" Text="{Binding AffectedCountries}" Style="{StaticResource LabelValue}" />
 
         <Label Grid.Row="10" Text="Last Update" Style="{StaticResource LabelHeading}"/>

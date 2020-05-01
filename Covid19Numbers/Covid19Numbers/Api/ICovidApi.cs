@@ -7,9 +7,11 @@ namespace Covid19Numbers.Api
 {
     public interface ICovidApi
     {
-        DateTime GlobalHistoryLastUpdate { get; }
-        DateTime GlobalStatsLastUpdate { get; }
-        DateTime CountryStatsLastUpdate { get; }
+        bool ValidGlobalStats { get; }
+        bool ValidGlobalHistory { get; }
+
+        bool ValidCountryStats { get; }
+        bool ValidCountryHistory { get; }
 
         Task<World> GetGlobalStats();
 
@@ -18,5 +20,7 @@ namespace Covid19Numbers.Api
         Task<List<SelectCountryModel>> GetCountryList();
 
         Task<Country> GetCountryStats(string countryCode);
+
+        Task<CountryHistory> GetCountryHistory(string countryCode, int days = 30);
     }
 }

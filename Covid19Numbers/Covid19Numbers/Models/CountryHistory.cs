@@ -2,27 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Covid19Numbers.Models
 {
-    public class WorldHistory
+    public class CountryHistory
     {
-        [JsonProperty("cases")]
-        public IDictionary<DateTime, int> Cases { get; set; }
+        public CountryHistory()
+        {
+        }
 
-        [JsonProperty("deaths")]
-        public IDictionary<DateTime, int> Deaths { get; set; }
+        [JsonProperty("country")]
+        public string CountryName { get; set; }
 
-        [JsonProperty("recovered")]
-        public IDictionary<DateTime, int> Recovered { get; set; }
+        [JsonProperty("provinces")]
+        public List<string> Provinces { get; set; }
+
+        [JsonProperty("timeline")]
+        public CountryTimeline Timeline { get; set; }
 
         public List<DayStatistics> GetHistoricalStats()
         {
             List<DayStatistics> stats = new List<DayStatistics>();
 
-            var cases = this.Cases;
-            var deaths = this.Deaths;
-            var recovered = this.Recovered;
+            var cases = this.Timeline.Cases;
+            var deaths = this.Timeline.Deaths;
+            var recovered = this.Timeline.Recovered;
 
             foreach (var date in cases.Keys)
             {
@@ -36,7 +41,7 @@ namespace Covid19Numbers.Models
 
                 var stat = new DayStatistics
                 {
-                    ContextName = "World",
+                    ContextName = this.CountryName,
 
                     Date = date,
                     Cases = cases[date],
@@ -47,7 +52,7 @@ namespace Covid19Numbers.Models
                     NewDeaths = newDeathsToday,
                     NewRecovered = newRecoveredToday,
 
-                    CasesUp = (cases.ContainsKey(yesterday) && lastStat != null) &&  newCasesToday > lastStat.NewCases,
+                    CasesUp = (cases.ContainsKey(yesterday) && lastStat != null) && newCasesToday > lastStat.NewCases,
                     DeathsUp = (deaths.ContainsKey(yesterday) && lastStat != null) && newDeathsToday > lastStat.NewDeaths,
                     RecoveredUp = (recovered.ContainsKey(yesterday) && lastStat != null) && newRecoveredToday > lastStat.NewRecovered
                 };
@@ -61,5 +66,17 @@ namespace Covid19Numbers.Models
 
             return stats.OrderByDescending(h => h.Date).ToList();
         }
+    }
+
+    public class CountryTimeline
+    {
+        [JsonProperty("cases")]
+        public IDictionary<DateTime, int> Cases { get; set; }
+
+        [JsonProperty("deaths")]
+        public IDictionary<DateTime, int> Deaths { get; set; }
+
+        [JsonProperty("recovered")]
+        public IDictionary<DateTime, int> Recovered { get; set; }
     }
 }

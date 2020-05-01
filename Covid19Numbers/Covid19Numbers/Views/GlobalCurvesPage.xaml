@@ -18,7 +18,9 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
 
-    <Label Text="Global Curve"/>
+    <Label Text="Global Curves" Style="{StaticResource LabelHeading1}"
+               HorizontalOptions="FillAndExpand"
+               BackgroundColor="{StaticResource SectionHeaderColor}"/>
     <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="2,0" BackgroundColor="{StaticResource StatsBackgroundColor}">
       <Label Text="Select a Curve: " Style="{StaticResource LabelHeading}" HorizontalOptions="Start"/>
       <Picker ItemsSource="{Binding AvailableCurves}" SelectedItem="{Binding SelectedCurve}" HorizontalOptions="FillAndExpand" />

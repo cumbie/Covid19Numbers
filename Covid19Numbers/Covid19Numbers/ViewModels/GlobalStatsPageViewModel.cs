@@ -36,7 +36,7 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            if (this.GlobalStats != null && _covidApi.GlobalStatsLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
+            if (this.GlobalStats != null && _covidApi.ValidGlobalStats)
                 return;
 
             await Refresh();
@@ -44,7 +44,7 @@ namespace Covid19Numbers.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (this.GlobalStats != null && _covidApi.GlobalStatsLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
+            if (this.GlobalStats != null && _covidApi.ValidGlobalStats)
                 return;
 
             await Refresh();

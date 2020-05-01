@@ -31,17 +31,17 @@ namespace Covid19Numbers.ViewModels
         {
             _covidApi = covidApi;
 
-            this.AvailableCurves = new ObservableCollection<GlobalCurve>(
-                Enum.GetValues(typeof(GlobalCurve))
-                    .Cast<GlobalCurve>()
-                    .Except(new List<GlobalCurve> { GlobalCurve.Unknown }).ToList());
+            this.AvailableCurves = new ObservableCollection<CurveType>(
+                Enum.GetValues(typeof(CurveType))
+                    .Cast<CurveType>()
+                    .Except(new List<CurveType> { CurveType.Unknown }).ToList());
             //this.SelectedCurve = this.AvailableCurves.First();
         }
 
         #region Properties
 
-        private ObservableCollection<WorldDayStat> _history;
-        public ObservableCollection<WorldDayStat> History
+        private ObservableCollection<DayStatistics> _history;
+        public ObservableCollection<DayStatistics> History
         {
             get => _history;
             set => SetProperty(ref _history, value);
@@ -60,15 +60,15 @@ namespace Covid19Numbers.ViewModels
             }
         }
 
-        private ObservableCollection<GlobalCurve> _availableCurves;
-        public ObservableCollection<GlobalCurve> AvailableCurves
+        private ObservableCollection<CurveType> _availableCurves;
+        public ObservableCollection<CurveType> AvailableCurves
         {
             get => _availableCurves;
             set => SetProperty(ref _availableCurves, value);
         }
 
-        private GlobalCurve _selectedCurve;
-        public GlobalCurve SelectedCurve
+        private CurveType _selectedCurve;
+        public CurveType SelectedCurve
         {
             get => _selectedCurve;
             set
@@ -84,16 +84,16 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            //if (this.History != null && _covidApi.GlobalHistoryLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
-            //    return;
+            if (this.History != null && _covidApi.ValidGlobalHistory)
+                return;
 
             await Refresh();
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            //if (this.History != null && _covidApi.GlobalHistoryLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
-            //    return;
+            if (this.History != null && _covidApi.ValidGlobalHistory)
+                return;
 
             await Refresh();
         }
@@ -103,7 +103,7 @@ namespace Covid19Numbers.ViewModels
             var worldHistory = await _covidApi.GetGlobalHistory(1000);
             var stats = worldHistory.GetHistoricalStats();
 
-            this.History = new ObservableCollection<WorldDayStat>(stats);
+            this.History = new ObservableCollection<DayStatistics>(stats);
 
             _curveCases.Axes.Clear();
             _curveCases.Series.Clear();
@@ -188,36 +188,36 @@ namespace Covid19Numbers.ViewModels
 
             Device.BeginInvokeOnMainThread(() =>
             {
-                this.SelectedCurve = GlobalCurve.Cases;
+                this.SelectedCurve = CurveType.Cases;
                 //this.CurveModel = _curveCases;
             });
         }
 
-        private void SetCurve(GlobalCurve curve)
+        private void SetCurve(CurveType curve)
         {
-            if (curve == GlobalCurve.Unknown)
+            if (curve == CurveType.Unknown)
                 return;
 
             Device.BeginInvokeOnMainThread(() =>
             {
                 switch (curve)
                 {
-                    case GlobalCurve.Cases:
+                    case CurveType.Cases:
                         this.CurveModel = _curveCases;
                         break;
-                    case GlobalCurve.Deaths:
+                    case CurveType.Deaths:
                         this.CurveModel = _curveDeaths;
                         break;
-                    case GlobalCurve.Recovered:
+                    case CurveType.Recovered:
                         this.CurveModel = _curveRecovered;
                         break;
-                    case GlobalCurve.NewCasesByDay:
+                    case CurveType.NewCasesByDay:
                         this.CurveModel = _curveNewCases;
                         break;
-                    case GlobalCurve.NewDeathsByDay:
+                    case CurveType.NewDeathsByDay:
                         this.CurveModel = _curveNewDeaths;
                         break;
-                    case GlobalCurve.NewRecoveredByDay:
+                    case CurveType.NewRecoveredByDay:
                         this.CurveModel = _curveNewRecovered;
                         break;
                     default:
@@ -225,16 +225,5 @@ namespace Covid19Numbers.ViewModels
                 }
             });
         }
-    }
-
-    public enum GlobalCurve
-    {
-        Unknown,
-        Cases,
-        Deaths,
-        Recovered,
-        NewCasesByDay,
-        NewDeathsByDay,
-        NewRecoveredByDay
     }
 }

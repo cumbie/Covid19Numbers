@@ -23,15 +23,24 @@ namespace Covid19Numbers.ViewModels
 
         #region Propeties
 
-        private ObservableCollection<WorldDayStat> _history;
-        public ObservableCollection<WorldDayStat> History
+        public static string LastCountryCode;
+
+        private string _countryCode;
+        public string CountryCode
+        {
+            get => _countryCode;
+            set => SetProperty(ref _countryCode, value);
+        }
+
+        private ObservableCollection<DayStatistics> _history;
+        public ObservableCollection<DayStatistics> History
         {
             get => _history;
             set => SetProperty(ref _history, value);
         }
 
-        private WorldDayStat _selectedStat;
-        public WorldDayStat SelectedStat
+        private DayStatistics _selectedStat;
+        public DayStatistics SelectedStat
         {
             get => _selectedStat;
             set => SetProperty(ref _selectedStat, value);
@@ -99,15 +108,22 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            if (this.History != null && _covidApi.GlobalHistoryLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
-                return;
-
-            await Refresh();
+            await HandlePageEntry();
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (this.History != null && _covidApi.GlobalHistoryLastUpdate.AddMilliseconds(Constants.RefreshMaxMs) > DateTime.Now)
+            await HandlePageEntry();
+        }
+
+        private async Task HandlePageEntry()
+        {
+            bool ccChanged = (LastCountryCode != Settings.MyCountryCode);
+
+            this.CountryCode = Settings.MyCountryCode;
+            LastCountryCode = this.CountryCode;
+
+            if (!ccChanged && this.History != null && _covidApi.ValidCountryHistory)
                 return;
 
             await Refresh();
@@ -115,28 +131,28 @@ namespace Covid19Numbers.ViewModels
 
         public override async Task Refresh()
         {
-            //var worldHistory = await _covidApi.GetGlobalHistory(1000);
-            //var stats = worldHistory.GetHistoricalStats();
+            var history = await _covidApi.GetCountryHistory(this.CountryCode, 1000);
+            var stats = history.GetHistoricalStats();
 
-            //this.History = new ObservableCollection<WorldDayStat>(stats);
+            this.History = new ObservableCollection<DayStatistics>(stats);
 
-            //// get highs and lows
-            //var cases = this.History.OrderByDescending(h => h.NewCases);
-            //var deaths = this.History.OrderByDescending(h => h.NewDeaths);
-            //var highCases = cases.First();
-            //var highDeaths = deaths.First();
-            //var lowCases = cases.Where(h => h.Date > DateTime.Now.AddDays(-30)).Last();
-            //var lowDeaths = deaths.Where(h => h.Date > DateTime.Now.AddDays(-30)).Last();
+            // get highs and lows
+            var cases = this.History.OrderByDescending(h => h.NewCases);
+            var deaths = this.History.OrderByDescending(h => h.NewDeaths);
+            var highCases = cases.First();
+            var highDeaths = deaths.First();
+            var lowCases = cases.Where(h => h.Date > DateTime.Now.AddDays(-30) && h.NewCases >= 0).Last();
+            var lowDeaths = deaths.Where(h => h.Date > DateTime.Now.AddDays(-30) && h.NewDeaths >= 0).Last();
 
-            //this.CasesHighDay = highCases.Date;
-            //this.CasesHigh = highCases.NewCases;
-            //this.DeathsHighDay = highDeaths.Date;
-            //this.DeathsHigh = highDeaths.NewDeaths;
+            this.CasesHighDay = highCases.Date;
+            this.CasesHigh = highCases.NewCases;
+            this.DeathsHighDay = highDeaths.Date;
+            this.DeathsHigh = highDeaths.NewDeaths;
 
-            //this.CasesLowDay = lowCases.Date;
-            //this.CasesLow = lowCases.NewCases;
-            //this.DeathsLowDay = lowDeaths.Date;
-            //this.DeathsLow = lowDeaths.NewDeaths;
+            this.CasesLowDay = lowCases.Date;
+            this.CasesLow = lowCases.NewCases;
+            this.DeathsLowDay = lowDeaths.Date;
+            this.DeathsLow = lowDeaths.NewDeaths;
         }
     }
 }
