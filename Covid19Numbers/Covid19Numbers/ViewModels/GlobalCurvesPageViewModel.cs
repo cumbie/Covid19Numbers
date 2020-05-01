@@ -129,32 +129,44 @@ namespace Covid19Numbers.ViewModels
             _curveNewDeaths.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
             _curveNewRecovered.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
 
-            // y-axis (deaths)
+            // y-axis
             var cases = this.History.OrderByDescending(h => h.Cases);
-            double minCases = Math.Min(cases.Last().Cases - 100, 0);
-            double maxCases = cases.First().Cases + 100;
+            var casesLow = cases.Last().Cases;
+            var casesHigh = cases.First().Cases;
+            double minCases = Math.Min(casesLow - 0.2 * casesLow, 0);
+            double maxCases = casesHigh + 0.2 * casesHigh;
             _curveCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minCases, Maximum = maxCases });
             var newCases = this.History.OrderByDescending(h => h.NewCases);
-            double minNewCases = Math.Min(newCases.Last().NewCases - 100, 0);
-            double maxNewCases = newCases.First().NewCases + 100;
+            var newCasesLow = newCases.Last().NewCases;
+            var newCasesHigh = newCases.First().NewCases;
+            double minNewCases = Math.Min(newCasesLow - 0.2 * newCasesLow, 0);
+            double maxNewCases = newCasesHigh + 0.2 * newCasesHigh;
             _curveNewCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewCases, Maximum = maxNewCases });
 
             var deaths = this.History.OrderByDescending(h => h.Deaths);
-            double minDeaths = Math.Min(deaths.Last().Deaths - 200, 0);
-            double maxDeaths = deaths.First().Deaths + 500;
+            var deathsLow = deaths.Last().Deaths;
+            var deathsHigh = deaths.First().Deaths;
+            double minDeaths = Math.Min(deathsLow - 0.2 * deathsLow, 0);
+            double maxDeaths = deathsHigh + 0.2 * deathsHigh;
             _curveDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minDeaths, Maximum = maxDeaths });
             var newDeaths = this.History.OrderByDescending(h => h.NewDeaths);
-            double minNewDeaths = Math.Min(newDeaths.Last().NewDeaths - 200, 0);
-            double maxNewDeaths = newDeaths.First().NewDeaths + 500;
+            var newDeathsLow = newDeaths.Last().NewDeaths;
+            var newDeathsHigh = newDeaths.First().NewDeaths;
+            double minNewDeaths = Math.Min(newDeathsLow - 0.2 * newDeathsLow, 0);
+            double maxNewDeaths = newDeathsHigh + 0.2 * newDeathsHigh;
             _curveNewDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewDeaths, Maximum = maxNewDeaths });
 
             var recovered = this.History.OrderByDescending(h => h.Recovered);
-            double minRecovered = Math.Min(recovered.Last().Recovered - 100, 0);
-            double maxRecovered = recovered.First().Recovered + 100;
+            var recoveredLow = recovered.Last().Recovered;
+            var recoveredHigh = recovered.First().Recovered;
+            double minRecovered = Math.Min(recoveredLow - 0.2 * recoveredLow, 0);
+            double maxRecovered = recoveredHigh + 0.2 * recoveredHigh;
             _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minRecovered, Maximum = maxRecovered });
             var newRecovered = this.History.OrderByDescending(h => h.NewRecovered);
-            double minNewRecovered = Math.Min(newRecovered.Last().NewRecovered - 100, 0);
-            double maxNewRecovered = newRecovered.First().NewRecovered + 100;
+            var newRecoveredLow = newRecovered.Last().NewRecovered;
+            var newRecoveredHigh = newRecovered.First().NewRecovered;
+            double minNewRecovered = Math.Min(newRecoveredLow - 0.2 * newRecoveredLow, 0);
+            double maxNewRecovered = newRecoveredHigh + 0.2 * newRecoveredHigh;
             _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewRecovered, Maximum = maxNewRecovered });
 
             var lineCases = new LineSeries { Color = OxyColors.Yellow };
