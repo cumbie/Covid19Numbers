@@ -35,8 +35,13 @@ namespace Covid19Numbers.ViewModels
                 Enum.GetValues(typeof(CurveType))
                     .Cast<CurveType>()
                     .Except(new List<CurveType> { CurveType.Unknown }).ToList());
-            //this.SelectedCurve = this.AvailableCurves.First();
+
+            NextCurveCommand = new DelegateCommand(GotoNextCurve);
+            PreviousCurveCommand = new DelegateCommand(GotoPreviousCurve);
         }
+
+        public DelegateCommand NextCurveCommand { get; set; }
+        public DelegateCommand PreviousCurveCommand { get; set; }
 
         #region Properties
 
@@ -134,12 +139,12 @@ namespace Covid19Numbers.ViewModels
             // x-axis (date)
             var minDate = DateTimeAxis.ToDouble(this.History.Last().Date);
             var maxDate = DateTimeAxis.ToDouble(this.History.First().Date);
-            _curveCases.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
-            _curveDeaths.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
-            _curveRecovered.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
-            _curveNewCases.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
-            _curveNewDeaths.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
-            _curveNewRecovered.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d" });
+            _curveCases.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
+            _curveDeaths.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
+            _curveRecovered.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
+            _curveNewCases.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
+            _curveNewDeaths.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
+            _curveNewRecovered.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = minDate, Maximum = maxDate, StringFormat = "M/d", IsPanEnabled = false, IsZoomEnabled = false });
 
             // y-axis
             var cases = this.History.OrderByDescending(h => h.Cases);
@@ -147,39 +152,39 @@ namespace Covid19Numbers.ViewModels
             var casesHigh = cases.First().Cases;
             double minCases = Math.Min(casesLow - 0.2*casesLow, 0);
             double maxCases = casesHigh + 0.2*casesHigh;
-            _curveCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minCases, Maximum = maxCases });
+            _curveCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minCases, Maximum = maxCases, IsPanEnabled = false, IsZoomEnabled = false });
             var newCases = this.History.OrderByDescending(h => h.NewCases);
             var newCasesLow = newCases.Last().NewCases;
             var newCasesHigh = newCases.First().NewCases;
             double minNewCases = Math.Min(newCasesLow - 0.2*newCasesLow, 0);
             double maxNewCases = newCasesHigh + 0.2*newCasesHigh;
-            _curveNewCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewCases, Maximum = maxNewCases });
+            _curveNewCases.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewCases, Maximum = maxNewCases, IsPanEnabled = false, IsZoomEnabled = false });
 
             var deaths = this.History.OrderByDescending(h => h.Deaths);
             var deathsLow = deaths.Last().Deaths;
             var deathsHigh = deaths.First().Deaths;
             double minDeaths = Math.Min(deathsLow - 0.2*deathsLow, 0);
             double maxDeaths = deathsHigh + 0.2*deathsHigh;
-            _curveDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minDeaths, Maximum = maxDeaths });
+            _curveDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minDeaths, Maximum = maxDeaths, IsPanEnabled = false, IsZoomEnabled = false });
             var newDeaths = this.History.OrderByDescending(h => h.NewDeaths);
             var newDeathsLow = newDeaths.Last().NewDeaths;
             var newDeathsHigh = newDeaths.First().NewDeaths;
             double minNewDeaths = Math.Min(newDeathsLow - 0.2*newDeathsLow, 0);
             double maxNewDeaths = newDeathsHigh + 0.2*newDeathsHigh;
-            _curveNewDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewDeaths, Maximum = maxNewDeaths });
+            _curveNewDeaths.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewDeaths, Maximum = maxNewDeaths, IsPanEnabled = false, IsZoomEnabled = false });
 
             var recovered = this.History.OrderByDescending(h => h.Recovered);
             var recoveredLow = recovered.Last().Recovered;
             var recoveredHigh = recovered.First().Recovered;
             double minRecovered = Math.Min(recoveredLow - 0.2*recoveredLow, 0);
             double maxRecovered = recoveredHigh + 0.2*recoveredHigh;
-            _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minRecovered, Maximum = maxRecovered });
+            _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minRecovered, Maximum = maxRecovered, IsPanEnabled = false, IsZoomEnabled = false });
             var newRecovered = this.History.OrderByDescending(h => h.NewRecovered);
             var newRecoveredLow = newRecovered.Last().NewRecovered;
             var newRecoveredHigh = newRecovered.First().NewRecovered;
             double minNewRecovered = Math.Min(newRecoveredLow - 0.2*newRecoveredLow, 0);
             double maxNewRecovered = newRecoveredHigh + 0.2*newRecoveredHigh;
-            _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewRecovered, Maximum = maxNewRecovered });
+            _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewRecovered, Maximum = maxNewRecovered, IsPanEnabled = false, IsZoomEnabled = false });
 
             var lineCases = new LineSeries { Color = OxyColors.Yellow };
             var lineNewCases = new LineSeries { Color = OxyColors.Yellow };
@@ -247,6 +252,28 @@ namespace Covid19Numbers.ViewModels
                     default:
                         break;
                 }
+            });
+        }
+
+        private void GotoNextCurve()
+        {
+            if (this.SelectedCurve == this.AvailableCurves.Last())
+                return;
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.SelectedCurve = this.SelectedCurve + 1;
+            });
+        }
+
+        private void GotoPreviousCurve()
+        {
+            if (this.SelectedCurve == this.AvailableCurves.First())
+                return;
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.SelectedCurve = this.SelectedCurve - 1;
             });
         }
     }
