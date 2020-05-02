@@ -22,12 +22,6 @@ namespace Covid19Numbers
             public static int RefreshRate = 2;
         }
 
-        public static List<SelectCountryModel> AllCountries
-        {
-            get => JsonConvert.DeserializeObject<List<SelectCountryModel>>(AllCountriesJson);
-            set => AllCountriesJson = JsonConvert.SerializeObject(value);
-        }
-
         /// <summary>
         /// The countries are stored as a raw JSON string. This is marked as private so we can abstract the json conversion
         /// out and just let access be from theAllCountries list.

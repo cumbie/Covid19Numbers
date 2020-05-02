@@ -21,7 +21,7 @@ namespace Covid19Numbers.Api
 
         // country
         string _countryEndpoint = "/v2/countries/";
-        string _countryHistoricalEndpoint = "/v2/historical"; // /{country}
+        string _countryHistoricalEndpoint = "/v2/historical/"; // /{country}/{province}
 
         // states/provinces
         string _statesEndpoint = "/states";
@@ -43,11 +43,15 @@ namespace Covid19Numbers.Api
         public DateTime CountryStatsLastUpdate { get; private set; }
         public DateTime CountryHistoryLastUpdate { get; private set; }
 
+        public DateTime ProvinceStatsLastUpdate { get; private set; }
+
         public bool ValidGlobalStats => IsStatValid(GlobalStatsLastUpdate);
         public bool ValidGlobalHistory => IsStatValid(GlobalHistoryLastUpdate);
 
         public bool ValidCountryStats => IsStatValid(CountryStatsLastUpdate);
         public bool ValidCountryHistory => IsStatValid(CountryHistoryLastUpdate);
+
+        public bool ValidProvinceStats => IsStatValid(ProvinceStatsLastUpdate);
 
         #endregion
 
@@ -125,7 +129,7 @@ namespace Covid19Numbers.Api
 
         public async Task<CountryHistory> GetCountryHistory(string countryCode, int days = 30)
         {
-            var url = Url($"{_countryHistoricalEndpoint}/{countryCode}");
+            var url = Url($"{_countryHistoricalEndpoint}{countryCode}");
             if (days > 0 && days != 30)
             {
                 url += $"?lastdays={days}";
@@ -137,6 +141,36 @@ namespace Covid19Numbers.Api
             this.CountryHistoryLastUpdate = DateTime.Now;
 
             return history;
+        }
+
+        public async Task<List<string>> GetCountryProvinces(string countryCode)
+        {
+            var history = await GetCountryHistory(countryCode, 1);
+
+            return history.Provinces;
+        }
+
+        public async Task<Province> GetProvinceStats(string countryCode, string province, int days = 30)
+        {
+            var url = Url($"{_countryHistoricalEndpoint}{countryCode}/{province}");
+            if (days > 0 && days != 30)
+            {
+                url += $"?lastdays={days}";
+            }
+            var response = await _client.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            var p = JsonConvert.DeserializeObject<Province>(json);
+            this.ProvinceStatsLastUpdate = DateTime.Now;
+
+            if (_latestGlobalTotalCases == -1 ||
+                _latestGlobalTotalDeaths == -1)
+                await GetGlobalStats();
+
+            p.TotalGlobalCases = _latestGlobalTotalCases;
+            p.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+
+            return p;
         }
     }
 }

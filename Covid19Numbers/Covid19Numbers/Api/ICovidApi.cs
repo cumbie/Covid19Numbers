@@ -13,6 +13,8 @@ namespace Covid19Numbers.Api
         bool ValidCountryStats { get; }
         bool ValidCountryHistory { get; }
 
+        bool ValidProvinceStats { get; }
+
         Task<World> GetGlobalStats();
 
         Task<WorldHistory> GetGlobalHistory(int days = 30);
@@ -22,5 +24,9 @@ namespace Covid19Numbers.Api
         Task<Country> GetCountryStats(string countryCode);
 
         Task<CountryHistory> GetCountryHistory(string countryCode, int days = 30);
+
+        Task<List<string>> GetCountryProvinces(string countryCode);
+
+        Task<Province> GetProvinceStats(string countryCode, string province, int days = 30);
     }
 }

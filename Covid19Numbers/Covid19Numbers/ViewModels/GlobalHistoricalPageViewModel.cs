@@ -99,13 +99,11 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            if (this.History != null && _covidApi.ValidGlobalHistory)
-                return;
-
-            await Refresh();
+            if (this.IsActive)
+                await HandlePageEntry();
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        private async Task HandlePageEntry()
         {
             if (this.History != null && _covidApi.ValidGlobalHistory)
                 return;

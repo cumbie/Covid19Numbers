@@ -6,15 +6,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Covid19Numbers.Models;
+using System.Threading.Tasks;
+using Covid19Numbers.Api;
 
 namespace Covid19Numbers.ViewModels
 {
     public class SelectCountryPageViewModel : ViewModelBase
     {
-        public SelectCountryPageViewModel(INavigationService navigationService)
+        ICovidApi _covidApi;
+
+        public SelectCountryPageViewModel(INavigationService navigationService, ICovidApi covidApi)
             : base(navigationService)
         {
             Title = "Select Country";
+            _covidApi = covidApi;
         }
 
         #region Properties
@@ -41,21 +46,24 @@ namespace Covid19Numbers.ViewModels
         }
 
         #endregion
-        protected override void RaiseIsActiveChanged()
+        protected override async void RaiseIsActiveChanged()
         {
             base.RaiseIsActiveChanged();
 
-            this.Countries = new ObservableCollection<SelectCountryModel>(Settings.AllCountries);
-
-            if (this.Countries != null)
-            {
-                this.SelectedCountry = this.Countries.FirstOrDefault(c => c.CountryCode == Settings.MyCountryCode);
-            }
+            if (this.IsActive)
+                await HandlePageEntry();
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        private async Task HandlePageEntry()
         {
-            this.Countries = new ObservableCollection<SelectCountryModel>(Settings.AllCountries);
+            await Refresh();
+        }
+
+        public override async Task Refresh()
+        {
+            var countries = await _covidApi.GetCountryList();
+            countries = countries.OrderByDescending(c => c.Cases).ToList();
+            this.Countries = new ObservableCollection<SelectCountryModel>(countries);
 
             if (this.Countries != null)
             {

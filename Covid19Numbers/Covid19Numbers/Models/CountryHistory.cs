@@ -67,16 +67,4 @@ namespace Covid19Numbers.Models
             return stats.OrderByDescending(h => h.Date).ToList();
         }
     }
-
-    public class CountryTimeline
-    {
-        [JsonProperty("cases")]
-        public IDictionary<DateTime, int> Cases { get; set; }
-
-        [JsonProperty("deaths")]
-        public IDictionary<DateTime, int> Deaths { get; set; }
-
-        [JsonProperty("recovered")]
-        public IDictionary<DateTime, int> Recovered { get; set; }
-    }
 }

@@ -37,8 +37,6 @@ namespace Covid19Numbers.ViewModels
                 ? Constants.AdMobAdUnitID_ad01_iOS
                 : Constants.AdMobAdUnitID_ad01_Android;
 
-            RefreshCountriesList();
-
             SelectCountryCommand = new DelegateCommand(SelectCountry);
             GotoSettingsCommand = new DelegateCommand(GotoSettings);
             GotoAboutCommand = new DelegateCommand(GotoAbout);
@@ -166,21 +164,6 @@ namespace Covid19Numbers.ViewModels
             await RefreshStats();
         }
 
-        private async Task RefreshCountriesList()
-        {
-            // TODO: this should be called when explicit refreshing and OnResume
-
-            try
-            {
-                var countries = await _covidApi.GetCountryList();
-                Settings.AllCountries = countries.OrderByDescending(c => c.Cases).ToList();
-            }
-            catch (Exception x)
-            {
-                // log, display error, etc
-            }
-        }
-
         int _stateCnt = 0;
         void CounterThread()
         {
@@ -251,8 +234,6 @@ namespace Covid19Numbers.ViewModels
 
         public override async Task Refresh()
         {
-            await RefreshCountriesList();
-
             await RefreshStats();
         }
 

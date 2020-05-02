@@ -108,12 +108,8 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            await HandlePageEntry();
-        }
-
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            await HandlePageEntry();
+            if (this.IsActive)
+                await HandlePageEntry();
         }
 
         private async Task HandlePageEntry()

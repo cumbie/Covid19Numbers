@@ -36,13 +36,11 @@ namespace Covid19Numbers.ViewModels
         {
             base.RaiseIsActiveChanged();
 
-            if (this.GlobalStats != null && _covidApi.ValidGlobalStats)
-                return;
-
-            await Refresh();
+            if (this.IsActive)
+                await HandlePageEntry();
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        private async Task HandlePageEntry()
         {
             if (this.GlobalStats != null && _covidApi.ValidGlobalStats)
                 return;
