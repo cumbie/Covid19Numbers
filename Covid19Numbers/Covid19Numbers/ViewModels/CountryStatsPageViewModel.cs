@@ -64,6 +64,13 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _selectedProvince, value);
         }
 
+        private bool _isProvinceRefreshing;
+        public bool IsProvinceRefreshing
+        {
+            get => _isProvinceRefreshing;
+            set => SetProperty(ref _isProvinceRefreshing, value);
+        }
+
         #endregion
 
         protected override async void RaiseIsActiveChanged()
@@ -96,24 +103,37 @@ namespace Covid19Numbers.ViewModels
 
             this.ProvinceStats.Clear();
 
-            List<Province> provinceStats = new List<Province>();
-            if (this.ProvinceOrState == "Provinces")
+            this.IsProvinceRefreshing = true;
+            try
             {
-                var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
-                foreach (var provinceName in provinceNames)
+
+                List<Province> provinceStats = new List<Province>();
+                if (this.ProvinceOrState == "Provinces")
                 {
-                    var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName, 1000);
-                    this.ProvinceStats.Add(stats);
+                    var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
+                    foreach (var provinceName in provinceNames)
+                    {
+                        var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName, 1000);
+                        this.ProvinceStats.Add(stats);
+                    }
+                }
+                else
+                {
+                    var states = await _covidApi.GetUsaStates();
+                    foreach (var state in states)
+                    {
+                        var stats = await _covidApi.GetUsaStateStatsAsProvince(state, 1000);
+                        this.ProvinceStats.Add(stats);
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-				var states = await _covidApi.GetUsaStates();
-				foreach (var state in states)
-                {
-                    var stats = await _covidApi.GetUsaStateStatsAsProvince(state, 1000);
-					this.ProvinceStats.Add(stats);
-				}
+
+            }
+            finally
+            {
+                this.IsProvinceRefreshing = false;
             }
         }
     }

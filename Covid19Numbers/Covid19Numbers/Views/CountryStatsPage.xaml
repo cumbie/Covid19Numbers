@@ -98,7 +98,7 @@
                HorizontalOptions="FillAndExpand"
                BackgroundColor="{StaticResource SectionHeaderColor}"/>
         <ListView Grid.Row="2"
-              SelectionMode="Single" HasUnevenRows="True"              ItemsSource="{Binding ProvinceStats}" SelectedItem="{Binding SelectedProvince, Mode=TwoWay}"              BackgroundColor="Transparent">
+              SelectionMode="Single" HasUnevenRows="True" IsRefreshing="{Binding IsProvinceRefreshing}"              ItemsSource="{Binding ProvinceStats}" SelectedItem="{Binding SelectedProvince}"              BackgroundColor="Transparent">
           <ListView.ItemTemplate>            <DataTemplate>              <ViewCell>                <Grid Padding="5" RowSpacing="2" ColumnSpacing="0" BackgroundColor="Black">                  <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
