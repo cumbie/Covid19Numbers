@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Covid19Numbers.Models;
@@ -25,7 +26,7 @@ namespace Covid19Numbers.Api
         string _countryHistoricalEndpoint = "/v2/historical/"; // /{country}/{province}
 
         // states/provinces
-        string _statesEndpoint = "/states";
+        string _statesEndpoint = "/v2/states/";
         string _statesHistoricalEndpoint = "/v2/historical/usacounties/"; // /{state}
 
         private int _latestGlobalTotalCases = -1;
@@ -47,6 +48,7 @@ namespace Covid19Numbers.Api
 
         public DateTime ProvinceStatsLastUpdate { get; private set; }
         public DateTime StateProvincesStatsLastUpdate { get; private set; }
+        public DateTime StateStatsLastUpdate { get; private set; }
 
         public bool ValidGlobalStats => IsStatValid(GlobalStatsLastUpdate);
         public bool ValidGlobalHistory => IsStatValid(GlobalHistoryLastUpdate);
@@ -56,6 +58,7 @@ namespace Covid19Numbers.Api
 
         public bool ValidProvinceStats => IsStatValid(ProvinceStatsLastUpdate);
         public bool ValidStateProvincesStats => IsStatValid(StateProvincesStatsLastUpdate);
+        public bool ValidStateStats => IsStatValid(StateStatsLastUpdate);
 
         #endregion
 
@@ -185,7 +188,7 @@ namespace Covid19Numbers.Api
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
-        public async Task<List<Province>> GetUsaStateProvincesStats(string stateName, int days = 30)
+        public async Task<List<Province>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30)
         {
             var url = Url($"{_statesHistoricalEndpoint}{stateName}");
             if (days > 0 && days != 30)
@@ -210,6 +213,64 @@ namespace Covid19Numbers.Api
             this.StateProvincesStatsLastUpdate = DateTime.Now;
 
             return provinces;
+        }
+
+        public async Task<Province> GetUsaStateStatsAsProvince(string stateName, int days = 30)
+        {
+            var stateCounties = await GetUsaStateCountiesAsProvinces(stateName, days);
+
+            Province stateProvince = new Province();
+            stateProvince.CountryName = "us";
+            stateProvince.ProvinceName = stateName;
+            stateProvince.Timeline = new CountryTimeline();
+            foreach (var stateCounty in stateCounties)
+            {
+                foreach (var kvp in stateCounty.Timeline.Cases)
+                {
+                    if (!stateProvince.Timeline.Cases.ContainsKey(kvp.Key))
+                        stateProvince.Timeline.Cases.Add(kvp.Key, kvp.Value);
+                    else
+                        stateProvince.Timeline.Cases[kvp.Key] += kvp.Value;
+                }
+                foreach (var kvp in stateCounty.Timeline.Deaths)
+                {
+                    if (!stateProvince.Timeline.Deaths.ContainsKey(kvp.Key))
+                        stateProvince.Timeline.Deaths.Add(kvp.Key, kvp.Value);
+                    else
+                        stateProvince.Timeline.Deaths[kvp.Key] += kvp.Value;
+                }
+            }
+
+            if (_latestGlobalTotalCases == -1 ||
+                _latestGlobalTotalDeaths == -1)
+                await GetGlobalStats();
+            stateProvince.TotalGlobalCases = _latestGlobalTotalCases;
+            stateProvince.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+
+            return stateProvince;
+        }
+
+        public async Task<List<State>> GetAllUsaStateStats()
+        {
+            var response = await _client.GetAsync($"{Url(_statesEndpoint)}");
+            var json = await response.Content.ReadAsStringAsync();
+
+            var states = JsonConvert.DeserializeObject<List<State>>(json);
+            this.StateStatsLastUpdate = DateTime.Now;
+
+            if (_latestGlobalTotalCases == -1 ||
+                _latestGlobalTotalDeaths == -1 ||
+                _latestGlobalTotalTests == -1)
+                await GetGlobalStats();
+
+            foreach (var state in states)
+            {
+                state.TotalGlobalCases = _latestGlobalTotalCases;
+                state.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+                state.TotalGlobalTests = _latestGlobalTotalTests;
+            }
+
+            return states;
         }
     }
 }

@@ -8,6 +8,13 @@ namespace Covid19Numbers.Models
 {
     public class CountryTimeline
     {
+        public CountryTimeline()
+        {
+            this.Cases = new Dictionary<DateTime, int>();
+            this.Deaths = new Dictionary<DateTime, int>();
+            this.Recovered = new Dictionary<DateTime, int>();
+        }
+
         [JsonProperty("cases")]
         public IDictionary<DateTime, int> Cases { get; set; }
 

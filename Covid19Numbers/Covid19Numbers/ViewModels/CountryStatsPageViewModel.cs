@@ -108,7 +108,12 @@ namespace Covid19Numbers.ViewModels
             }
             else
             {
-                // TODO: get usa state stats as List<Province>
+                // var states = await _covidApi.GetUsaStates();
+                foreach (var state in states)
+                {
+                    var stats = await _covidApi.GetUsaStateStatsAsProvince(state, 1000);
+					this.ProvinceStats.Add(stats);
+				}
             }
         }
     }
