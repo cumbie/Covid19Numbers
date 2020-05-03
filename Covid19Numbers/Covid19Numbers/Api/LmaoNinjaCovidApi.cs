@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Covid19Numbers.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Covid19Numbers.Api
 {
@@ -25,6 +26,7 @@ namespace Covid19Numbers.Api
 
         // states/provinces
         string _statesEndpoint = "/states";
+        string _statesHistoricalEndpoint = "/v2/historical/usacounties/"; // /{state}
 
         private int _latestGlobalTotalCases = -1;
         private int _latestGlobalTotalDeaths = -1;
@@ -44,6 +46,7 @@ namespace Covid19Numbers.Api
         public DateTime CountryHistoryLastUpdate { get; private set; }
 
         public DateTime ProvinceStatsLastUpdate { get; private set; }
+        public DateTime StateProvincesStatsLastUpdate { get; private set; }
 
         public bool ValidGlobalStats => IsStatValid(GlobalStatsLastUpdate);
         public bool ValidGlobalHistory => IsStatValid(GlobalHistoryLastUpdate);
@@ -52,6 +55,7 @@ namespace Covid19Numbers.Api
         public bool ValidCountryHistory => IsStatValid(CountryHistoryLastUpdate);
 
         public bool ValidProvinceStats => IsStatValid(ProvinceStatsLastUpdate);
+        public bool ValidStateProvincesStats => IsStatValid(StateProvincesStatsLastUpdate);
 
         #endregion
 
@@ -171,6 +175,41 @@ namespace Covid19Numbers.Api
             p.TotalGlobalDeaths = _latestGlobalTotalDeaths;
 
             return p;
+        }
+
+        public async Task<List<string>> GetUsaStates()
+        {
+            var response = await _client.GetAsync($"{Url(_statesHistoricalEndpoint)}");
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<List<string>>(json);
+        }
+
+        public async Task<List<Province>> GetUsaStateProvincesStats(string stateName, int days = 30)
+        {
+            var url = Url($"{_statesHistoricalEndpoint}{stateName}");
+            if (days > 0 && days != 30)
+            {
+                url += $"?lastdays={days}";
+            }
+            var response = await _client.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            var provinces = JsonConvert.DeserializeObject<List<Province>>(json);
+
+            if (_latestGlobalTotalCases == -1 ||
+                _latestGlobalTotalDeaths == -1)
+                await GetGlobalStats();
+            foreach (var province in provinces)
+            {
+                province.CountryName = "us";
+                province.TotalGlobalCases = _latestGlobalTotalCases;
+                province.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            }
+
+            this.StateProvincesStatsLastUpdate = DateTime.Now;
+
+            return provinces;
         }
     }
 }
