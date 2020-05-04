@@ -18,7 +18,6 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="auto"/>
           <RowDefinition Height="auto"/>
-          <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid BindingContext="{Binding CountryStats}" Padding="10,0" ColumnSpacing="0" RowSpacing="1">
@@ -95,36 +94,7 @@
           <Label Grid.Row="10" Grid.Column="1" Text="{Binding UpdateTime, StringFormat='{0:dd MMM yyyy hh:mm:ss tt} (UTC)'}" Style="{StaticResource LabelValue}" />
         </Grid>
 
-        <Label Grid.Row="1" Text="{Binding ProvinceOrState}" Style="{StaticResource LabelHeading1}"
-               HorizontalOptions="FillAndExpand"
-               BackgroundColor="{StaticResource SectionHeaderColor}"/>
-        <ListView Grid.Row="2"
-              SelectionMode="Single" HasUnevenRows="True" IsRefreshing="{Binding IsRefreshing}"              ItemsSource="{Binding ProvinceStats}" SelectedItem="{Binding SelectedProvince}"               BackgroundColor="Transparent">
-          <ListView.ItemTemplate>            <DataTemplate>              <ViewCell>                <Grid Padding="5" RowSpacing="2" ColumnSpacing="0" BackgroundColor="Black">                  <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                  </Grid.RowDefinitions>                  <Grid.ColumnDefinitions>                    <ColumnDefinition Width="auto"/>                    <ColumnDefinition/>                  </Grid.ColumnDefinitions>                  <Label Grid.ColumnSpan="2" Text="{Binding ProvinceName}"                         TextColor="White"                         HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>                  <Label Grid.Row="1" Text="Total Cases" Style="{StaticResource LabelHeading}"/>
-                  <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-                    <Label Text="{Binding PercentCases, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-                    <Label Text="{Binding Cases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
-                  </StackLayout>
-
-                  <Label Grid.Row="2" Text="Total Deaths" Style="{StaticResource LabelHeading}"/>
-                  <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-                    <Label Text="{Binding PercentDeaths, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-                    <Label Text="{Binding Deaths, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
-                  </StackLayout>
-      
-                  <Label Grid.Row="3" Text="Recovered" Style="{StaticResource LabelHeading}"/>
-                  <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="0">
-                    <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-                    <Label Text="{Binding Recovered, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
-                  </StackLayout>                </Grid>              </ViewCell>            </DataTemplate>          </ListView.ItemTemplate>
-        </ListView>
-
-        <!--<controls:AdMobView Grid.Row="13" Grid.ColumnSpan="2" AdUnitId="{Binding AdUnitID}" BackgroundColor="Transparent"
+        <!--<controls:AdMobView Grid.Row="2" AdUnitId="{Binding AdUnitID}" BackgroundColor="Transparent"
                             HorizontalOptions="FillAndExpand"/>-->
       </Grid>
     </ScrollView>

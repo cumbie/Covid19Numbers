@@ -43,6 +43,7 @@ namespace Covid19Numbers
             containerRegistry.RegisterForNavigation<CountryStatsTabbedPage, CountryStatsTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<CountryHistoricalPage, CountryHistoricalPageViewModel>();
             containerRegistry.RegisterForNavigation<CountryCurvesPage, CountryCurvesPageViewModel>();
+            containerRegistry.RegisterForNavigation<CountryProvincesPage, CountryProvincesPageViewModel>();
         }
     }
 }

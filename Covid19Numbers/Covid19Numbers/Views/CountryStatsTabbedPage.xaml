@@ -9,6 +9,7 @@
   <views:CountryStatsPage />
   <views:CountryHistoricalPage/>
   <views:CountryCurvesPage />
+  <views:CountryProvincesPage/>
   <views:SelectCountryPage />
 
 </TabbedPage>

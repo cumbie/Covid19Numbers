@@ -29,11 +29,7 @@ namespace Covid19Numbers.ViewModels
         public string CountryCode
         {
             get => _countryCode;
-            set
-            {
-                SetProperty(ref _countryCode, value);
-                this.ProvinceOrState = (_countryCode.ToLower() == "us" || _countryCode.ToLower() == "usa") ? "States" : "Provinces";
-            }
+            set => SetProperty(ref _countryCode, value);
         }
 
         private Country _countryStats;
@@ -41,27 +37,6 @@ namespace Covid19Numbers.ViewModels
         {
             get => _countryStats;
             set => SetProperty(ref _countryStats, value);
-        }
-
-        private string _provinceOrState;
-        public string ProvinceOrState
-        {
-            get => _provinceOrState;
-            set => SetProperty(ref _provinceOrState, value);
-        }
-
-        private ObservableCollection<Province> _provinceStats = new ObservableCollection<Province>();
-        public ObservableCollection<Province> ProvinceStats
-        {
-            get => _provinceStats;
-            set => SetProperty(ref _provinceStats, value);
-        }
-
-        private Province _selectedProvince;
-        public Province SelectedProvince
-        {
-            get => _selectedProvince;
-            set => SetProperty(ref _selectedProvince, value);
         }
 
         #endregion
@@ -93,37 +68,6 @@ namespace Covid19Numbers.ViewModels
                 return;
 
             this.CountryStats = await _covidApi.GetCountryStats(this.CountryCode);
-
-            // TODO: need to manage a previous refresh when country changes to avoid
-            // getting provinces from other countries mixed together
-            if (this.IsRefreshing)
-            {
-                // abort -> break existing refresh loop
-                // wait until IsRefreshing == false
-                // proceed
-            }
-
-            this.ProvinceStats.Clear();
-
-            if (this.ProvinceOrState == "Provinces")
-            {
-                var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
-                foreach (var provinceName in provinceNames)
-                {
-                    var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName);
-                    this.ProvinceStats.Add(stats);
-                }
-            }
-            else
-            {
-                var states = await _covidApi.GetUsaStates();
-                foreach (var state in states)
-                {
-                    var stats = await _covidApi.GetUsaStateStatsAsProvince(state);
-                    if (stats != null)
-                        this.ProvinceStats.Add(stats);
-                }
-            }
         }
     }
 }
