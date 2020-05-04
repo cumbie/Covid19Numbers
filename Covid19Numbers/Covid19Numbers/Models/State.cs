@@ -10,6 +10,9 @@ namespace Covid19Numbers.Models
         {
         }
 
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
         // list of these:
         //[
         //  {
@@ -62,13 +65,16 @@ namespace Covid19Numbers.Models
         public double PercentCases => Math.Round(100.0 * (double)this.Cases / this.TotalCountryCases, 3);
 
         [JsonIgnore]
-        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalCountryDeaths, 3);
+        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.Cases, 3);
+
+        [JsonIgnore]
+        public double PercentTotalDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalCountryDeaths, 3);
 
         [JsonIgnore]
         public double PercentTodayDeaths => (this.TodayCases != 0) ? Math.Round(100.0 * (double)this.TodayDeaths / this.TodayCases, 3) : 0;
 
         [JsonIgnore]
-        public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.TotalCountryCases, 3);
+        public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.Cases, 3);
 
         [JsonIgnore]
         public double PercentActive => (this.Cases != 0) ? Math.Round(100.0 * (double)this.Active / this.Cases, 3) : 0;

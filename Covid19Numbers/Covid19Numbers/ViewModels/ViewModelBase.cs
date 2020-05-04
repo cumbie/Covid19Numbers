@@ -22,10 +22,15 @@ namespace Covid19Numbers.ViewModels
             RefreshCommand = new DelegateCommand(async () =>
             {
                 this.IsRefreshing = true;
-
-                await Refresh();
-
-                this.IsRefreshing = false;
+                try
+                {
+                    await Refresh();
+                }
+                catch { }
+                finally
+                {
+                    this.IsRefreshing = false;
+                }
             });
         }
 

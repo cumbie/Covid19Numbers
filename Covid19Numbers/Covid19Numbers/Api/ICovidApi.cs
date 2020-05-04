@@ -41,9 +41,9 @@ namespace Covid19Numbers.Api
 
         Task<List<ProvinceHistory>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30);
 
-        Task<ProvinceHistory> GetUsaStateStatsAsProvince(string stateName, int days = 30);
+        Task<Province> GetUsaStateStatsAsProvince(string stateName);
 
-		Task<List<Province>> GetAllUsaStateStatsAsProvince();
+        Task<List<Province>> GetAllUsaStateStatsAsProvince();
 
 		Task<List<State>> GetAllUsaStateStats();
     }

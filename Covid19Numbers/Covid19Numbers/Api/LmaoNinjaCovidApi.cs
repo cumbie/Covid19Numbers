@@ -214,10 +214,26 @@ namespace Covid19Numbers.Api
 
         public async Task<List<string>> GetUsaStates()
         {
+            // combine list from _statesHistoricalEndpoint and _statesEndpoint
+            // and then add checks to other APIs to call other endpoints to get correct data
+
+            // from historical
             var response = await _client.GetAsync($"{Url(_statesHistoricalEndpoint)}");
             var json = await response.Content.ReadAsStringAsync();
+            var historyStates = JsonConvert.DeserializeObject<List<string>>(json).ToList();
 
-            return JsonConvert.DeserializeObject<List<string>>(json);
+            // from states
+            response = await _client.GetAsync($"{Url(_statesEndpoint)}");
+            json = await response.Content.ReadAsStringAsync();
+            var states = JsonConvert.DeserializeObject<List<State>>(json);
+            var stateNames = states.Select(s => s.StateName.ToLower()).ToList();
+
+            historyStates.AddRange(stateNames);
+
+            var aggregateStateNames = historyStates.Distinct().ToList();
+            aggregateStateNames.Sort();
+
+            return aggregateStateNames;
         }
 
         public async Task<List<ProvinceHistory>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30)
@@ -250,50 +266,64 @@ namespace Covid19Numbers.Api
             return provinces;
         }
 
-        public async Task<ProvinceHistory> GetUsaStateStatsAsProvince(string stateName, int days = 30)
+        public async Task<Province> GetUsaStateStatsAsProvince(string stateName)
         {
-            var stateCounties = await GetUsaStateCountiesAsProvinces(stateName, days);
+            Province province = null;
 
             string countryCode = "us";
-
-            ProvinceHistory stateProvince = new ProvinceHistory();
-            stateProvince.CountryName = countryCode;
-            stateProvince.ProvinceName = stateName;
-            stateProvince.Timeline = new CountryTimeline();
-            foreach (var stateCounty in stateCounties)
-            {
-                foreach (var kvp in stateCounty.Timeline.Cases)
-                {
-                    if (!stateProvince.Timeline.Cases.ContainsKey(kvp.Key))
-                        stateProvince.Timeline.Cases.Add(kvp.Key, kvp.Value);
-                    else
-                        stateProvince.Timeline.Cases[kvp.Key] += kvp.Value;
-                }
-                foreach (var kvp in stateCounty.Timeline.Deaths)
-                {
-                    if (!stateProvince.Timeline.Deaths.ContainsKey(kvp.Key))
-                        stateProvince.Timeline.Deaths.Add(kvp.Key, kvp.Value);
-                    else
-                        stateProvince.Timeline.Deaths[kvp.Key] += kvp.Value;
-                }
-                foreach (var kvp in stateCounty.Timeline.Recovered)
-                {
-                    if (!stateProvince.Timeline.Recovered.ContainsKey(kvp.Key))
-                        stateProvince.Timeline.Recovered.Add(kvp.Key, kvp.Value);
-                    else
-                        stateProvince.Timeline.Recovered[kvp.Key] += kvp.Value;
-                }
-            }
-
             if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
                 !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
                 !_latestCountryTotalTests.ContainsKey(countryCode))
                 await GetCountryStats(countryCode);
 
-            stateProvince.TotalCountryCases = _latestCountryTotalCases[countryCode];
-            stateProvince.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+            var response = await _client.GetAsync(Url($"{_statesEndpoint}{stateName}"));
+            var json = await response.Content.ReadAsStringAsync();
 
-            return stateProvince;
+            try
+            {
+                // try state endpoint first
+                var state = JsonConvert.DeserializeObject<State>(json);
+                if (string.IsNullOrWhiteSpace(state.Message)) // stateName found (no error)
+                {
+                    province = new Province
+                    {
+                        CountryName = countryCode,
+                        ProvinceName = stateName,
+                        Cases = state.Cases,
+                        Deaths = state.Deaths,
+                        Recovered = state.Recovered,
+                        TotalCountryCases = _latestCountryTotalCases[countryCode],
+                        TotalCountryDeaths = _latestCountryTotalDeaths[countryCode]
+                    };
+                }
+                else
+                {
+                    // not found, try other endpoint
+                    Province tmpProvince = new Province
+                    {
+                        CountryName = countryCode,
+                        ProvinceName = stateName,
+                        TotalCountryCases = _latestCountryTotalCases[countryCode],
+                        TotalCountryDeaths = _latestCountryTotalDeaths[countryCode]
+                    };
+                    
+                    var stateCounties = await GetUsaStateCountiesAsProvinces(stateName, 1);
+                    foreach (var stateCounty in stateCounties)
+                    {
+                        tmpProvince.Cases += stateCounty.Cases;
+                        tmpProvince.Deaths += stateCounty.Deaths;
+                        tmpProvince.Recovered += stateCounty.Recovered;
+                    }
+
+                    province = tmpProvince;
+                }
+            }
+            catch (Exception x)
+            {
+
+            }
+
+            return province;
         }
 
         public async Task<List<Province>> GetAllUsaStateStatsAsProvince()
@@ -320,6 +350,8 @@ namespace Covid19Numbers.Api
 
                 province.TotalCountryCases = _latestCountryTotalCases[countryCode];
                 province.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+
+                provinces.Add(province);
             }
 
             return provinces;

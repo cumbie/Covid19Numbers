@@ -50,38 +50,18 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _provinceOrState, value);
         }
 
-        //private ObservableCollection<Province> _provinceStats = new ObservableCollection<Province>();
-        //public ObservableCollection<Province> ProvinceStats
-        //{
-        //    get => _provinceStats;
-        //    set => SetProperty(ref _provinceStats, value);
-        //}
-
-        //private Province _selectedProvince;
-        //public Province SelectedProvince
-        //{
-        //    get => _selectedProvince;
-        //    set => SetProperty(ref _selectedProvince, value);
-        //}
-        private ObservableCollection<ProvinceHistory> _provinceStats = new ObservableCollection<ProvinceHistory>();
-        public ObservableCollection<ProvinceHistory> ProvinceStats
+        private ObservableCollection<Province> _provinceStats = new ObservableCollection<Province>();
+        public ObservableCollection<Province> ProvinceStats
         {
             get => _provinceStats;
             set => SetProperty(ref _provinceStats, value);
         }
 
-        private ProvinceHistory _selectedProvince;
-        public ProvinceHistory SelectedProvince
+        private Province _selectedProvince;
+        public Province SelectedProvince
         {
             get => _selectedProvince;
             set => SetProperty(ref _selectedProvince, value);
-        }
-
-        private bool _isProvinceRefreshing;
-        public bool IsProvinceRefreshing
-        {
-            get => _isProvinceRefreshing;
-            set => SetProperty(ref _isProvinceRefreshing, value);
         }
 
         #endregion
@@ -114,40 +94,35 @@ namespace Covid19Numbers.ViewModels
 
             this.CountryStats = await _covidApi.GetCountryStats(this.CountryCode);
 
+            // TODO: need to manage a previous refresh when country changes to avoid
+            // getting provinces from other countries mixed together
+            if (this.IsRefreshing)
+            {
+                // abort -> break existing refresh loop
+                // wait until IsRefreshing == false
+                // proceed
+            }
+
             this.ProvinceStats.Clear();
 
-            this.IsProvinceRefreshing = true;
-            try
+            if (this.ProvinceOrState == "Provinces")
             {
-
-                List<Province> provinceStats = new List<Province>();
-                if (this.ProvinceOrState == "Provinces")
+                var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
+                foreach (var provinceName in provinceNames)
                 {
-                    var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
-                    foreach (var provinceName in provinceNames)
-                    {
-                        ///var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName);
-                        var stats = await _covidApi.GetProvinceHistory(this.CountryCode, provinceName, 1);
-                        this.ProvinceStats.Add(stats);
-                    }
-                }
-                else
-                {
-                    var states = await _covidApi.GetUsaStates();
-                    foreach (var state in states)
-                    {
-                        var stats = await _covidApi.GetUsaStateStatsAsProvince(state, 1000);
-                        this.ProvinceStats.Add(stats);
-                    }
+                    var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName);
+                    this.ProvinceStats.Add(stats);
                 }
             }
-            catch (Exception)
+            else
             {
-
-            }
-            finally
-            {
-                this.IsProvinceRefreshing = false;
+                var states = await _covidApi.GetUsaStates();
+                foreach (var state in states)
+                {
+                    var stats = await _covidApi.GetUsaStateStatsAsProvince(state);
+                    if (stats != null)
+                        this.ProvinceStats.Add(stats);
+                }
             }
         }
     }
