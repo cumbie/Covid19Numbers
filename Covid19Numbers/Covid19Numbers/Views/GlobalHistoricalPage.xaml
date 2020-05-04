@@ -41,15 +41,15 @@
           </Grid.ColumnDefinitions>
 
           <Label Grid.RowSpan="2" Text="High Day" Style="{StaticResource LabelHeading}"/>
-          <Label Grid.Column="1" Text="{Binding CasesHigh}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
+          <Label Grid.Column="1" Text="{Binding CasesHigh, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
           <Label Grid.Column="2" Text="{Binding CasesHighDay, StringFormat='Cases on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
-          <Label Grid.Row="1" Grid.Column="1" Text="{Binding DeathsHigh}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
+          <Label Grid.Row="1" Grid.Column="1" Text="{Binding DeathsHigh, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
           <Label Grid.Row="1" Grid.Column="2" Text="{Binding DeathsHighDay, StringFormat='Deaths on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
           
           <Label Grid.Row="2" Grid.RowSpan="2" Text="Low Day (last 30 days)" Style="{StaticResource LabelHeading}"/>
-          <Label Grid.Row="2" Grid.Column="1" Text="{Binding CasesLow}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
+          <Label Grid.Row="2" Grid.Column="1" Text="{Binding CasesLow, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
           <Label Grid.Row="2" Grid.Column="2" Text="{Binding CasesLowDay, StringFormat='Cases on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
-          <Label Grid.Row="3" Grid.Column="1" Text="{Binding DeathsLow}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
+          <Label Grid.Row="3" Grid.Column="1" Text="{Binding DeathsLow, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
           <Label Grid.Row="3" Grid.Column="2" Text="{Binding DeathsLowDay, StringFormat='Deaths on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
           
         </Grid>

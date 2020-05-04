@@ -49,11 +49,11 @@
           <Label Grid.Row="2" Text="Total Cases" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentCases, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding Cases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
+            <Label Text="{Binding Cases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
           </StackLayout>
 
           <Label Grid.Row="3" Text="Today Cases" Style="{StaticResource LabelHeading}"/>
-          <Label Grid.Row="3" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
+          <Label Grid.Row="3" Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
 
           <Label Grid.Row="4" Text="Total Deaths" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Spacing="0">
@@ -64,31 +64,31 @@
           <Label Grid.Row="5" Text="Today Deaths" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentTodayDeaths, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding TodayDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
+            <Label Text="{Binding TodayDeaths, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
           </StackLayout>
       
           <Label Grid.Row="6" Text="Active" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding Active, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
+            <Label Text="{Binding Active, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
           </StackLayout>
 
           <Label Grid.Row="7" Text="Recovered" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
+            <Label Text="{Binding Recovered, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
           </StackLayout>
 
           <Label Grid.Row="8" Text="Critical" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="8" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentCritical, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding Critical, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
+            <Label Text="{Binding Critical, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
           </StackLayout>
       
           <Label Grid.Row="9" Text="Tests" Style="{StaticResource LabelHeading}"/>
           <StackLayout Grid.Row="9" Grid.Column="1" Orientation="Horizontal" Spacing="0">
             <Label Text="{Binding PercentTests, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-            <Label Text="{Binding Tests, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
+            <Label Text="{Binding Tests, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
           </StackLayout>
 
           <Label Grid.Row="10" Text="Last Update" Style="{StaticResource LabelHeading}"/>
@@ -108,7 +108,7 @@
                   </Grid.RowDefinitions>                  <Grid.ColumnDefinitions>                    <ColumnDefinition Width="auto"/>                    <ColumnDefinition/>                  </Grid.ColumnDefinitions>                  <Label Grid.ColumnSpan="2" Text="{Binding ProvinceName}"                         TextColor="White"                         HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>                  <Label Grid.Row="1" Text="Total Cases" Style="{StaticResource LabelHeading}"/>
                   <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">
                     <Label Text="{Binding PercentCases, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-                    <Label Text="{Binding Cases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
+                    <Label Text="{Binding Cases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
                   </StackLayout>
 
                   <Label Grid.Row="2" Text="Total Deaths" Style="{StaticResource LabelHeading}"/>
@@ -120,7 +120,7 @@
                   <Label Grid.Row="3" Text="Recovered" Style="{StaticResource LabelHeading}"/>
                   <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="0">
                     <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
-                    <Label Text="{Binding Recovered, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValue}" />
+                    <Label Text="{Binding Recovered, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
                   </StackLayout>                </Grid>              </ViewCell>            </DataTemplate>          </ListView.ItemTemplate>
         </ListView>
 

@@ -71,7 +71,7 @@
 
             <Frame Grid.Row="1" Style="{StaticResource FrameValue}">
               <StackLayout>
-                <Label Text="{Binding TotalCountryCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
+                <Label Text="{Binding TotalCountryCases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValueLarge}"
                       TextColor="{StaticResource CasesTextColor}"/>
                 <Label Text="{Binding CountryCasesPercent, StringFormat='Cases ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
               </StackLayout>
@@ -79,7 +79,7 @@
 
             <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource FrameValue}">
               <StackLayout>
-                <Label Text="{Binding TotalCountryDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
+                <Label Text="{Binding TotalCountryDeaths, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource DeathsTextColor}"/>
                 <Label Text="{Binding CountryDeathsPercent, StringFormat='Deaths ({0:0.0}%)'}" Style="{StaticResource LabelHeading3}"/>
               </StackLayout>
@@ -88,7 +88,7 @@
             <Label Grid.Row="2" Grid.ColumnSpan="2" Text="Today" Style="{StaticResource LabelHeading2}"/>
             <Frame Grid.Row="3" Style="{StaticResource FrameValue}">
               <StackLayout>
-                <Label Text="{Binding TotalCountryTodayCases, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
+                <Label Text="{Binding TotalCountryTodayCases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource CasesTextColor}"/>
                 <Label Text="Cases" Style="{StaticResource LabelHeading3}" />
               </StackLayout>
@@ -96,7 +96,7 @@
       
             <Frame Grid.Row="3" Grid.Column="1" Style="{StaticResource FrameValue}">
               <StackLayout>
-                <Label Text="{Binding TotalCountryTodayDeaths, StringFormat='{0:0,0}'}" Style="{StaticResource LabelValueLarge}"
+                <Label Text="{Binding TotalCountryTodayDeaths, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValueLarge}"
                        TextColor="{StaticResource DeathsTextColor}"/>
                 <Label Text="Deaths" Style="{StaticResource LabelHeading3}" />
               </StackLayout>
