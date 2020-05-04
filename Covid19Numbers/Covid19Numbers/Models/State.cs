@@ -47,28 +47,34 @@ namespace Covid19Numbers.Models
         #region Internal Values
 
         [JsonIgnore]
-        public double TotalGlobalCases { get; set; }
+        public double TotalCountryCases { get; set; }
 
         [JsonIgnore]
-        public double TotalGlobalDeaths { get; set; }
+        public double TotalCountryDeaths { get; set; }
 
         [JsonIgnore]
-        public double TotalGlobalTests { get; set; }
+        public double TotalCountryTests { get; set; }
 
         [JsonIgnore]
-        public double PercentCases => Math.Round(100.0 * (double)this.Cases / this.TotalGlobalCases, 3);
+        public int Recovered => this.Cases - this.Active;
 
         [JsonIgnore]
-        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalGlobalDeaths, 3);
+        public double PercentCases => Math.Round(100.0 * (double)this.Cases / this.TotalCountryCases, 3);
+
+        [JsonIgnore]
+        public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalCountryDeaths, 3);
 
         [JsonIgnore]
         public double PercentTodayDeaths => (this.TodayCases != 0) ? Math.Round(100.0 * (double)this.TodayDeaths / this.TodayCases, 3) : 0;
 
         [JsonIgnore]
+        public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.TotalCountryCases, 3);
+
+        [JsonIgnore]
         public double PercentActive => (this.Cases != 0) ? Math.Round(100.0 * (double)this.Active / this.Cases, 3) : 0;
 
         [JsonIgnore]
-        public double PercentTests => Math.Round(100.0 * (double)this.Tests / this.TotalGlobalTests, 3);
+        public double PercentTests => Math.Round(100.0 * (double)this.Tests / this.TotalCountryTests, 3);
 
         #endregion
     }

@@ -50,15 +50,28 @@ namespace Covid19Numbers.ViewModels
             set => SetProperty(ref _provinceOrState, value);
         }
 
-        private ObservableCollection<Province> _provinceStats = new ObservableCollection<Province>();
-        public ObservableCollection<Province> ProvinceStats
+        //private ObservableCollection<Province> _provinceStats = new ObservableCollection<Province>();
+        //public ObservableCollection<Province> ProvinceStats
+        //{
+        //    get => _provinceStats;
+        //    set => SetProperty(ref _provinceStats, value);
+        //}
+
+        //private Province _selectedProvince;
+        //public Province SelectedProvince
+        //{
+        //    get => _selectedProvince;
+        //    set => SetProperty(ref _selectedProvince, value);
+        //}
+        private ObservableCollection<ProvinceHistory> _provinceStats = new ObservableCollection<ProvinceHistory>();
+        public ObservableCollection<ProvinceHistory> ProvinceStats
         {
             get => _provinceStats;
             set => SetProperty(ref _provinceStats, value);
         }
 
-        private Province _selectedProvince;
-        public Province SelectedProvince
+        private ProvinceHistory _selectedProvince;
+        public ProvinceHistory SelectedProvince
         {
             get => _selectedProvince;
             set => SetProperty(ref _selectedProvince, value);
@@ -113,7 +126,8 @@ namespace Covid19Numbers.ViewModels
                     var provinceNames = await _covidApi.GetCountryProvinces(this.CountryCode);
                     foreach (var provinceName in provinceNames)
                     {
-                        var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName, 1000);
+                        ///var stats = await _covidApi.GetProvinceStats(this.CountryCode, provinceName);
+                        var stats = await _covidApi.GetProvinceHistory(this.CountryCode, provinceName, 1);
                         this.ProvinceStats.Add(stats);
                     }
                 }

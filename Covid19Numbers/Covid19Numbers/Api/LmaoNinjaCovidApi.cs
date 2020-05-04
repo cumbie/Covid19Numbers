@@ -33,6 +33,10 @@ namespace Covid19Numbers.Api
         private int _latestGlobalTotalDeaths = -1;
         private int _latestGlobalTotalTests = -1;
 
+        private Dictionary<string, int> _latestCountryTotalCases = new Dictionary<string, int>();
+        private Dictionary<string, int> _latestCountryTotalDeaths = new Dictionary<string, int>();
+        private Dictionary<string, int> _latestCountryTotalTests = new Dictionary<string, int>();
+
         public LmaoNinjaCovidApi()
         {
             _client = new HttpClient();
@@ -47,6 +51,7 @@ namespace Covid19Numbers.Api
         public DateTime CountryHistoryLastUpdate { get; private set; }
 
         public DateTime ProvinceStatsLastUpdate { get; private set; }
+        public DateTime ProvinceHistoryLastUpdate { get; private set; }
         public DateTime StateProvincesStatsLastUpdate { get; private set; }
         public DateTime StateStatsLastUpdate { get; private set; }
 
@@ -57,6 +62,7 @@ namespace Covid19Numbers.Api
         public bool ValidCountryHistory => IsStatValid(CountryHistoryLastUpdate);
 
         public bool ValidProvinceStats => IsStatValid(ProvinceStatsLastUpdate);
+        public bool ValidProvinceHistory => IsStatValid(ProvinceHistoryLastUpdate);
         public bool ValidStateProvincesStats => IsStatValid(StateProvincesStatsLastUpdate);
         public bool ValidStateStats => IsStatValid(StateStatsLastUpdate);
 
@@ -131,6 +137,10 @@ namespace Covid19Numbers.Api
             country.TotalGlobalDeaths = _latestGlobalTotalDeaths;
             country.TotalGlobalTests = _latestGlobalTotalTests;
 
+            _latestCountryTotalCases[countryCode] = country.Cases;
+            _latestCountryTotalDeaths[countryCode] = country.Deaths;
+            _latestCountryTotalTests[countryCode] = country.Tests;
+
             return country;
         }
 
@@ -157,8 +167,30 @@ namespace Covid19Numbers.Api
             return history.Provinces;
         }
 
-        public async Task<Province> GetProvinceStats(string countryCode, string province, int days = 30)
+        public async Task<Province> GetProvinceStats(string countryCode, string province)
         {
+            var history = await GetProvinceHistory(countryCode, province, 1000);
+            Province p = new Province();
+            p.CountryName = history.CountryName;
+            p.ProvinceName = history.ProvinceName;
+            p.Cases = history.Cases;
+            p.Deaths = history.Deaths;
+            p.Recovered = history.Recovered;
+
+            this.ProvinceStatsLastUpdate = DateTime.Now;
+
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            p.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            p.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+
+            return p;
+        }
+
+        public async Task<ProvinceHistory> GetProvinceHistory(string countryCode, string province, int days = 30)
+		{
             var url = Url($"{_countryHistoricalEndpoint}{countryCode}/{province}");
             if (days > 0 && days != 30)
             {
@@ -167,15 +199,15 @@ namespace Covid19Numbers.Api
             var response = await _client.GetAsync(url);
             var json = await response.Content.ReadAsStringAsync();
 
-            var p = JsonConvert.DeserializeObject<Province>(json);
-            this.ProvinceStatsLastUpdate = DateTime.Now;
+            var p = JsonConvert.DeserializeObject<ProvinceHistory>(json);
+            this.ProvinceHistoryLastUpdate = DateTime.Now;
 
-            if (_latestGlobalTotalCases == -1 ||
-                _latestGlobalTotalDeaths == -1)
-                await GetGlobalStats();
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
 
-            p.TotalGlobalCases = _latestGlobalTotalCases;
-            p.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            p.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            p.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
 
             return p;
         }
@@ -188,7 +220,7 @@ namespace Covid19Numbers.Api
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
-        public async Task<List<Province>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30)
+        public async Task<List<ProvinceHistory>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30)
         {
             var url = Url($"{_statesHistoricalEndpoint}{stateName}");
             if (days > 0 && days != 30)
@@ -198,16 +230,19 @@ namespace Covid19Numbers.Api
             var response = await _client.GetAsync(url);
             var json = await response.Content.ReadAsStringAsync();
 
-            var provinces = JsonConvert.DeserializeObject<List<Province>>(json);
+            var provinces = JsonConvert.DeserializeObject<List<ProvinceHistory>>(json);
 
-            if (_latestGlobalTotalCases == -1 ||
-                _latestGlobalTotalDeaths == -1)
-                await GetGlobalStats();
+            string countryCode = "us";
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalTests.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
             foreach (var province in provinces)
             {
-                province.CountryName = "us";
-                province.TotalGlobalCases = _latestGlobalTotalCases;
-                province.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+                province.CountryName = countryCode;
+                province.TotalCountryCases = _latestCountryTotalCases[countryCode];
+                province.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
             }
 
             this.StateProvincesStatsLastUpdate = DateTime.Now;
@@ -215,12 +250,14 @@ namespace Covid19Numbers.Api
             return provinces;
         }
 
-        public async Task<Province> GetUsaStateStatsAsProvince(string stateName, int days = 30)
+        public async Task<ProvinceHistory> GetUsaStateStatsAsProvince(string stateName, int days = 30)
         {
             var stateCounties = await GetUsaStateCountiesAsProvinces(stateName, days);
 
-            Province stateProvince = new Province();
-            stateProvince.CountryName = "us";
+            string countryCode = "us";
+
+            ProvinceHistory stateProvince = new ProvinceHistory();
+            stateProvince.CountryName = countryCode;
             stateProvince.ProvinceName = stateName;
             stateProvince.Timeline = new CountryTimeline();
             foreach (var stateCounty in stateCounties)
@@ -239,16 +276,54 @@ namespace Covid19Numbers.Api
                     else
                         stateProvince.Timeline.Deaths[kvp.Key] += kvp.Value;
                 }
+                foreach (var kvp in stateCounty.Timeline.Recovered)
+                {
+                    if (!stateProvince.Timeline.Recovered.ContainsKey(kvp.Key))
+                        stateProvince.Timeline.Recovered.Add(kvp.Key, kvp.Value);
+                    else
+                        stateProvince.Timeline.Recovered[kvp.Key] += kvp.Value;
+                }
             }
 
-            if (_latestGlobalTotalCases == -1 ||
-                _latestGlobalTotalDeaths == -1)
-                await GetGlobalStats();
-            stateProvince.TotalGlobalCases = _latestGlobalTotalCases;
-            stateProvince.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalTests.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            stateProvince.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            stateProvince.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
 
             return stateProvince;
         }
+
+        public async Task<List<Province>> GetAllUsaStateStatsAsProvince()
+		{
+            var states = await GetAllUsaStateStats();
+            List<Province> provinces = new List<Province>();
+
+            string countryCode = "us";
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalTests.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            foreach (var state in states)
+            {
+                var province = new Province
+                {
+                    CountryName = "US",
+                    ProvinceName = state.StateName,
+                    Cases = state.Cases,
+                    Deaths = state.Deaths,
+                    Recovered = state.Recovered
+                };
+
+                province.TotalCountryCases = _latestCountryTotalCases[countryCode];
+                province.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+            }
+
+            return provinces;
+		}
 
         public async Task<List<State>> GetAllUsaStateStats()
         {
@@ -258,16 +333,17 @@ namespace Covid19Numbers.Api
             var states = JsonConvert.DeserializeObject<List<State>>(json);
             this.StateStatsLastUpdate = DateTime.Now;
 
-            if (_latestGlobalTotalCases == -1 ||
-                _latestGlobalTotalDeaths == -1 ||
-                _latestGlobalTotalTests == -1)
-                await GetGlobalStats();
+            string countryCode = "us";
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalTests.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
 
             foreach (var state in states)
             {
-                state.TotalGlobalCases = _latestGlobalTotalCases;
-                state.TotalGlobalDeaths = _latestGlobalTotalDeaths;
-                state.TotalGlobalTests = _latestGlobalTotalTests;
+                state.TotalCountryCases = _latestCountryTotalCases[countryCode];
+                state.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+                state.TotalCountryTests = _latestCountryTotalTests[countryCode];
             }
 
             return states;

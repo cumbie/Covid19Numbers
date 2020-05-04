@@ -6,23 +6,32 @@ using Newtonsoft.Json.Serialization;
 
 namespace Covid19Numbers.Models
 {
-    public class Province
+    public class ProvinceHistory
     {
-        public Province()
+        public ProvinceHistory()
         {
         }
 
+        [JsonProperty("country")]
         public string CountryName { get; set; }
 
+        [JsonProperty("province")]
         public string ProvinceName { get; set; }
 
-        public int Cases { get; set; }
+        [JsonProperty("timeline")]
+        public CountryTimeline Timeline { get; set; }
 
-        public int Deaths { get; set; }
-
-        public int Recovered { get; set; }
-
+        // TODO: check if we need these for history: ....
         #region Internal Values
+
+        [JsonIgnore]
+        public int Cases => Timeline?.TotalCases ?? 0;
+
+        [JsonIgnore]
+        public int Deaths => Timeline?.TotalDeaths ?? 0;
+
+        [JsonIgnore]
+        public int Recovered => Timeline?.TotalRecovered ?? 0;
 
         [JsonIgnore]
         public double TotalCountryCases { get; set; }

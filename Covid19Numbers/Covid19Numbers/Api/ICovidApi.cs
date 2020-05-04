@@ -14,6 +14,7 @@ namespace Covid19Numbers.Api
         bool ValidCountryHistory { get; }
 
         bool ValidProvinceStats { get; }
+        bool ValidProvinceHistory { get; }
         bool ValidStateProvincesStats { get; }
         bool ValidStateStats { get; }
 
@@ -21,22 +22,29 @@ namespace Covid19Numbers.Api
 
         Task<WorldHistory> GetGlobalHistory(int days = 30);
 
+
         Task<List<SelectCountryModel>> GetCountryList();
 
         Task<Country> GetCountryStats(string countryCode);
 
         Task<CountryHistory> GetCountryHistory(string countryCode, int days = 30);
 
+
         Task<List<string>> GetCountryProvinces(string countryCode);
 
-        Task<Province> GetProvinceStats(string countryCode, string province, int days = 30);
+        Task<Province> GetProvinceStats(string countryCode, string province);
+
+        Task<ProvinceHistory> GetProvinceHistory(string countryCode, string province, int days = 30);
+
 
         Task<List<string>> GetUsaStates();
 
-        Task<List<Province>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30);
+        Task<List<ProvinceHistory>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30);
 
-        Task<Province> GetUsaStateStatsAsProvince(string stateName, int days = 30);
+        Task<ProvinceHistory> GetUsaStateStatsAsProvince(string stateName, int days = 30);
 
-        Task<List<State>> GetAllUsaStateStats();
+		Task<List<Province>> GetAllUsaStateStatsAsProvince();
+
+		Task<List<State>> GetAllUsaStateStats();
     }
 }
