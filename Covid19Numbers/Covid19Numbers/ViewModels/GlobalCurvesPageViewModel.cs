@@ -170,7 +170,7 @@ namespace Covid19Numbers.ViewModels
             var newRecoveredHigh = newRecovered.First().NewRecovered;
             double minNewRecovered = Math.Min(newRecoveredLow - 0.2 * newRecoveredLow, 0);
             double maxNewRecovered = newRecoveredHigh + 0.2 * newRecoveredHigh;
-            _curveRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewRecovered, Maximum = maxNewRecovered, IsPanEnabled = false, IsZoomEnabled=false });
+            _curveNewRecovered.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = minNewRecovered, Maximum = maxNewRecovered, IsPanEnabled = false, IsZoomEnabled=false });
 
             var lineCases = new LineSeries { Color = OxyColors.Yellow };
             var lineNewCases = new LineSeries { Color = OxyColors.Yellow };

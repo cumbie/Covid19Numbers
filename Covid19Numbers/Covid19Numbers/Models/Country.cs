@@ -78,13 +78,16 @@ namespace Covid19Numbers.Models
         public DateTime UpdateLocalTime => TimeZoneInfo.ConvertTimeFromUtc(UpdateTime, TimeZoneInfo.Local);
 
         [JsonIgnore]
-        public double TotalGlobalCases { get; set; }
+        public int TotalGlobalCases { get; set; }
 
         [JsonIgnore]
-        public double TotalGlobalDeaths { get; set; }
+        public int TotalGlobalDeaths { get; set; }
 
         [JsonIgnore]
-        public double TotalGlobalTests { get; set; }
+        public int TotalGlobalRecovered { get; set; }
+
+        [JsonIgnore]
+        public int TotalGlobalTests { get; set; }
 
         [JsonIgnore]
         public double PercentCases => Math.Round(100.0 * (double)this.Cases / this.TotalGlobalCases, 3);
@@ -93,10 +96,16 @@ namespace Covid19Numbers.Models
         public double PercentDeaths => Math.Round(100.0 * (double)this.Deaths / this.TotalGlobalDeaths, 3);
 
         [JsonIgnore]
+        public double PercentDeathsCountry => (this.Cases != 0) ? Math.Round(100.0 * (double)this.Deaths / this.Cases, 3) : 0;
+
+        [JsonIgnore]
         public double PercentTodayDeaths => (this.TodayCases!=0) ? Math.Round(100.0 * (double)this.TodayDeaths / this.TodayCases, 3) : 0;
 
         [JsonIgnore]
-        public double PercentRecovered => (this.Cases!=0) ? Math.Round(100.0 * (double)this.Recovered / this.Cases, 3) : 0;
+        public double PercentRecovered => Math.Round(100.0 * (double)this.Recovered / this.TotalGlobalRecovered, 3);
+
+        [JsonIgnore]
+        public double PercentRecoveredCountry => (this.Cases != 0) ? Math.Round(100.0 * (double)this.Recovered / this.Cases, 3) : 0;
 
         [JsonIgnore]
         public double PercentActive => (this.Cases!=0) ? Math.Round(100.0 * (double)this.Active / this.Cases, 3) : 0;

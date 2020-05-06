@@ -31,10 +31,12 @@ namespace Covid19Numbers.Api
 
         private int _latestGlobalTotalCases = -1;
         private int _latestGlobalTotalDeaths = -1;
+        private int _latestGlobalTotalRecovered = -1;
         private int _latestGlobalTotalTests = -1;
 
         private Dictionary<string, int> _latestCountryTotalCases = new Dictionary<string, int>();
         private Dictionary<string, int> _latestCountryTotalDeaths = new Dictionary<string, int>();
+        private Dictionary<string, int> _latestCountryTotalRecovered = new Dictionary<string, int>();
         private Dictionary<string, int> _latestCountryTotalTests = new Dictionary<string, int>();
 
         public LmaoNinjaCovidApi()
@@ -105,6 +107,7 @@ namespace Covid19Numbers.Api
 
             _latestGlobalTotalCases = world.Cases;
             _latestGlobalTotalDeaths = world.Deaths;
+            _latestGlobalTotalRecovered = world.Recovered;
             _latestGlobalTotalTests = world.Tests;
 
             return world;
@@ -130,15 +133,18 @@ namespace Covid19Numbers.Api
 
             if (_latestGlobalTotalCases == -1 ||
                 _latestGlobalTotalDeaths == -1 ||
+                _latestGlobalTotalRecovered == -1 ||
                 _latestGlobalTotalTests == -1)
                 await GetGlobalStats();
 
             country.TotalGlobalCases = _latestGlobalTotalCases;
             country.TotalGlobalDeaths = _latestGlobalTotalDeaths;
+            country.TotalGlobalRecovered = _latestGlobalTotalRecovered;
             country.TotalGlobalTests = _latestGlobalTotalTests;
 
             _latestCountryTotalCases[countryCode] = country.Cases;
             _latestCountryTotalDeaths[countryCode] = country.Deaths;
+            _latestCountryTotalRecovered[countryCode] = country.Recovered;
             _latestCountryTotalTests[countryCode] = country.Tests;
 
             return country;
@@ -156,6 +162,15 @@ namespace Covid19Numbers.Api
 
             var history = JsonConvert.DeserializeObject<CountryHistory>(json);
             this.CountryHistoryLastUpdate = DateTime.Now;
+
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalRecovered.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            history.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            history.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+            history.TotalCountryRecovered = _latestCountryTotalRecovered[countryCode];
 
             return history;
         }

@@ -21,6 +21,19 @@ namespace Covid19Numbers.Models
         [JsonProperty("timeline")]
         public CountryTimeline Timeline { get; set; }
 
+        #region Internal Values
+
+        [JsonIgnore]
+        public int TotalCountryCases { get; set; }
+
+        [JsonIgnore]
+        public int TotalCountryDeaths { get; set; }
+
+        [JsonIgnore]
+        public int TotalCountryRecovered { get; set; }
+
+        #endregion
+
         public List<DayStatistics> GetHistoricalStats()
         {
             List<DayStatistics> stats = new List<DayStatistics>();
@@ -63,6 +76,31 @@ namespace Covid19Numbers.Models
 
                 stats.Add(stat);
             }
+
+            //// add today
+            //DateTime today = DateTime.UtcNow;
+            //var yesterdayStat = stats.LastOrDefault();
+            //var todayStat = new DayStatistics
+            //{
+            //    ContextName = this.CountryName,
+
+            //    Date = today,
+            //    Cases = this.TotalCountryCases,
+            //    Deaths = this.TotalCountryDeaths,
+            //    Recovered = this.TotalCountryRecovered,
+
+            //    NewCases = this.TotalCountryCases - yesterdayStat.Cases,
+            //    NewDeaths = this.TotalCountryDeaths - yesterdayStat.Deaths,
+            //    NewRecovered = this.TotalCountryRecovered - yesterdayStat.Recovered//,
+
+            //    //CasesUp = (cases.ContainsKey(yesterday) && lastStat != null) && newCasesToday > lastStat.NewCases,
+            //    //DeathsUp = (deaths.ContainsKey(yesterday) && lastStat != null) && newDeathsToday > lastStat.NewDeaths,
+            //    //RecoveredUp = (recovered.ContainsKey(yesterday) && lastStat != null) && newRecoveredToday > lastStat.NewRecovered
+            //};
+            //todayStat.CasesUp = todayStat.NewCases > yesterdayStat.NewCases;
+            //todayStat.DeathsUp = todayStat.NewDeaths > yesterdayStat.NewDeaths;
+            //todayStat.RecoveredUp = todayStat.NewRecovered > yesterdayStat.NewRecovered;
+            //stats.Add(todayStat);
 
             return stats.OrderByDescending(h => h.Date).ToList();
         }
