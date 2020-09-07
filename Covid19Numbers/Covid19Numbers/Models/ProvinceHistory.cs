@@ -21,6 +21,9 @@ namespace Covid19Numbers.Models
         [JsonProperty("timeline")]
         public CountryTimeline Timeline { get; set; }
 
+        [JsonProperty("county")]
+        public string County { get; set; }
+
         // TODO: check if we need these for history: ....
         #region Internal Values
 

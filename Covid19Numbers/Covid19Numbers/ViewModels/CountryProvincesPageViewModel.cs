@@ -54,7 +54,15 @@ namespace Covid19Numbers.ViewModels
         public Province SelectedProvince
         {
             get => _selectedProvince;
-            set => SetProperty(ref _selectedProvince, value);
+            set
+            {
+                SetProperty(ref _selectedProvince, value);
+                if (this.IsActive && _selectedProvince.ProvinceName.ToLower() != "mainland")
+                {
+                    Settings.SelectedProvince = _selectedProvince.ProvinceName;
+                    NavigationService.NavigateAsync(nameof(Views.ProvinceStatsTabbedPage));
+                }
+            }
         }
 
         private bool _isProvinceRefreshing = false;

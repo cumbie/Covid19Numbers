@@ -25,6 +25,9 @@ namespace Covid19Numbers.Models
         #region Internal Values
 
         [JsonIgnore]
+        public bool IsUsaState => this.CountryName.ToLower().StartsWith("us");
+
+        [JsonIgnore]
         public double TotalCountryCases { get; set; }
 
         [JsonIgnore]

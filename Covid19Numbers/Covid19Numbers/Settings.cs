@@ -15,6 +15,7 @@ namespace Covid19Numbers
         class SettingsDefaults
         {
             public static string MyCountryCode = "USA";
+            public static string SelectedProvince = string.Empty;
             public static List<string> AllCountries = new List<string>
             {
                 "[ {\"country\": \"USA\", \"countryInfo\": {\"iso3\": \"USA\"}} ]"
@@ -48,6 +49,15 @@ namespace Covid19Numbers
         {
             get => AppSettings.GetValueOrDefault(nameof(RefreshRate), SettingsDefaults.RefreshRate);
             set => AppSettings.AddOrUpdateValue(nameof(RefreshRate), value);
+        }
+
+        /// <summary>
+        /// Last selected province name (or state, if USA)
+        /// </summary>
+        public static string SelectedProvince
+        {
+            get => AppSettings.GetValueOrDefault(nameof(SelectedProvince), SettingsDefaults.SelectedProvince);
+            set => AppSettings.AddOrUpdateValue(nameof(SelectedProvince), value);
         }
 
         ///// <summary>

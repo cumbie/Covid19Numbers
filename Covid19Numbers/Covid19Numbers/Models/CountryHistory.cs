@@ -15,7 +15,7 @@ namespace Covid19Numbers.Models
         [JsonProperty("country")]
         public string CountryName { get; set; }
 
-        [JsonProperty("provinces")]
+        [JsonProperty("province")]
         public List<string> Provinces { get; set; }
 
         [JsonProperty("timeline")]
