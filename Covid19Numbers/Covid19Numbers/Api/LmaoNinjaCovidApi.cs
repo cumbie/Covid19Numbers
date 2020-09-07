@@ -186,26 +186,39 @@ namespace Covid19Numbers.Api
         {
             Province p = new Province();
 
-            var histories = await GetProvinceHistory(countryCode, province, 1000);
-            var history = histories?.First();
-
-            if (history != null)
+            if (!countryCode.ToLower().StartsWith("us"))
             {
-                p.CountryName = history.CountryName;
-                p.ProvinceName = history.ProvinceName;
-                p.Cases = history.Cases;
-                p.Deaths = history.Deaths;
-                p.Recovered = history.Recovered;
+                var histories = await GetProvinceHistory(countryCode, province, 1000);
+                var history = histories?.First();
 
-                this.ProvinceStatsLastUpdate = DateTime.Now;
-
-                if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
-                    !_latestCountryTotalDeaths.ContainsKey(countryCode))
-                    await GetCountryStats(countryCode);
-
-                p.TotalCountryCases = _latestCountryTotalCases[countryCode];
-                p.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+                if (history != null)
+                {
+                    p.CountryName = history.CountryName;
+                    p.ProvinceName = history.ProvinceName;
+                    p.Cases = history.Cases;
+                    p.Deaths = history.Deaths;
+                    p.Recovered = history.Recovered;
+                }
             }
+            else
+            {
+                var state = await GetUsaStateStats(province);
+                p.CountryName = "US";
+                p.ProvinceName = state.StateName;
+                p.Cases = state.Cases;
+                p.Deaths = state.Deaths;
+                p.Recovered = state.Recovered;
+                p.StateStats = state;
+            }
+
+            this.ProvinceStatsLastUpdate = DateTime.Now;
+
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            p.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            p.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
 
             return p;
         }
@@ -287,6 +300,27 @@ namespace Covid19Numbers.Api
             aggregateStateNames.Sort();
 
             return aggregateStateNames;
+        }
+
+        public async Task<State> GetUsaStateStats(string stateName)
+        {
+            var response = await _client.GetAsync($"{Url(_statesEndpoint)}{stateName}");
+            var json = await response.Content.ReadAsStringAsync();
+
+            var state = JsonConvert.DeserializeObject<State>(json);
+            this.StateStatsLastUpdate = DateTime.Now;
+
+            string countryCode = "us";
+            if (!_latestCountryTotalCases.ContainsKey(countryCode) ||
+                !_latestCountryTotalDeaths.ContainsKey(countryCode) ||
+                !_latestCountryTotalTests.ContainsKey(countryCode))
+                await GetCountryStats(countryCode);
+
+            state.TotalCountryCases = _latestCountryTotalCases[countryCode];
+            state.TotalCountryDeaths = _latestCountryTotalDeaths[countryCode];
+            state.TotalCountryTests = _latestCountryTotalTests[countryCode];
+
+            return state;
         }
 
         public async Task<List<ProvinceHistory>> GetUsaStateCountiesAsProvinces(string stateName, int days = 30)

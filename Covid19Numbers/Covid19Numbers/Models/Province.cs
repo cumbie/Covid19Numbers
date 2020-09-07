@@ -22,6 +22,9 @@ namespace Covid19Numbers.Models
 
         public int Recovered { get; set; }
 
+        // only populated for USA
+        public State StateStats { get; set; } = new State();
+
         #region Internal Values
 
         [JsonIgnore]
