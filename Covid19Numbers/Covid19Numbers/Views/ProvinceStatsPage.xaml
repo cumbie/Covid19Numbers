@@ -25,6 +25,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -54,6 +55,64 @@
             <Label Text="{Binding PercentRecovered, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
             <Label Text="{Binding Recovered, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
           </StackLayout>
+
+          <Grid Grid.Row="5" Grid.ColumnSpan="2"
+                IsVisible="{Binding IsUsaState}"
+                BindingContext="{Binding StateStats}"
+                ColumnSpacing="0" RowSpacing="1">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Text="Cases Today" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Column="1" Text="{Binding TodayCases, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}" />
+      
+            <Label Grid.Row="1" Text="Deaths Today" Style="{StaticResource LabelHeading}"/>
+            <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+              <Label Text="{Binding PercentTodayDeaths, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
+              <Label Text="{Binding TodayDeaths, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}" />
+            </StackLayout>
+
+            <Label Grid.Row="2" Text="Active" Style="{StaticResource LabelHeading}"/>
+            <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+              <Label Text="{Binding PercentActive, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
+              <Label Text="{Binding Active, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+            </StackLayout>
+
+            <Label Grid.Row="3" Text="Cases/1-Million" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Row="3" Grid.Column="1" Text="{Binding CasesPerOneMillion, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+
+            <Label Grid.Row="4" Text="Deaths/1-Million" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Row="4" Grid.Column="1" Text="{Binding DeathsPerOneMillion, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+
+            <Label Grid.Row="5" Text="Tests/1-Million" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Row="5" Grid.Column="1" Text="{Binding TestsPerOneMillion, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+
+            <Label Grid.Row="6" Text="Tests" Style="{StaticResource LabelHeading}"/>
+            <StackLayout Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+              <Label Text="{Binding PercentTests, StringFormat=' ({0:0.0}%)'}" Style="{StaticResource LabelValue}" HorizontalTextAlignment="Start" />
+              <Label Text="{Binding Tests, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+            </StackLayout>
+
+            <Label Grid.Row="7" Text="Population" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Row="7" Grid.Column="1" Text="{Binding Population, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" />
+
+            <Label Grid.Row="8" Text="Last Update" Style="{StaticResource LabelHeading}"/>
+            <Label Grid.Row="8" Grid.Column="1" Text="{Binding UpdateTime, StringFormat='{0:dd MMM yyyy hh:mm:ss tt} (UTC)'}" Style="{StaticResource LabelValue}" />
+
+          </Grid>
         </Grid>
 
         <!--<controls:AdMobView Grid.Row="2" AdUnitId="{Binding AdUnitID}" BackgroundColor="Transparent"
