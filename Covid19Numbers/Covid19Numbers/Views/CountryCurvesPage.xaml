@@ -11,7 +11,7 @@
     <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconLineChart}" />
   </ContentPage.IconImageSource>
 
-<Grid>
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="auto"/>
