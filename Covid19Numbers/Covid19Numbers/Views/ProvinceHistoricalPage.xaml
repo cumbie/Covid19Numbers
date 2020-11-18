@@ -9,5 +9,64 @@
   <ContentPage.IconImageSource>
     <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconHistory}" />
   </ContentPage.IconImageSource>
+
+  <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}"
+                 VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <ScrollView>
+
+      <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Text="{Binding ProvinceName, StringFormat='Historical Statistics for {0}'}" Style="{StaticResource LabelHeading1}"
+               BackgroundColor="{StaticResource SectionHeaderColor}"
+               HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"/>
+
+        <Grid Grid.Row="1" RowSpacing="1" ColumnSpacing="0" HorizontalOptions="FillAndExpand">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+          </Grid.ColumnDefinitions>
+
+          <Label Grid.RowSpan="2" Text="High Day" Style="{StaticResource LabelHeading}"/>
+          <Label Grid.Column="1" Text="{Binding CasesHigh, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
+          <Label Grid.Column="2" Text="{Binding CasesHighDay, StringFormat='Cases on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
+          <Label Grid.Row="1" Grid.Column="1" Text="{Binding DeathsHigh, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
+          <Label Grid.Row="1" Grid.Column="2" Text="{Binding DeathsHighDay, StringFormat='Deaths on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
+          
+          <Label Grid.Row="2" Grid.RowSpan="2" Text="Low Day (last 30 days)" Style="{StaticResource LabelHeading}"/>
+          <Label Grid.Row="2" Grid.Column="1" Text="{Binding CasesLow, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource CasesTextColor}"/>
+          <Label Grid.Row="2" Grid.Column="2" Text="{Binding CasesLowDay, StringFormat='Cases on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
+          <Label Grid.Row="3" Grid.Column="1" Text="{Binding DeathsLow, StringFormat='{0:#,0}'}" Style="{StaticResource LabelValue}" TextColor="{StaticResource DeathsTextColor}"/>
+          <Label Grid.Row="3" Grid.Column="2" Text="{Binding DeathsLowDay, StringFormat='Deaths on {0:MM/dd/yy}'}" Style="{StaticResource LabelValue}"/>
+          
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="5,0" BackgroundColor="{StaticResource SectionHeaderColor}">          <Grid.ColumnDefinitions>            <ColumnDefinition Width="60"/>               <ColumnDefinition/>               <ColumnDefinition/>          </Grid.ColumnDefinitions>
+
+          <Label Text="Date" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+          <Label Grid.Column="1" Text="Cases" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+          <Label Grid.Column="2" Text="Deaths" Style="{StaticResource LabelHeading}" TextColor="Black" BackgroundColor="{StaticResource SectionHeaderColor}" FontSize="12" />
+
+        </Grid>
+
+        <ListView Grid.Row="3" ItemsSource="{Binding History}" BackgroundColor="Transparent" SelectionMode="None">
+          <ListView.ItemTemplate>            <DataTemplate>              <ViewCell>                <Grid ColumnSpacing="4" Margin="5,0">                  <Grid.RowDefinitions>                    <RowDefinition/>                    <RowDefinition/>                  </Grid.RowDefinitions>                  <Grid.ColumnDefinitions>                    <ColumnDefinition Width="auto"/>                       <ColumnDefinition/>                       <ColumnDefinition/>                  </Grid.ColumnDefinitions>                  <Label Grid.RowSpan="2" FontSize="11" FontAttributes="Bold" Text="{Binding Date, StringFormat='{0:MM/dd/yy}'}" VerticalTextAlignment="Center"/>                  <Label Grid.Column="1" FontSize="11" FontAttributes="Bold" Text="{Binding Cases, StringFormat='{0:#,0}'}" HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                  <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="0">                    <Label FontSize="10" Text="{Binding NewCases, StringFormat='{0:#,0}', Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                    <Label FontSize="10" Text="{Binding DeltaCases, StringFormat=' ({0:#,0}', Converter={StaticResource PlusMinusStringConverter}}"                         TextColor="{Binding DeltaCases, Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="End" VerticalTextAlignment="Center"/>                    <Label FontSize="10" Text="{Binding CasesUp, StringFormat='{0})', Converter={StaticResource PlusMinusStringConverter}}"                         TextColor="{Binding CasesUp, Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="End"/>                  </StackLayout>                  <Label Grid.Column="2" FontSize="11" FontAttributes="Bold" Text="{Binding Deaths, StringFormat='{0:#,0}'}" HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                  <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0">                    <Label FontSize="10" Text="{Binding NewDeaths, StringFormat='{0:#,0}', Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="EndAndExpand" VerticalTextAlignment="Center"/>                    <Label FontSize="10" Text="{Binding DeltaDeaths, StringFormat=' ({0:#,0}', Converter={StaticResource PlusMinusStringConverter}}"                         TextColor="{Binding DeltaDeaths, Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="End" VerticalTextAlignment="Center"/>                    <Label FontSize="10" Text="{Binding DeathsUp, StringFormat='{0})', Converter={StaticResource PlusMinusStringConverter}}"                         TextColor="{Binding DeathsUp, Converter={StaticResource PlusMinusStringConverter}}"                         HorizontalOptions="End"/>                  </StackLayout>                </Grid>              </ViewCell>            </DataTemplate>          </ListView.ItemTemplate>
+        </ListView>
+      </Grid>
+
+    </ScrollView>
+  </RefreshView>
   
 </ContentPage>
