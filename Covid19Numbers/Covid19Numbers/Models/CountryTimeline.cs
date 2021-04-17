@@ -42,10 +42,7 @@ namespace Covid19Numbers.Models
             int count = 0;
             if (this.Cases != null)
             {
-                foreach (var day in this.Cases.OrderBy(key => key.Key))
-                {
-                    count += day.Value - count;
-                }
+                count = this.Cases.Sum(key => key.Value);
             }
 
             return count;

@@ -237,7 +237,8 @@ namespace Covid19Numbers.ViewModels
 
             Device.BeginInvokeOnMainThread(() =>
             {
-                this.SelectedCurve = this.SelectedCurve + 1;
+                int index = this.AvailableCurves.IndexOf(this.SelectedCurve);
+                this.SelectedCurve = this.AvailableCurves[index + 1];
             });
         }
 
@@ -248,7 +249,8 @@ namespace Covid19Numbers.ViewModels
 
             Device.BeginInvokeOnMainThread(() =>
             {
-                this.SelectedCurve = this.SelectedCurve - 1;
+                int index = this.AvailableCurves.IndexOf(this.SelectedCurve);
+                this.SelectedCurve = this.AvailableCurves[index - 1];
             });
         }
 

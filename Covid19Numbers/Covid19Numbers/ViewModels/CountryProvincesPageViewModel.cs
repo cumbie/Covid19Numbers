@@ -57,7 +57,7 @@ namespace Covid19Numbers.ViewModels
             set
             {
                 SetProperty(ref _selectedProvince, value);
-                if (this.IsActive && _selectedProvince.ProvinceName.ToLower() != "mainland")
+                if (this.IsActive && _selectedProvince != null && _selectedProvince.ProvinceName.ToLower() != "mainland")
                 {
                     Settings.SelectedProvince = _selectedProvince.ProvinceName;
                     NavigationService.NavigateAsync(nameof(Views.ProvinceStatsTabbedPage));
@@ -88,6 +88,7 @@ namespace Covid19Numbers.ViewModels
 
             this.CountryCode = Settings.MyCountryCode;
             LastCountryCode = this.CountryCode;
+            this.SelectedProvince = null;
 
             if (!ccChanged && this.ProvinceStats != null)
                 return;
